@@ -1,4 +1,5 @@
 import { getSessionCookie } from "better-auth/cookies";
+import { createI18nMiddleware } from "next-international/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
 const publicRoutes = new Set([
@@ -10,7 +11,15 @@ const publicRoutes = new Set([
   "/forgot-password",
 ]);
 
+const translationMiddleware = createI18nMiddleware({
+  locales: ["en", "es"],
+  defaultLocale: "en",
+  urlMappingStrategy: "rewrite",
+});
+
 export default async function middleware(request: NextRequest) {
+  const response = translationMiddleware(request);
+
   const isPublicRoute = checkPublicRoute(request);
   const session = getSessionCookie(request, {
     cookieName: "enterprise_session",
@@ -19,7 +28,7 @@ export default async function middleware(request: NextRequest) {
   if (!isPublicRoute || !session) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
-  return NextResponse.next();
+  return response ?? NextResponse.next();
 }
 
 export const config = {

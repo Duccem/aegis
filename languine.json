@@ -1,0 +1,19 @@
+{
+  "projectId": "prj_cv1l8CPBkH891v7cWPJAh",
+  "locale": {
+    "source": "es",
+    "targets": [
+      "en",
+      "de",
+      "fr",
+      "pt"
+    ]
+  },
+  "files": {
+    "ts": {
+      "include": [
+        "src/lib/translation/locales/[locale].ts"
+      ]
+    }
+  }
+}
