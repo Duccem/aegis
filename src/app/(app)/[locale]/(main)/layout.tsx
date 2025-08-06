@@ -1,6 +1,5 @@
 import { SessionProvider } from "@/components/auth/session-provider";
 import { AppSidebar } from "@/components/shared/app-sidebar";
-import Header from "@/components/shared/header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { getSession } from "@/lib/auth/server";
 import { redirect } from "next/navigation";
@@ -23,7 +22,6 @@ export default async function MainLayout({ children }: { children: React.ReactNo
         <AppSidebar variant="floating" />
         <SidebarInset>
           <div className="flex flex-col">
-            <Header />
             <main className="flex-1">{children}</main>
           </div>
         </SidebarInset>

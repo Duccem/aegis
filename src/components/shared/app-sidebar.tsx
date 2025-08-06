@@ -1,12 +1,13 @@
 "use client";
 
 import {
-  IconChartBar,
+  IconBuildingWarehouse,
+  IconCoin,
   IconDashboard,
-  IconFolder,
   IconListDetails,
-  IconUsers,
+  IconSettings,
 } from "@tabler/icons-react";
+import { motion } from "framer-motion";
 import * as React from "react";
 
 import { NavMain } from "@/components/shared/navs/main-nav";
@@ -16,71 +17,156 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
-import { Command } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Command, Grip, Map, PieChart } from "lucide-react";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Dashboard",
       url: "/home",
       icon: IconDashboard,
+      items: [],
     },
     {
-      title: "Lifecycle",
-      url: "#",
+      title: "Actives",
+      url: "/actives",
       icon: IconListDetails,
+      items: [
+        {
+          title: "Products",
+          url: "/products",
+        },
+        {
+          title: "Categories",
+          url: "/products/categories",
+        },
+        {
+          title: "Brands",
+          url: "/products/brands",
+        },
+      ],
     },
     {
-      title: "Analytics",
+      title: "Storage",
       url: "#",
-      icon: IconChartBar,
+      icon: IconBuildingWarehouse,
+      items: [
+        {
+          title: "Stores",
+          url: "/store/stores",
+        },
+        {
+          title: "Stock",
+          url: "/store/stock",
+        },
+      ],
     },
     {
-      title: "Projects",
+      title: "Finance",
       url: "#",
-      icon: IconFolder,
+      icon: IconCoin,
+      items: [
+        {
+          title: "Invoices",
+          url: "/finance/invoices",
+        },
+        {
+          title: "Expenses",
+          url: "/finance/expenses",
+        },
+        {
+          title: "Payments",
+          url: "/finance/payments",
+        },
+      ],
     },
     {
-      title: "Team",
+      title: "Configuration",
+      url: "/settings",
+      icon: IconSettings,
+      items: [
+        {
+          title: "General",
+          url: "/settings/general",
+        },
+        {
+          title: "Users",
+          url: "/settings/users",
+        },
+        {
+          title: "Roles",
+          url: "/settings/roles",
+        },
+        {
+          title: "Permissions",
+          url: "/settings/permissions",
+        },
+      ],
+    },
+  ],
+  favorites: [
+    {
+      name: "Integrations",
       url: "#",
-      icon: IconUsers,
+      icon: Grip,
+    },
+    {
+      name: "Sales & Marketing",
+      url: "#",
+      icon: PieChart,
+    },
+    {
+      name: "Travel",
+      url: "#",
+      icon: Map,
     },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
   return (
     <Sidebar collapsible="icon" {...props} className="border-none">
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
-              <a href="#">
-                <div className=" text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <Command className="size-4 text-primary" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">Aegis</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+      <SidebarHeader
+        className={cn(
+          "flex md:pt-3.5 ",
+          isCollapsed
+            ? "items-center justify-between gap-y-4 flex-col"
+            : "flex-row items-center justify-between"
+        )}
+      >
+        <a href="#" className="flex items-center gap-2">
+          <div className="bg-white flex aspect-square size-8 items-center justify-center rounded-lg">
+            <Command className="size-8 text-background" />
+          </div>
+          {!isCollapsed && (
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-medium">Aegis</span>
+            </div>
+          )}
+        </a>
+        <motion.div
+          key={isCollapsed ? "header-collapsed" : "header-expanded"}
+          className={`flex ${
+            isCollapsed ? "flex-row md:flex-col-reverse" : "flex-row"
+          } items-center gap-2`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <SidebarTrigger />
+        </motion.div>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );
