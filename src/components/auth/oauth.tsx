@@ -4,12 +4,12 @@ import Facebook from "../icons/facebook-icon";
 import Google from "../icons/google-icon";
 import { Button } from "../ui/button";
 
-const Oauth = () => {
+const Oauth = ({ signIn = false }: { signIn?: boolean }) => {
   const socialLogin = async (provider: "google" | "facebook") => {
     try {
       await authClient.signIn.social({
         provider,
-        callbackURL: `${window.location.origin}/welcome`,
+        callbackURL: `${window.location.origin}/${signIn ? "home" : "start-organization"}`,
       });
     } catch (error) {
       console.error(`Error signing in with ${provider}:`, error);

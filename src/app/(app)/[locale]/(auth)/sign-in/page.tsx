@@ -18,7 +18,7 @@ const Page = () => {
           <span className="px-4 text-muted-foreground">or</span>
           <hr className="w-full border-gray-300" />
         </div>
-        <Oauth />
+        <Oauth signIn />
         <div className="flex  items-center justify-between w-full">
           <p className="text-muted-foreground text-sm mt-4">
             Don`t have an account yet?{" "}

@@ -1,6 +1,6 @@
-import { getSessionCookie } from "better-auth/cookies";
 import { createI18nMiddleware } from "next-international/middleware";
 import { NextRequest, NextResponse } from "next/server";
+import { getSessionMiddleware } from "./lib/auth/utils";
 
 const publicRoutes = new Set([
   "/",
@@ -24,11 +24,8 @@ export default async function middleware(request: NextRequest) {
   const response = translationMiddleware(request);
 
   const isPublicRoute = checkPublicRoute(request);
-  const session = getSessionCookie(request, {
-    cookieName: "enterprise_session",
-    cookiePrefix: "",
-  });
-  if (!isPublicRoute || !session) {
+  const session = await getSessionMiddleware(request);
+  if (!isPublicRoute && !session) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
   return response ?? NextResponse.next();
