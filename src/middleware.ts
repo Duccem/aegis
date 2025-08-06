@@ -8,7 +8,10 @@ const publicRoutes = new Set([
   "/contact",
   "/sign-in",
   "/sign-up",
-  "/forgot-password",
+  "/forget-password",
+  "/verify-reset",
+  "/verify",
+  "/start-organization",
 ]);
 
 const translationMiddleware = createI18nMiddleware({
@@ -46,4 +49,3 @@ const checkPublicRoute = (request: NextRequest): boolean => {
     : nextUrl.pathname;
   return publicRoutes.has(pathnameWithoutLocale);
 };
-

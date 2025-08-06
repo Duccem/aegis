@@ -1,0 +1,32 @@
+"use client";
+import { authClient } from "@/lib/auth/client";
+import Facebook from "../icons/facebook-icon";
+import Google from "../icons/google-icon";
+import { Button } from "../ui/button";
+
+const Oauth = () => {
+  const socialLogin = async (provider: "google" | "facebook") => {
+    try {
+      await authClient.signIn.social({
+        provider,
+        callbackURL: `${window.location.origin}/welcome`,
+      });
+    } catch (error) {
+      console.error(`Error signing in with ${provider}:`, error);
+    }
+  };
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+      <Button variant={"outline"} onClick={() => socialLogin("google")} className="gap-3">
+        <Google />
+        Sign with Google
+      </Button>
+      <Button variant={"outline"} onClick={() => socialLogin("google")} className="gap-3">
+        <Facebook />
+        Sign with Facebook
+      </Button>
+    </div>
+  );
+};
+
+export default Oauth;
