@@ -1,32 +1,29 @@
-import { Uuid } from "./value-objects/uuid";
-
-export type DomainEventPrimitives = {
-  id: string | undefined;
-  occurred_on: Date | undefined;
+export type DomainEventPrimitives<T> = {
+  id: string;
+  occurred_on: Date;
   name: string;
   aggregate: string;
-  data: Record<string, any>;
+  data: T;
 };
-export abstract class DomainEvent {
+export abstract class DomainEvent<T> {
   static EVENT_NAME: string;
-  static fromPrimitives: (params: any) => DomainEvent;
+  static fromPrimitives: (params: any) => DomainEvent<any>;
   readonly id: string;
   readonly occurred_on: Date;
   readonly name: string;
-  readonly data: Record<string, any>;
+  readonly data: T;
   readonly aggregate: string;
 
-  constructor(event: DomainEventPrimitives) {
-    this.id = event.id || Uuid.random().value;
-    this.occurred_on = event.occurred_on || new Date();
-    this.name = event.name;
-    this.data = event.data;
-    this.aggregate = event.aggregate;
+  constructor(eventId: string, occurred_on: Date, aggregate: string, name: string, data: T) {
+    this.id = eventId;
+    this.occurred_on = occurred_on;
+    this.name = name;
+    this.data = data;
+    this.aggregate = aggregate;
   }
 
-  public abstract toPrimitive(): DomainEventPrimitives;
-  public abstract isPublic(): boolean;
+  public abstract toPrimitive(): DomainEventPrimitives<T>;
 }
 export interface EventBus {
-  publish(events: Array<DomainEvent>): Promise<void>;
+  publish(events: Array<DomainEvent<any>>): Promise<void>;
 }

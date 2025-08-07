@@ -1,13 +1,13 @@
-import { v4, validate } from 'uuid';
-import { FormatError } from '../errors/format-error';
-import { StringValueObject } from '../value-object';
+import { v7, validate } from "uuid";
+import { FormatError } from "../errors/format-error";
+import { StringValueObject } from "../value-object";
 
 export class Uuid extends StringValueObject {
   constructor(value: string) {
     super(value);
   }
   public static random(): Uuid {
-    return new Uuid(v4());
+    return new Uuid(v7());
   }
 
   public static validateID(id: string): boolean {
