@@ -14,6 +14,8 @@ export const env = createEnv({
     POLAR_WEBHOOK_SECRET: z.string(),
   },
   client: {
+    NEXT_PUBLIC_POLAR_PRODUCT_FREE: z.string().optional(),
+    NEXT_PUBLIC_POLAR_PRODUCT_PRO: z.string().optional(),
     NEXT_PUBLIC_SUPABASE_URL: z.string(),
     NEXT_PUBLIC_SUPABASE_KEY: z.string(),
   },
@@ -29,6 +31,7 @@ export const env = createEnv({
     POLAR_WEBHOOK_SECRET: process.env.POLAR_WEBHOOK_SECRET,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_KEY: process.env.NEXT_PUBLIC_SUPABASE_KEY,
+    NEXT_PUBLIC_POLAR_PRODUCT_FREE: process.env.NEXT_PUBLIC_POLAR_PRODUCT_FREE,
+    NEXT_PUBLIC_POLAR_PRODUCT_PRO: process.env.NEXT_PUBLIC_POLAR_PRODUCT_PRO,
   },
 });
-

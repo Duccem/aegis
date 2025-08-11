@@ -3,9 +3,7 @@
 import { BetterUser } from "@/lib/auth/server";
 import { createContext, useContext } from "react";
 
-const SessionContext = createContext<{ user: BetterUser } | undefined>(
-  undefined
-);
+const SessionContext = createContext<{ user: BetterUser } | undefined>(undefined);
 
 export const SessionProvider = ({
   children,
@@ -14,11 +12,7 @@ export const SessionProvider = ({
   children: React.ReactNode;
   user: BetterUser;
 }) => {
-  return (
-    <SessionContext.Provider value={{ user }}>
-      {children}
-    </SessionContext.Provider>
-  );
+  return <SessionContext.Provider value={{ user }}>{children}</SessionContext.Provider>;
 };
 export const useSession = () => {
   const context = useContext(SessionContext);
@@ -29,4 +23,3 @@ export const useSession = () => {
     user: context.user,
   };
 };
-

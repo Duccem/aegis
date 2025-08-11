@@ -10,6 +10,7 @@ import z from "zod";
 import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
+import { InputPassword } from "../ui/input-password";
 
 const formSchema = z.object({
   email: z.email("Invalid email address"),
@@ -67,7 +68,7 @@ const SignInForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input {...field} type="password" />
+                  <InputPassword {...field} type="password" />
                 </FormControl>
               </FormItem>
             )}

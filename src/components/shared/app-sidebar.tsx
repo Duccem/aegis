@@ -131,7 +131,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
   return (
-    <Sidebar collapsible="icon" {...props} className="border-none">
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader
         className={cn(
           "flex md:pt-3.5 ",

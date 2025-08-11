@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/sidebar";
 import { SunMoon } from "lucide-react";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
 export function NavUser() {
   const { user } = useSession();
@@ -50,7 +51,7 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={user.image ?? ""} alt={user.name} />
+                <AvatarImage src={user?.image ?? ""} alt={user.name} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -81,8 +82,10 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <IconUserCircle />
-                Account
+                <Link href={"/profile"} className="flex items-center gap-2 w-full">
+                  <IconUserCircle />
+                  Account
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <IconCreditCard />
