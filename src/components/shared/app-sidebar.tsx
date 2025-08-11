@@ -21,7 +21,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import { Command, Grip, Map, PieChart } from "lucide-react";
+import { Grip, Map, PieChart } from "lucide-react";
 
 const data = {
   navMain: [
@@ -141,8 +141,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         )}
       >
         <a href="#" className="flex items-center gap-2">
-          <div className="bg-white flex aspect-square size-8 items-center justify-center rounded-lg">
-            <Command className="size-8 text-background" />
+          <div className=" flex aspect-square size-8 items-center justify-center rounded-lg">
+            <img src={"/images/aegis-white.png"} className="size-6 hidden dark:block" alt="" />
+            <img src={"/images/aegis-black.png"} className="size-6 block dark:hidden" alt="" />
           </div>
           {!isCollapsed && (
             <div className="grid flex-1 text-left text-sm leading-tight">
