@@ -12,6 +12,8 @@ export const env = createEnv({
     POLAR_ACCESS_TOKEN: z.string(),
     SUCCESS_URL: z.string(),
     POLAR_WEBHOOK_SECRET: z.string(),
+    UPSTASH_REDIS_REST_URL: z.string().optional(),
+    UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_POLAR_PRODUCT_FREE: z.string().optional(),
@@ -33,5 +35,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_KEY: process.env.NEXT_PUBLIC_SUPABASE_KEY,
     NEXT_PUBLIC_POLAR_PRODUCT_FREE: process.env.NEXT_PUBLIC_POLAR_PRODUCT_FREE,
     NEXT_PUBLIC_POLAR_PRODUCT_PRO: process.env.NEXT_PUBLIC_POLAR_PRODUCT_PRO,
+    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
   },
 });

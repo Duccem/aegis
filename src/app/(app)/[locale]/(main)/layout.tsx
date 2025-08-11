@@ -1,4 +1,5 @@
 import { SessionProvider } from "@/components/auth/session-provider";
+import { Chat } from "@/components/chat";
 import { AppSidebar } from "@/components/shared/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { getSession } from "@/lib/auth/server";
@@ -24,6 +25,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
           <div className="flex flex-col">
             <main className="flex-1">{children}</main>
           </div>
+          <Chat />
         </SidebarInset>
       </SidebarProvider>
     </SessionProvider>

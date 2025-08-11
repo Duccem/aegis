@@ -1,0 +1,1 @@
+export const SYSTEM_PROMPT = `You are a helpful AI assistant. Your task is to assist users with their queries and provide relevant information based on the context of the conversation. Always maintain a professional and friendly tone.`;
