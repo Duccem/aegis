@@ -10,6 +10,12 @@ import * as schema from "../database/schema/_index";
 import { env } from "../env";
 import { client } from "../payments";
 import { paymentProducts } from "../payments/products";
+import {
+  sendForgetPasswordEmail,
+  sendSubscriptionActivatedEmail,
+  sendSubscriptionRevokedEmail,
+  sendVerificationEmail,
+} from "./functions";
 import { ac, admin } from "./roles";
 
 export const auth = betterAuth({
@@ -48,7 +54,16 @@ export const auth = betterAuth({
       allowedAttempts: 3,
       sendVerificationOnSignUp: true,
       sendVerificationOTP: async ({ email, otp, type }) => {
-        console.log(`Sending ${type} OTP to ${email}: ${otp}`);
+        switch (type) {
+          case "email-verification":
+            await sendVerificationEmail(email, otp);
+            break;
+          case "forget-password":
+            await sendForgetPasswordEmail(email, otp);
+            break;
+          default:
+            throw new Error(`Unsupported OTP type: ${type}`);
+        }
       },
     }),
     polar({
@@ -77,13 +92,24 @@ export const auth = betterAuth({
           onOrderPaid: async (payload) => {
             const userId = payload.data.customer.externalId;
             const plan = payload.data.productId === paymentProducts.pro ? "pro" : "free";
-            console.log(`User ${userId} has upgraded to ${plan} plan.`);
+            await sendSubscriptionActivatedEmail({
+              customerName: payload.data.customer.name ?? "",
+              email: payload.data.customer.email,
+              planName: plan,
+              startDate: new Date(payload.data.createdAt).toLocaleDateString(),
+              renewalDate: new Date(payload.data.subscription?.endedAt!).toLocaleDateString(),
+              billingUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/billing`,
+            });
           },
           onSubscriptionRevoked: async (payload) => {
-            const userId = payload.data.customer.externalId;
-            console.log(`User ${userId} has revoked their subscription.`);
+            await sendSubscriptionRevokedEmail({
+              customerName: payload.data.customer.name ?? "",
+              email: payload.data.customer.email,
+              planName: payload.data.productId === paymentProducts.pro ? "Pro" : "Free  ",
+              reason: payload.data.customerCancellationReason as string,
+              reactivateUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/billing`,
+            });
           },
-          onCustomerCreated: async (payload) => {},
         }),
       ],
     }),
