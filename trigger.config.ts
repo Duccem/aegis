@@ -1,7 +1,12 @@
 import { defineConfig } from "@trigger.dev/sdk/v3";
+import { config } from "dotenv";
+
+config({
+  quiet: true,
+});
 
 export default defineConfig({
-  project: "proj_kkbiwpbmnauxxnrwetlp",
+  project: process.env.TRIGGER_PROJECT_ID!,
   runtime: "node",
   logLevel: "log",
   maxDuration: 3600,
@@ -15,5 +20,5 @@ export default defineConfig({
       randomize: true,
     },
   },
-  dirs: ["src/app/(server)/tasks"],
+  dirs: ["src/tasks"],
 });
