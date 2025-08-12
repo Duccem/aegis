@@ -35,7 +35,7 @@ export const routeHandler = <T extends DomainError, P, Q, R>(
     permissions: undefined,
   },
   handler: RouteHandler<Q, P, R>,
-  onError?: (error: T) => NextResponse
+  onError?: (error: T) => NextResponse,
 ) => {
   return async (req: NextRequest, { params }: { params: Promise<R> }) => {
     const { user, organization } = await authentication(options.authenticated);
@@ -77,7 +77,7 @@ export const routeHandler = <T extends DomainError, P, Q, R>(
 };
 
 async function authentication(
-  authenticated?: boolean
+  authenticated?: boolean,
 ): Promise<{ user: BetterUser; organization: BetterOrganization }> {
   if (authenticated === false) {
     return { user: {} as BetterUser, organization: {} as BetterOrganization };
@@ -100,7 +100,7 @@ async function authentication(
 
 function authorization(
   user: BetterUser | undefined,
-  permissions?: (user: BetterUser) => boolean
+  permissions?: (user: BetterUser) => boolean,
 ): void {
   if (!user) {
     return;
@@ -146,7 +146,7 @@ export class HttpNextResponse {
       {
         message: error.getMessage(),
       },
-      { status: statusCode }
+      { status: statusCode },
     );
   }
 
@@ -157,7 +157,7 @@ export class HttpNextResponse {
         message: "Internal server error",
         data: {},
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -172,7 +172,7 @@ export class HttpNextResponse {
         message: message,
         data: {},
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

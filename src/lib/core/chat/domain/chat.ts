@@ -3,6 +3,5 @@ export type Chat = {
   title: string;
   createdAt: Date;
   userId: string;
-  organizationId: string;
   messages: any[];
 };

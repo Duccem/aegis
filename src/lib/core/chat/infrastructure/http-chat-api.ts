@@ -3,7 +3,7 @@ import { Chat } from "../domain/chat";
 
 export async function getChat(chatId?: string) {
   if (!chatId) return null;
-  const response = await fetch(`/api/v1/chat/${chatId}`, {
+  const response = await fetch(`/api/chat/${chatId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -17,7 +17,7 @@ export async function getChat(chatId?: string) {
 }
 
 export async function getChatHistory() {
-  const response = await fetch("/api/v1/chat", {
+  const response = await fetch("/api/chat", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

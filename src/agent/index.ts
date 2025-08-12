@@ -10,6 +10,7 @@ import {
   streamText,
 } from "ai";
 import { format } from "date-fns";
+import { saveChat } from "./functions";
 import { SYSTEM_PROMPT } from "./prompt";
 
 const tools: ToolSet = {};
@@ -28,9 +29,14 @@ export const agent = (messages: ChatMessage[], chatId: string, user: BetterUser)
     tools,
     system: systemPrompt,
     stopWhen: stepCountIs(10),
-    onFinish: async ({ response }) => {},
     onError: async (error) => {
       console.error("Error in agent:", error);
+    },
+  });
+  return result.toUIMessageStreamResponse({
+    originalMessages: messages,
+    onFinish: async ({ messages }) => {
+      await saveChat(chatId, user.id, messages);
     },
   });
 };

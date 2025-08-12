@@ -117,6 +117,7 @@ export const Chat = () => {
               setChatId(newId);
             }
             sendMessage({ text: input });
+            setInput("");
             scrollToBottom();
           }}
         >
@@ -138,6 +139,7 @@ export const Chat = () => {
               setChatId(newId);
             }
             sendMessage({ text: input });
+            setInput("");
             scrollToBottom();
           }}
           variant={"ghost"}

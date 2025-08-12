@@ -28,17 +28,18 @@ export class RedisChatRepository implements ChatRepository {
 
     const pipeline = cache.pipeline();
 
-    const chats: string[] = await pipeline.zrange(userKey, 0, -1, { rev: true }).exec();
+    const chatKeys: string[] = await pipeline.zrange(userKey, 0, -1, { rev: true }).exec();
 
-    if (chats.length === 0) {
+    if (chatKeys.length === 0) {
       return [];
     }
+    const chatPipeline = cache.pipeline();
 
-    for (const chat of chats) {
-      pipeline.hgetall<Chat>(chat);
+    for (const chat of chatKeys.at(0) ?? []) {
+      chatPipeline.hgetall(chat);
     }
 
-    const results = await pipeline.exec();
+    const results = await chatPipeline.exec();
 
     return results as Chat[];
   }
