@@ -1,5 +1,4 @@
 "use client";
-import { Logo } from "@/components/shared/logo";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
@@ -29,15 +28,14 @@ export const HeroHeader = () => {
         data-state={menuState && "active"}
         className={cn(
           "fixed z-20 w-full transition-all duration-300",
-          isScrolled && "bg-background/75 border-b border-black/5 backdrop-blur-lg"
+          isScrolled && "bg-background/75 border-b border-black/5 backdrop-blur-lg",
         )}
       >
         <div className="mx-auto max-w-7xl px-6">
           <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0">
             <div className="flex w-full justify-between gap-6 lg:w-auto">
               <Link href="/" aria-label="home" className="flex items-center space-x-2">
-                <Logo className="size-16" />
-                <p className="text-2xl">Aegis</p>
+                <img src="/images/aegis-logo.png" alt="" className="object-contain size-20" />
               </Link>
 
               <button
