@@ -15,11 +15,12 @@ export default function HeroSection() {
               <div className="md:w-1/2">
                 <div>
                   <h1 className="max-w-md text-balance text-5xl font-medium md:text-6xl">
-                    Simple payments for startups
+                    Simple and powerful AI tools for your team
                   </h1>
                   <p className="text-muted-foreground my-8 max-w-2xl text-balance text-xl">
-                    One tool that does it all. Search, generate, analyze, and chat—right inside
-                    Tailark.
+                    AI ERP is a comprehensive platform designed to streamline your business
+                    operations with advanced AI capabilities, making it easier to manage tasks,
+                    analyze data, and enhance productivity.
                   </p>
 
                   <div className="flex items-center gap-3">
@@ -41,32 +42,14 @@ export default function HeroSection() {
                 <div className="mt-10">
                   <p className="text-muted-foreground">Trusted by teams at :</p>
                   <div className="mt-6 grid max-w-sm grid-cols-3 gap-6">
-                    <div className="flex">
-                      <img
-                        className="h-4 w-fit"
-                        src="https://html.tailus.io/blocks/customers/column.svg"
-                        alt="Column Logo"
-                        height="16"
-                        width="auto"
-                      />
+                    <div className="flex h-16">
+                      <img className="object-contain" src="/images/github.png" alt="Column Logo" />
                     </div>
-                    <div className="flex">
-                      <img
-                        className="h-5 w-fit"
-                        src="https://html.tailus.io/blocks/customers/nvidia.svg"
-                        alt="Nvidia Logo"
-                        height="20"
-                        width="auto"
-                      />
+                    <div className="flex h-16">
+                      <img className="object-contain" src="/images/nvidia.png" alt="Nvidia Logo" />
                     </div>
-                    <div className="flex">
-                      <img
-                        className="h-4 w-fit"
-                        src="https://html.tailus.io/blocks/customers/github.svg"
-                        alt="GitHub Logo"
-                        height="16"
-                        width="auto"
-                      />
+                    <div className="flex h-16">
+                      <img className="object-contain" src="/images/asus.png" alt="Nvidia Logo" />
                     </div>
                   </div>
                 </div>
