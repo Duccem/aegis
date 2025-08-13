@@ -6,8 +6,20 @@ import { authClient } from "@/lib/auth/client";
 import { paymentProducts } from "@/lib/payments/products";
 import Prices from "./prices";
 
-export function ManageSubscription({ subscription }: { subscription?: any }) {
-  const isFree = subscription.product.id === paymentProducts.free || !subscription;
+const plans = {
+  free: {
+    name: "Free Plan",
+    product: paymentProducts.free,
+  },
+  pro: {
+    name: "Pro Plan",
+    product: paymentProducts.pro,
+  },
+} as const;
+
+export function ManageSubscription({ plan }: { plan: string }) {
+  const isFree = plan === "free";
+  const subscription = plans[plan as keyof typeof plans] || plans.free;
 
   return (
     <div>
@@ -16,11 +28,11 @@ export function ManageSubscription({ subscription }: { subscription?: any }) {
         <div className="flex flex-col gap-1">
           <p className="text-sm text-muted-foreground">
             {!isFree
-              ? `You are currently subscribed to the ${subscription?.product?.name ?? ""} plan.`
+              ? `You are currently subscribed to the ${subscription?.name ?? ""} plan.`
               : "You are currently on the free plan."}
           </p>
           <p className="text-lg font-medium">
-            {!isFree ? subscription?.product?.name ?? "" : "Free Plan"}
+            {!isFree ? (subscription?.name ?? "") : "Free Plan"}
           </p>
         </div>
 

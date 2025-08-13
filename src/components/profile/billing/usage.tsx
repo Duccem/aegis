@@ -1,47 +1,53 @@
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function getPlanData(
-  meters: {
-    consumedUnits: number;
-    creditedUnits: number;
-    meter: {
-      name: string;
-    };
-  }[],
-  plan: string
-) {
-  const planData: Record<
-    string,
-    {
-      current: number;
-      max: number;
-      unlimited: boolean;
-      disabled: boolean;
-    }
-  > = {
-    ai_usage: {
-      current: meters.find((m) => m.meter.name === "AI Completions")?.consumedUnits || 0,
-      max: meters.find((m) => m.meter.name === "AI Completions")?.creditedUnits || 0,
-      unlimited: false,
+const PLAN_DATA = {
+  free: {
+    ai_completions: {
+      limit: 10000,
       disabled: false,
-    },
-    products: {
-      current: meters.find((m) => m.meter.name === "Products")?.consumedUnits || 0,
-      max: meters.find((m) => m.meter.name === "Products")?.creditedUnits || 0,
       unlimited: false,
-      disabled: false,
     },
-    invoice_sending: {
-      current: meters.find((m) => m.meter.name === "Invoice Sending")?.consumedUnits || 0,
-      max: meters.find((m) => m.meter.name === "Invoice Sending")?.creditedUnits || 100,
+    organization_members: {
+      limit: 5,
+      disabled: false,
       unlimited: false,
-      disabled: false,
     },
-  };
+    products_created: {
+      limit: 50,
+      disabled: false,
+      unlimited: false,
+    },
+    invoice_sent: {
+      limit: 50,
+      disabled: false,
+      unlimited: false,
+    },
+  },
+  pro: {
+    ai_completions: {
+      limit: 100000,
+      disabled: false,
+      unlimited: true,
+    },
+    organization_members: {
+      limit: 20,
+      disabled: false,
+      unlimited: false,
+    },
+    products_created: {
+      limit: 500,
+      disabled: false,
+      unlimited: false,
+    },
+    invoice_sent: {
+      limit: 1000,
+      disabled: false,
+      unlimited: false,
+    },
+  },
+} as const;
 
-  return planData;
-}
 interface UsageItemProps {
   label: string;
   current: number;
@@ -142,40 +148,47 @@ export function Usage({
 }: {
   plan: string;
   meters: {
-    consumedUnits: number;
-    creditedUnits: number;
-    meter: {
-      name: string;
-    };
-  }[];
+    organizationMembers?: number;
+    aiCompletions?: number;
+    productsCreated?: number;
+    invoiceSent?: number;
+  };
 }) {
-  const data = getPlanData(meters, plan);
+  //const data = getPlanData(meters, plan);
+  const planData = PLAN_DATA[plan as keyof typeof PLAN_DATA];
   return (
     <div>
       <h2 className="text-lg font-medium leading-none tracking-tight mb-4">Usage</h2>
       <Card className="divide-y rounded-none bg-transparent">
         <UsageItem
           label="AI completions"
-          current={data.ai_usage.current}
-          max={data.ai_usage.max}
-          disabled={data.ai_usage.disabled}
-          unlimited={data.ai_usage.unlimited}
+          current={meters.aiCompletions || 0}
+          max={planData.ai_completions.limit}
+          disabled={planData.ai_completions.disabled}
+          unlimited={planData.ai_completions.unlimited}
           period="month"
         />
         <UsageItem
           label="Invoices sent"
-          current={data.invoice_sending.current}
-          max={data.invoice_sending.max}
-          disabled={data.invoice_sending.disabled}
-          unlimited={data.invoice_sending.unlimited}
+          current={meters.invoiceSent || 0}
+          max={planData.invoice_sent.limit}
+          disabled={planData.invoice_sent.disabled}
+          unlimited={planData.invoice_sent.unlimited}
           period="month"
         />
         <UsageItem
           label="Products"
-          current={data.products.current}
-          max={data.products.max}
-          disabled={data.products.disabled}
-          unlimited={data.products.unlimited}
+          current={meters.productsCreated || 0}
+          max={planData.products_created.limit}
+          disabled={planData.products_created.disabled}
+          unlimited={planData.products_created.unlimited}
+        />
+        <UsageItem
+          label="Organization members"
+          current={meters.organizationMembers || 0}
+          max={planData.organization_members.limit}
+          disabled={planData.organization_members.disabled}
+          unlimited={planData.organization_members.unlimited}
         />
       </Card>
     </div>

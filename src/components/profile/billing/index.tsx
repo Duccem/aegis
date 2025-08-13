@@ -1,36 +1,31 @@
 "use client";
 
-import { authClient } from "@/lib/auth/client";
+import { HttpOrganizationApi } from "@/lib/core/organization/infrastructure/http-organization-api";
 import { useQuery } from "@tanstack/react-query";
 import { ManageSubscription } from "./manage-subscription";
 import { Usage, UsageSkeleton } from "./usage";
 
 const BillingSection = () => {
-  const { data: subscription, isFetching } = useQuery({
+  const { data: organization, isFetching } = useQuery({
     initialData: {
-      subscription: null,
-      metrics: [],
+      metrics: {
+        organizationMembers: 0,
+        aiCompletions: 0,
+        productsCreated: 0,
+        invoiceSent: 0,
+      },
+      plan: "free",
+      id: "",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      logo: null,
+      metadata: null,
+      name: "",
+      slug: "",
     },
     queryKey: ["subscription"],
     queryFn: async () => {
-      const { data: subscription } = await authClient.customer.subscriptions.list({
-        query: {
-          page: 1,
-          limit: 1,
-          active: true,
-        },
-      });
-      const { data: metrics } = await authClient.usage.meters.list({
-        query: {
-          limit: 100,
-          page: 1,
-        },
-      });
-      console.log(metrics);
-      return {
-        subscription: subscription?.result?.items?.[0] ?? null,
-        metrics: metrics?.result?.items ?? [],
-      };
+      return await HttpOrganizationApi.getOrganization();
     },
     refetchOnWindowFocus: false,
   });
@@ -39,8 +34,8 @@ const BillingSection = () => {
   }
   return (
     <>
-      <Usage meters={subscription.metrics} plan={"free"} />
-      <ManageSubscription subscription={subscription.subscription} />
+      <Usage meters={organization.metrics} plan={organization.plan} />
+      <ManageSubscription plan={organization.plan} />
     </>
   );
 };

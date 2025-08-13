@@ -1,3 +1,6 @@
+import { Primitives } from "@/lib/types/primitives";
+import { Organization } from "../domain/organization";
+
 export class HttpOrganizationApi {
   static async initializeMetrics(id: string): Promise<void> {
     const response = await fetch(`/api/organization/${id}`, {
@@ -15,5 +18,14 @@ export class HttpOrganizationApi {
     if (!response.ok) {
       throw new Error("Failed to initialize organization metrics");
     }
+  }
+
+  static async getOrganization(): Promise<Primitives<Organization>> {
+    const response = await fetch("/api/organization");
+    if (!response.ok) {
+      throw new Error("Failed to fetch organization data");
+    }
+    const data = await response.json();
+    return data.data as Primitives<Organization>;
   }
 }
