@@ -47,6 +47,16 @@ export const auth = betterAuth({
       roles: {
         admin,
       },
+      schema: {
+        organization: {
+          additionalFields: {
+            plan: {
+              type: "string",
+              defaultValue: "free",
+            },
+          },
+        },
+      },
     }),
     emailOTP({
       otpLength: 6,
@@ -90,7 +100,6 @@ export const auth = betterAuth({
         webhooks({
           secret: env.POLAR_WEBHOOK_SECRET,
           onOrderPaid: async (payload) => {
-            const userId = payload.data.customer.externalId;
             const plan = payload.data.productId === paymentProducts.pro ? "pro" : "free";
             await sendSubscriptionActivatedEmail({
               customerName: payload.data.customer.name ?? "",

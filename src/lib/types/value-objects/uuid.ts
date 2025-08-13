@@ -15,6 +15,10 @@ export class Uuid extends StringValueObject {
     return true;
   }
 
+  public static fromString(id: string): Uuid {
+    return new Uuid(id);
+  }
+
   protected validation(id: string): void {
     super.validation(id);
     if (!validate(id)) {

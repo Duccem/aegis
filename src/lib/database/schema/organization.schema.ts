@@ -1,4 +1,5 @@
-import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { user } from "./user.schema";
 
 export const organization = pgTable("organization", {
@@ -7,6 +8,7 @@ export const organization = pgTable("organization", {
   slug: text("slug").notNull().unique(),
   logo: text("logo"),
   metadata: text("metadata"),
+  plan: text("plan").notNull().default("free"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -59,3 +61,23 @@ export const teamMember = pgTable("team_member", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const organization_metrics = pgTable("organization_metrics", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organization.id),
+  organizationMembers: integer("organization_members").notNull().default(0),
+  aiCompletions: integer("ai_completions").notNull().default(0),
+  productsCreated: integer("products_created").notNull().default(0),
+  invoiceSent: integer("invoice_sent").notNull().default(0),
+});
+
+export const organization_relations = relations(organization, ({ one, many }) => ({
+  metrics: one(organization_metrics, {
+    fields: [organization.id],
+    references: [organization_metrics.organizationId],
+  }),
+  members: many(member),
+  invitations: many(invitation),
+  teams: many(team),
+}));

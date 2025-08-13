@@ -1,0 +1,53 @@
+import { Uuid } from "@/lib/types/value-objects/uuid";
+
+import { database } from "@/lib/database";
+import { organization, organization_metrics } from "@/lib/database/schema/organization.schema";
+import { eq } from "drizzle-orm";
+import { Metrics } from "../domain/metrics";
+import { Organization } from "../domain/organization";
+import { OrganizationRepository } from "../domain/organization-repository";
+
+export class DrizzleOrganizationRepository implements OrganizationRepository {
+  async find(id: Uuid): Promise<Organization | null> {
+    const result = await database.query.organization.findFirst({
+      where: eq(organization.id, id.value),
+      with: {
+        metrics: true,
+      },
+    });
+    if (!result) return null;
+    return Organization.fromPrimitives({
+      id: result.id,
+      name: result.name,
+      slug: result.slug,
+      logo: result.logo,
+      metadata: result.metadata,
+      plan: result.plan,
+      metrics: result.metrics,
+      createdAt: result.createdAt,
+      updatedAt: result.createdAt,
+    });
+  }
+
+  async saveMetrics(organizationId: Uuid, organization: Organization): Promise<void> {
+    const data = organization.metrics.toPrimitives();
+    await database
+      .insert(organization_metrics)
+      .values({
+        organizationId: organizationId.value,
+        organizationMembers: data.organizationMembers,
+        aiCompletions: data.aiCompletions,
+        productsCreated: data.productsCreated,
+        invoiceSent: data.invoiceSent,
+      })
+      .onConflictDoUpdate({
+        target: [organization_metrics.organizationId],
+        set: {
+          organizationMembers: data.organizationMembers,
+          aiCompletions: data.aiCompletions,
+          productsCreated: data.productsCreated,
+          invoiceSent: data.invoiceSent,
+        },
+      });
+  }
+}

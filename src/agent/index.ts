@@ -1,4 +1,4 @@
-import { BetterUser } from "@/lib/auth/server";
+import { BetterOrganization, BetterUser } from "@/lib/auth/server";
 import { google } from "@ai-sdk/google";
 import {
   InferUITools,
@@ -17,7 +17,12 @@ const tools: ToolSet = {};
 
 export type ChatTools = InferUITools<typeof tools>;
 export type ChatMessage = UIMessage<never, UIDataTypes, ChatTools>;
-export const agent = (messages: ChatMessage[], chatId: string, user: BetterUser) => {
+export const agent = (
+  messages: ChatMessage[],
+  chatId: string,
+  user: BetterUser,
+  organization?: BetterOrganization,
+) => {
   const coreMessages = convertToModelMessages(messages);
   const systemPrompt = `${SYSTEM_PROMPT} Current date is: ${
     new Date().toISOString().split("T")[0]

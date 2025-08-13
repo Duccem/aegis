@@ -1,5 +1,6 @@
 "use client";
 import { authClient } from "@/lib/auth/client";
+import { HttpOrganizationApi } from "@/lib/core/organization/infrastructure/http-organization-api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -28,10 +29,11 @@ const OrganizationForm = () => {
   } = form;
   const submit = async (data: FormSchema) => {
     try {
-      await authClient.organization.create({
+      const org = await authClient.organization.create({
         name: data.name,
         slug: data.name.toLowerCase().replace(/\s+/g, "-"),
       });
+      await HttpOrganizationApi.initializeMetrics(org.data?.id ?? "");
       toast.success("Organization created successfully!");
       router.push("/home");
     } catch (error) {

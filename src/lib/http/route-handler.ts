@@ -86,16 +86,16 @@ async function authentication(
   if (!session || !session.user) {
     throw new Unauthenticated("User is not authenticated");
   }
-  const organization = await auth.api.getFullOrganization({
+  let organization: BetterOrganization | null = await auth.api.getFullOrganization({
     query: {
       membersLimit: 1,
     },
     headers: await headers(),
   });
   if (!organization) {
-    throw new Unauthenticated("User does not belong to any organization");
+    organization = {} as BetterOrganization;
   }
-  return { user: session.user as BetterUser, organization };
+  return { user: session.user as BetterUser, organization: organization as BetterOrganization };
 }
 
 function authorization(
