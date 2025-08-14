@@ -2,7 +2,6 @@ import { Aggregate } from "@/lib/types/aggregate";
 import { Primitives } from "@/lib/types/primitives";
 import { DateValueObject, StringValueObject } from "@/lib/types/value-object";
 import { Uuid } from "@/lib/types/value-objects/uuid";
-import { Permission } from "./permissions";
 import { UserPlan } from "./user-organization-plan";
 import { UserRole } from "./user-role";
 
@@ -44,9 +43,5 @@ export class User extends Aggregate {
       new DateValueObject(data.createdAt),
       new DateValueObject(data.updatedAt),
     );
-  }
-
-  hasPermissions(permissions: Permission): boolean {
-    return permissions.includes(this.role.value);
   }
 }

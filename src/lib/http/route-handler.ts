@@ -7,6 +7,7 @@ import {
   getMember,
   getOrganization,
   getSession,
+  hasPermission,
 } from "../auth/server";
 import { DomainError } from "../types/domain-error";
 import { Unauthenticated } from "../types/errors/unauthenticated";
@@ -14,11 +15,12 @@ import { Unauthorized } from "../types/errors/unauthorized";
 
 type RouteHandlerParams<Q, P, R, Authenticated extends boolean | undefined> = {
   req: NextRequest;
-  organization: BetterOrganization;
   params: R;
   searchParams: Q;
   body: P;
-} & (Authenticated extends false ? { user?: undefined } : { user: BetterUser });
+} & (Authenticated extends false
+  ? {}
+  : { user: BetterUser; organization: BetterOrganization; member: BetterMember });
 
 type RouteHandler<Q, P, R, Authenticated extends boolean | undefined> = (
   params: RouteHandlerParams<Q, P, R, Authenticated>,
@@ -30,7 +32,9 @@ type RouteHandlerOptions<Q, P, R, Authenticated extends boolean | undefined> = {
   querySchema?: ZodSchema<Q>;
   paramsSchema?: ZodSchema<R>;
   authenticated?: Authenticated;
-};
+} & (Authenticated extends false
+  ? { permissions?: undefined }
+  : { permissions?: { [key: string]: string[] } });
 
 export const routeHandler = <
   T extends DomainError,
@@ -39,17 +43,16 @@ export const routeHandler = <
   R,
   Authenticated extends boolean | undefined = undefined,
 >(
-  options: RouteHandlerOptions<Q, P, R, Authenticated> = {
-    name: "default",
-    authenticated: true as Authenticated,
-    querySchema: undefined,
-    schema: undefined,
-  },
+  options: RouteHandlerOptions<Q, P, R, Authenticated>,
   handler: RouteHandler<Q, P, R, Authenticated>,
   onError?: (error: T) => NextResponse,
 ) => {
   return async (req: NextRequest, { params }: { params: Promise<R> }) => {
     const { user, organization, member } = await authentication(options.authenticated);
+
+    if (user && options.permissions) {
+      await authorization(options.permissions);
+    }
 
     const urlParams = await parseParams(params, options.paramsSchema);
     const searchParams = parseSeachParams<Q>(req, options.querySchema);
@@ -61,8 +64,9 @@ export const routeHandler = <
         params: urlParams,
         searchParams,
         body,
-        organization,
+        ...(organization && { organization }),
         ...(user && { user }),
+        ...(member && { member }),
       };
       return handler(handlerParams as unknown as RouteHandlerParams<Q, P, R, Authenticated>);
     } catch (error) {
@@ -89,14 +93,14 @@ export const routeHandler = <
 
 async function authentication(authenticated?: boolean): Promise<{
   user?: BetterUser;
-  organization: BetterOrganization;
-  member: BetterMember;
+  organization?: BetterOrganization;
+  member?: BetterMember;
 }> {
   if (authenticated === false) {
     return {
       user: undefined,
-      organization: {} as BetterOrganization,
-      member: {} as BetterMember,
+      organization: undefined,
+      member: undefined,
     };
   }
   const session = await getSession();
@@ -110,6 +114,13 @@ async function authentication(authenticated?: boolean): Promise<{
     organization: organization ? organization : ({} as BetterOrganization),
     member: member ? member : ({} as BetterMember),
   };
+}
+
+async function authorization(permissions: { [key: string]: string[] }): Promise<void> {
+  const userHasPermission = await hasPermission(permissions);
+  if (!userHasPermission) {
+    throw new Unauthorized("You do not have permission to perform this action");
+  }
 }
 
 function parseSeachParams<Q>(req: NextRequest, schema?: ZodSchema<Q>): Q {

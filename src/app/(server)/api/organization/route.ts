@@ -5,7 +5,7 @@ import { HttpNextResponse, routeHandler } from "@/lib/http/route-handler";
 import { NextResponse } from "next/server";
 
 export const GET = routeHandler(
-  { name: "get-org", authenticated: false },
+  { name: "get-org" },
   async ({ organization }) => {
     const service = new GetOrganization(new DrizzleOrganizationRepository());
     const org = await service.execute(organization.id);

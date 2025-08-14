@@ -149,3 +149,17 @@ export const getMember = cache(async (): Promise<BetterMember | null> => {
     headers: await headers(),
   });
 });
+
+export const hasPermission = async (permissions: { [key: string]: string[] }): Promise<boolean> => {
+  const { success, error } = await auth.api.hasPermission({
+    headers: await headers(),
+    body: {
+      permissions,
+    },
+  });
+
+  if (!success || error) {
+    return false;
+  }
+  return true;
+};
