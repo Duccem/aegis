@@ -1,6 +1,7 @@
 import { sendSubscriptionRevokedEmail } from "@/lib/auth/functions";
 import { NextRequest, NextResponse } from "next/server";
 
+// TODO: Implement use case for sending verification email and other emails
 export const POST = async (req: NextRequest) => {
   const { email, code } = await req.json();
 

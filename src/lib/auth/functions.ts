@@ -4,6 +4,8 @@ import AegisSubscriptionActivated from "@/lib/emails/templates/subscription-acti
 import AegisSubscriptionCancelled from "@/lib/emails/templates/subscription-cancelled";
 import AegisVerifyEmail from "@/lib/emails/templates/verification-code";
 
+// TODO: Implement send emails by hit the API
+
 export async function sendVerificationEmail(email: string, code: string): Promise<void> {
   await resend.emails.send({
     from: "Aegis <contacto@helsahealthcare.com>",

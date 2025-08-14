@@ -20,6 +20,7 @@ const saveProductSchema = z.object({
   brandId: z.string(),
 });
 
+// TODO: Implement diod dependency injection for use cases
 export const POST = routeHandler(
   {
     name: "create-product",
@@ -42,7 +43,7 @@ export const POST = routeHandler(
       default:
         return HttpNextResponse.internalServerError();
     }
-  }
+  },
 );
 
 const getProductSchema = z
@@ -93,9 +94,9 @@ export const GET = routeHandler(
       {
         tags: [`products:${organization.id}`],
         revalidate: 60 * 60, // 1 hour
-      }
+      },
     )();
 
     return NextResponse.json({ data });
-  }
+  },
 );
