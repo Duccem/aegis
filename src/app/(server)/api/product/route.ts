@@ -20,7 +20,6 @@ const saveProductSchema = z.object({
   brandId: z.string(),
 });
 
-// TODO: Implement diod dependency injection for use cases
 export const POST = routeHandler(
   {
     name: "create-product",
