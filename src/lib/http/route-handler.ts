@@ -10,8 +10,10 @@ import {
   hasPermission,
 } from "../auth/server";
 import { DomainError } from "../types/domain-error";
+import { FormatError } from "../types/errors/format-error";
 import { Unauthenticated } from "../types/errors/unauthenticated";
 import { Unauthorized } from "../types/errors/unauthorized";
+import { HttpNextResponse } from "./http-response";
 
 type RouteHandlerParams<Q, P, R, Authenticated extends boolean | undefined> = {
   req: NextRequest;
@@ -83,7 +85,7 @@ export const routeHandler = <
           }
           return HttpNextResponse.internalServerError();
         case error instanceof ZodError:
-          return HttpNextResponse.error(error.message);
+          return HttpNextResponse.domainError(new FormatError(error.message), 400);
         default:
           return HttpNextResponse.internalServerError();
       }
@@ -151,53 +153,4 @@ async function parseBody<P>(req: NextRequest, schema?: ZodSchema<P>): Promise<P>
     }
   }
   return schema.parse(await req.json());
-}
-
-export class HttpNextResponse {
-  static domainError(error: DomainError, statusCode: number): NextResponse {
-    return NextResponse.json(
-      {
-        message: error.getMessage(),
-      },
-      { status: statusCode },
-    );
-  }
-
-  static internalServerError(): NextResponse {
-    return NextResponse.json(
-      {
-        code: "InternalServerError",
-        message: "Internal server error",
-        data: {},
-      },
-      { status: 500 },
-    );
-  }
-
-  static noResponse(): NextResponse {
-    return new NextResponse(null, { status: 204 });
-  }
-
-  static error(message: any): NextResponse {
-    return NextResponse.json(
-      {
-        code: "BadRequest",
-        message: message,
-        data: {},
-      },
-      { status: 400 },
-    );
-  }
-
-  static ok(): NextResponse {
-    return new NextResponse(null, { status: 200 });
-  }
-
-  static created(): NextResponse {
-    return new NextResponse(null, { status: 201 });
-  }
-
-  static json<JsonBody>(data: JsonBody): NextResponse {
-    return NextResponse.json(data, { status: 200 });
-  }
 }

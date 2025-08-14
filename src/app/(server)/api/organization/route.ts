@@ -1,7 +1,8 @@
 import { GetOrganization } from "@/lib/core/organization/application/get-organization";
 import { OrganizationNotFound } from "@/lib/core/organization/domain/organization-not-found";
 import { DrizzleOrganizationRepository } from "@/lib/core/organization/infrastructure/drizzle-organization-repository";
-import { HttpNextResponse, routeHandler } from "@/lib/http/route-handler";
+import { HttpNextResponse } from "@/lib/http/http-response";
+import { routeHandler } from "@/lib/http/route-handler";
 import { NextResponse } from "next/server";
 
 export const GET = routeHandler(
