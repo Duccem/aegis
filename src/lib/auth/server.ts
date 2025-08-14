@@ -128,9 +128,24 @@ export const auth = betterAuth({
 export type BetterSession = typeof auth.$Infer.Session;
 export type BetterUser = typeof auth.$Infer.Session.user;
 export type BetterOrganization = typeof auth.$Infer.Organization;
+export type BetterMember = Omit<typeof auth.$Infer.Member, "role" | "user"> & { role: string };
 
-export const getSession = cache(async () => {
+export const getSession = cache(async (): Promise<BetterSession | null> => {
   return await auth.api.getSession({
+    headers: await headers(),
+  });
+});
+
+export const getOrganization = cache(async (): Promise<BetterOrganization | null> => {
+  return await auth.api.getFullOrganization({
+    headers: await headers(),
+    query: {
+      membersLimit: 0,
+    },
+  });
+});
+export const getMember = cache(async (): Promise<BetterMember | null> => {
+  return await auth.api.getActiveMember({
     headers: await headers(),
   });
 });

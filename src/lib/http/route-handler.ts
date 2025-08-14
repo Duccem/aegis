@@ -1,59 +1,70 @@
-import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError, ZodSchema } from "zod";
-import { auth, BetterOrganization, BetterUser, getSession } from "../auth/server";
+import {
+  BetterMember,
+  BetterOrganization,
+  BetterUser,
+  getMember,
+  getOrganization,
+  getSession,
+} from "../auth/server";
 import { DomainError } from "../types/domain-error";
 import { Unauthenticated } from "../types/errors/unauthenticated";
 import { Unauthorized } from "../types/errors/unauthorized";
 
-type RouteHandlerParams<Q, P, R> = {
+type RouteHandlerParams<Q, P, R, Authenticated extends boolean | undefined> = {
   req: NextRequest;
-  user: BetterUser;
   organization: BetterOrganization;
   params: R;
   searchParams: Q;
   body: P;
-};
+} & (Authenticated extends false ? { user?: undefined } : { user: BetterUser });
 
-type RouteHandler<Q, P, R> = (params: RouteHandlerParams<Q, P, R>) => Promise<NextResponse>;
+type RouteHandler<Q, P, R, Authenticated extends boolean | undefined> = (
+  params: RouteHandlerParams<Q, P, R, Authenticated>,
+) => Promise<NextResponse>;
 
-type RouteHandlerOptions<Q, P, R> = {
+type RouteHandlerOptions<Q, P, R, Authenticated extends boolean | undefined> = {
   name: string;
   schema?: ZodSchema<P>;
   querySchema?: ZodSchema<Q>;
   paramsSchema?: ZodSchema<R>;
-  authenticated?: boolean;
-  permissions?: (user: BetterUser) => boolean;
+  authenticated?: Authenticated;
 };
 
-export const routeHandler = <T extends DomainError, P, Q, R>(
-  options: RouteHandlerOptions<Q, P, R> = {
+export const routeHandler = <
+  T extends DomainError,
+  P,
+  Q,
+  R,
+  Authenticated extends boolean | undefined = undefined,
+>(
+  options: RouteHandlerOptions<Q, P, R, Authenticated> = {
     name: "default",
-    authenticated: true,
+    authenticated: true as Authenticated,
     querySchema: undefined,
     schema: undefined,
-    permissions: undefined,
   },
-  handler: RouteHandler<Q, P, R>,
+  handler: RouteHandler<Q, P, R, Authenticated>,
   onError?: (error: T) => NextResponse,
 ) => {
   return async (req: NextRequest, { params }: { params: Promise<R> }) => {
-    const { user, organization } = await authentication(options.authenticated);
-    authorization(user, options.permissions);
+    const { user, organization, member } = await authentication(options.authenticated);
 
     const urlParams = await parseParams(params, options.paramsSchema);
     const searchParams = parseSeachParams<Q>(req, options.querySchema);
     const body = await parseBody<P>(req, options.schema);
 
     try {
-      return handler({
+      const handlerParams = {
         req,
-        user,
         params: urlParams,
         searchParams,
         body,
         organization,
-      });
+        ...(user && { user }),
+      };
+      return handler(handlerParams as unknown as RouteHandlerParams<Q, P, R, Authenticated>);
     } catch (error) {
       console.error(error);
       switch (true) {
@@ -76,38 +87,29 @@ export const routeHandler = <T extends DomainError, P, Q, R>(
   };
 };
 
-async function authentication(
-  authenticated?: boolean,
-): Promise<{ user: BetterUser; organization: BetterOrganization }> {
+async function authentication(authenticated?: boolean): Promise<{
+  user?: BetterUser;
+  organization: BetterOrganization;
+  member: BetterMember;
+}> {
   if (authenticated === false) {
-    return { user: {} as BetterUser, organization: {} as BetterOrganization };
+    return {
+      user: undefined,
+      organization: {} as BetterOrganization,
+      member: {} as BetterMember,
+    };
   }
   const session = await getSession();
   if (!session || !session.user) {
     throw new Unauthenticated("User is not authenticated");
   }
-  let organization: BetterOrganization | null = await auth.api.getFullOrganization({
-    query: {
-      membersLimit: 1,
-    },
-    headers: await headers(),
-  });
-  if (!organization) {
-    organization = {} as BetterOrganization;
-  }
-  return { user: session.user as BetterUser, organization: organization as BetterOrganization };
-}
+  const [organization, member] = await Promise.all([getOrganization(), getMember()]);
 
-function authorization(
-  user: BetterUser | undefined,
-  permissions?: (user: BetterUser) => boolean,
-): void {
-  if (!user) {
-    return;
-  }
-  if (permissions && !permissions(user)) {
-    throw new Unauthorized("User does not have the required permissions");
-  }
+  return {
+    user: session.user,
+    organization: organization ? organization : ({} as BetterOrganization),
+    member: member ? member : ({} as BetterMember),
+  };
 }
 
 function parseSeachParams<Q>(req: NextRequest, schema?: ZodSchema<Q>): Q {
