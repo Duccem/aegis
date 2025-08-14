@@ -2,11 +2,11 @@ import { ListProducts } from "@/lib/core/product/application/list-products";
 import { CreateProduct } from "@/lib/core/product/application/save-product";
 import { ProductSKUExist } from "@/lib/core/product/domain/product-sku-exist-error";
 import { DrizzleProductRepository } from "@/lib/core/product/infrastructure/drizzle-product-repository";
+import { HttpNextResponse } from "@/lib/http/http-response";
 import { paginateSchema } from "@/lib/http/paginate-schema";
-import { HttpNextResponse, routeHandler } from "@/lib/http/route-handler";
+import { routeHandler } from "@/lib/http/route-handler";
 import { Direction } from "@/lib/types/criteria";
 import { unstable_cache as cache } from "next/cache";
-import { NextResponse } from "next/server";
 import z from "zod";
 const saveProductSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -32,9 +32,7 @@ export const POST = routeHandler(
       ...body,
       organizationId: organization.id,
     });
-    return NextResponse.json({
-      message: "Product created successfully",
-    });
+    return HttpNextResponse.noResponse(201);
   },
   (error: ProductSKUExist) => {
     switch (true) {
@@ -97,6 +95,6 @@ export const GET = routeHandler(
       },
     )();
 
-    return NextResponse.json({ data });
+    return HttpNextResponse.json({ data });
   },
 );

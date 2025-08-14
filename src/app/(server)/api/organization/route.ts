@@ -3,14 +3,13 @@ import { OrganizationNotFound } from "@/lib/core/organization/domain/organizatio
 import { DrizzleOrganizationRepository } from "@/lib/core/organization/infrastructure/drizzle-organization-repository";
 import { HttpNextResponse } from "@/lib/http/http-response";
 import { routeHandler } from "@/lib/http/route-handler";
-import { NextResponse } from "next/server";
 
 export const GET = routeHandler(
   { name: "get-org" },
   async ({ organization }) => {
     const service = new GetOrganization(new DrizzleOrganizationRepository());
     const org = await service.execute(organization.id);
-    return NextResponse.json({ data: org });
+    return HttpNextResponse.json({ data: org });
   },
   (error: OrganizationNotFound) => {
     switch (true) {

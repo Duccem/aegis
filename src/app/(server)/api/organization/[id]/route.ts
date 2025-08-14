@@ -1,8 +1,8 @@
 import { SaveMetrics } from "@/lib/core/organization/application/save-metrics";
 import { OrganizationNotFound } from "@/lib/core/organization/domain/organization-not-found";
 import { DrizzleOrganizationRepository } from "@/lib/core/organization/infrastructure/drizzle-organization-repository";
-import { HttpNextResponse, routeHandler } from "@/lib/http/route-handler";
-import { NextResponse } from "next/server";
+import { HttpNextResponse } from "@/lib/http/http-response";
+import { routeHandler } from "@/lib/http/route-handler";
 import z from "zod";
 const saveMetricsSchema = z.object({
   organizationMembers: z.number().optional(),
@@ -20,9 +20,7 @@ export const POST = routeHandler(
   async ({ body, params }) => {
     const service = new SaveMetrics(new DrizzleOrganizationRepository());
     await service.execute(params.id, body);
-    return NextResponse.json({
-      message: "Metrics saved successfully",
-    });
+    return HttpNextResponse.noResponse(204);
   },
   (error: OrganizationNotFound) => {
     switch (true) {

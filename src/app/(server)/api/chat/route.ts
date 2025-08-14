@@ -2,8 +2,9 @@ import { agent } from "@/agent";
 import { ClearChats } from "@/lib/core/chat/application/clear-chats";
 import { ListChats } from "@/lib/core/chat/application/list-chats";
 import { RedisChatRepository } from "@/lib/core/chat/infrastructure/redis-chat-repository";
+import { HttpNextResponse } from "@/lib/http/http-response";
 import { routeHandler } from "@/lib/http/route-handler";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export const POST = async (request: NextRequest) => {
   const { messages, chatId, user } = await request.json();
@@ -14,14 +15,11 @@ export const POST = async (request: NextRequest) => {
 export const GET = routeHandler({ name: "list-chats" }, async ({ user }) => {
   const service = new ListChats(new RedisChatRepository());
   const chats = await service.execute(user.id);
-  return NextResponse.json(
-    {
-      data: chats,
-      message: "Chats retrieved successfully",
-      success: true,
-    },
-    { status: 200 },
-  );
+  return HttpNextResponse.json({
+    data: chats,
+    message: "Chats retrieved successfully",
+    success: true,
+  });
 });
 
 export const DELETE = routeHandler({ name: "clear-chats" }, async ({ user }) => {
@@ -29,11 +27,5 @@ export const DELETE = routeHandler({ name: "clear-chats" }, async ({ user }) => 
 
   await service.execute(user.id);
 
-  return NextResponse.json(
-    {
-      message: "Chats deleted successfully",
-      success: true,
-    },
-    { status: 200 },
-  );
+  return HttpNextResponse.noResponse(204);
 });
