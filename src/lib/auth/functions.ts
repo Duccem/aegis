@@ -1,26 +1,24 @@
-import { resend } from "@/lib/emails";
-import AegisForgetPassword from "@/lib/emails/templates/forget-password";
-import AegisSubscriptionActivated from "@/lib/emails/templates/subscription-activated";
-import AegisSubscriptionCancelled from "@/lib/emails/templates/subscription-cancelled";
-import AegisVerifyEmail from "@/lib/emails/templates/verification-code";
-
-// TODO: Implement send emails by hit the API
+import { env } from "../env";
 
 export async function sendVerificationEmail(email: string, code: string): Promise<void> {
-  await resend.emails.send({
-    from: "Aegis <contacto@helsahealthcare.com>",
-    to: [email],
-    subject: "Hello world",
-    react: AegisVerifyEmail({ verificationCode: code }),
+  await fetch("/api/notifications/verification", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-notifications-key": env.NOTIFICATIONS_API_KEY || "",
+    },
+    body: JSON.stringify({ email, code }),
   });
 }
 
 export async function sendForgetPasswordEmail(email: string, code: string): Promise<void> {
-  await resend.emails.send({
-    from: "Aegis <contacto@helsahealthcare.com>",
-    to: [email],
-    subject: "Hello world",
-    react: AegisForgetPassword({ verificationCode: code }),
+  await fetch("/api/notifications/forgot-password", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-notifications-key": env.NOTIFICATIONS_API_KEY || "",
+    },
+    body: JSON.stringify({ email, code }),
   });
 }
 
@@ -39,17 +37,13 @@ export async function sendSubscriptionActivatedEmail({
   billingUrl?: string;
   email: string;
 }): Promise<void> {
-  await resend.emails.send({
-    from: "Aegis <contacto@helsahealthcare.com>",
-    to: [email],
-    subject: "Tu suscripción de Aegis ha sido activada",
-    react: AegisSubscriptionActivated({
-      customerName,
-      planName,
-      startDate,
-      renewalDate,
-      billingUrl,
-    }),
+  await fetch("/api/notifications/subscription-activated", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-notifications-key": env.NOTIFICATIONS_API_KEY || "",
+    },
+    body: JSON.stringify({ customerName, planName, startDate, renewalDate, billingUrl, email }),
   });
 }
 
@@ -66,16 +60,12 @@ export async function sendSubscriptionRevokedEmail({
   reactivateUrl?: string;
   email: string;
 }): Promise<void> {
-  await resend.emails.send({
-    from: "Aegis <contacto@helsahealthcare.com>",
-    to: [email],
-    subject: "Tu suscripción de Aegis ha sido revocada",
-    react: AegisSubscriptionCancelled({
-      customerName,
-      planName,
-      reason,
-      reactivateUrl,
-      supportEmail: "contacto@aegis.com",
-    }),
+  await fetch("/api/notifications/subscription-revoked", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-notifications-key": env.NOTIFICATIONS_API_KEY || "",
+    },
+    body: JSON.stringify({ customerName, planName, reason, reactivateUrl, email }),
   });
 }

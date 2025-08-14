@@ -15,6 +15,7 @@ export const env = createEnv({
     UPSTASH_REDIS_REST_URL: z.string().optional(),
     UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
     RESEND_API_KEY: z.string().optional(),
+    NOTIFICATIONS_API_KEY: z.string(),
   },
   client: {
     NEXT_PUBLIC_POLAR_PRODUCT_FREE: z.string().optional(),
@@ -39,5 +40,6 @@ export const env = createEnv({
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
+    NOTIFICATIONS_API_KEY: process.env.NOTIFICATIONS_API_KEY,
   },
 });
