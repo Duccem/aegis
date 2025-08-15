@@ -101,7 +101,7 @@ export const Chat = () => {
         initial={{ width: 0, opacity: 0, y: 0 }}
         animate={{ width: "44%", opacity: 1, y: 1 }}
         ref={scope}
-        className="fixed origin-center bottom-4 right-[20px]  z-50 flex items-center justify-center  p-3 bg-background rounded-md border  "
+        className="fixed origin-center bottom-4 right-[20px]  z-50 flex items-center justify-center  p-3 bg-background rounded-xl border  "
       >
         <Button onClick={handleClose} variant={"ghost"} size={"icon"}>
           <X />
@@ -183,7 +183,7 @@ export const Chat = () => {
   }
   return (
     <motion.button
-      className="flex items-center justify-center border bg-background border-foreground text-foreground  gap-2  rounded-md overflow-hidden fixed origin-center bottom-4 right-[20px] z-50 p-2 cursor-pointer  "
+      className="flex items-center justify-center border bg-background border-foreground text-foreground  gap-2  rounded-xl overflow-hidden fixed origin-center bottom-4 right-[20px] z-50 p-2 cursor-pointer  "
       initial={{ width: "48px", height: "48px" }}
       animate={{
         scale: isHovered ? 1.1 : 1,

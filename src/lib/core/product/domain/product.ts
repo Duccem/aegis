@@ -24,7 +24,7 @@ export class Product extends Aggregate {
     public brand: Brand | undefined,
     public organizationId: Uuid,
     createdAt: DateValueObject,
-    updatedAt: DateValueObject
+    updatedAt: DateValueObject,
   ) {
     super(id, createdAt, updatedAt);
   }
@@ -61,7 +61,7 @@ export class Product extends Aggregate {
       primitives.brand ? Brand.fromPrimitives(primitives.brand) : undefined,
       new Uuid(primitives.organizationId),
       new DateValueObject(primitives.createdAt),
-      new DateValueObject(primitives.updatedAt)
+      new DateValueObject(primitives.updatedAt),
     );
   }
 
@@ -75,7 +75,7 @@ export class Product extends Aggregate {
     unitId: string,
     brandId: string,
     categoriesIds: string[] = [],
-    organizationId: string
+    organizationId: string,
   ): Product {
     const product = new Product(
       ProductID.random(),
@@ -89,9 +89,10 @@ export class Product extends Aggregate {
         Category.fromPrimitives({
           id,
           name: "Default Category",
+          organizationId,
           createdAt: DateValueObject.today().value,
           updatedAt: DateValueObject.today().value,
-        })
+        }),
       ),
       Unit.fromPrimitives({
         id: unitId,
@@ -102,12 +103,13 @@ export class Product extends Aggregate {
       Brand.fromPrimitives({
         id: brandId,
         name: "New Product Brand",
+        organizationId,
         createdAt: DateValueObject.today().value,
         updatedAt: DateValueObject.today().value,
       }),
       new Uuid(organizationId),
       DateValueObject.today(),
-      DateValueObject.today()
+      DateValueObject.today(),
     );
     product.record(ProductCreated.dispatch(product.id.value, product.name.value));
     return product;

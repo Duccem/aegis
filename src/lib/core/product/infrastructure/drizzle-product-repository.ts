@@ -1,11 +1,20 @@
 import { database } from "@/lib/database";
 import { DrizzleCriteriaConverter } from "@/lib/database/converter";
-import { product, product_category } from "@/lib/database/schema/product.schema";
+import {
+  brand,
+  category,
+  product,
+  product_category,
+  unit,
+} from "@/lib/database/schema/product.schema";
 import { Criteria } from "@/lib/types/criteria";
 import { Uuid } from "@/lib/types/value-objects/uuid";
 import { count, eq } from "drizzle-orm";
+import { Brand } from "../domain/brand";
+import { Category } from "../domain/category";
 import { Product } from "../domain/product";
 import { ProductRepository } from "../domain/product.repository";
+import { Unit } from "../domain/unit";
 
 export class DrizzleProductRepository implements ProductRepository {
   private converter = new DrizzleCriteriaConverter(product);
@@ -22,7 +31,7 @@ export class DrizzleProductRepository implements ProductRepository {
         categories.map((category) => ({
           productId: productData.id,
           categoryId: category.id,
-        }))
+        })),
       )
       .onConflictDoNothing();
   }
@@ -49,6 +58,7 @@ export class DrizzleProductRepository implements ProductRepository {
       categories: productCategories.map((pc) => ({
         id: pc.category.id,
         name: pc.category.name,
+        organizationId: pc.category.organizationId,
         createdAt: pc.category.createdAt,
         updatedAt: pc.category.updatedAt,
       })),
@@ -81,6 +91,7 @@ export class DrizzleProductRepository implements ProductRepository {
         categories: productCategories.map((pc) => ({
           id: pc.category.id,
           name: pc.category.name,
+          organizationId: pc.category.organizationId,
           createdAt: pc.category.createdAt,
           updatedAt: pc.category.updatedAt,
         })),
@@ -97,5 +108,26 @@ export class DrizzleProductRepository implements ProductRepository {
   }
   async delete(productId: Uuid): Promise<void> {
     await database.delete(product).where(eq(product.id, productId.value));
+  }
+
+  async categories(organizationId: Uuid): Promise<Category[]> {
+    const result = await database
+      .select()
+      .from(category)
+      .where(eq(category.organizationId, organizationId.value));
+    return result.map((row) => Category.fromPrimitives(row));
+  }
+
+  async brands(organizationId: Uuid): Promise<Brand[]> {
+    const result = await database
+      .select()
+      .from(brand)
+      .where(eq(brand.organizationId, organizationId.value));
+    return result.map((row) => Brand.fromPrimitives(row));
+  }
+
+  async units(): Promise<Unit[]> {
+    const result = await database.select().from(unit);
+    return result.map((row) => Unit.fromPrimitives(row));
   }
 }

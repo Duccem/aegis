@@ -12,7 +12,7 @@ export type CreateProductData = {
   images: string[];
   unitId: string;
   brandId: string;
-  categoriesIds?: string[];
+  categories?: string[];
   organizationId: string;
 };
 
@@ -21,7 +21,7 @@ export class CreateProduct {
 
   async execute(data: CreateProductData): Promise<void> {
     const existingProduct = await this.repository.find(
-      Criteria.withFilters([{ field: "sku", operator: Operator.EQUAL, value: data.sku }])
+      Criteria.withFilters([{ field: "sku", operator: Operator.EQUAL, value: data.sku }]),
     );
 
     if (existingProduct) {
@@ -37,8 +37,8 @@ export class CreateProduct {
       data.images,
       data.unitId,
       data.brandId,
-      data.categoriesIds,
-      data.organizationId
+      data.categories,
+      data.organizationId,
     );
 
     await this.repository.save(product);

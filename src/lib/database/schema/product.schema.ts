@@ -25,6 +25,7 @@ export const product = pgTable("product", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")
     .notNull()
+    .defaultNow()
     .$onUpdate(() => new Date()),
 });
 
@@ -38,6 +39,9 @@ export const unit = pgTable("unit", {
 export const category = pgTable("category", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organization.id, { onDelete: "cascade" }),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")
     .notNull()
@@ -47,9 +51,13 @@ export const category = pgTable("category", {
 export const brand = pgTable("brand", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organization.id, { onDelete: "cascade" }),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")
     .notNull()
+    .defaultNow()
     .$onUpdate(() => new Date()),
 });
 
@@ -64,13 +72,19 @@ export const product_category = pgTable(
       .notNull()
       .references(() => category.id, { onDelete: "restrict" }),
   },
-  (table) => [uniqueIndex("product_category_unique").on(table.productId, table.categoryId)]
+  (table) => [uniqueIndex("product_category_unique").on(table.productId, table.categoryId)],
 );
 
 export const product_relations = relations(product, ({ many, one }) => ({
   productCategories: many(product_category),
-  unit: one(unit),
-  brand: one(brand),
+  unit: one(unit, {
+    fields: [product.unitId],
+    references: [unit.id],
+  }),
+  brand: one(brand, {
+    fields: [product.brandId],
+    references: [brand.id],
+  }),
 }));
 
 export const category_relations = relations(category, ({ many }) => ({
