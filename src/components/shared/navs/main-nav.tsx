@@ -2,7 +2,11 @@
 
 import { ChevronRight } from "lucide-react";
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/animate-ui/radix/collapsible";
 import {
   SidebarGroup,
   SidebarGroupLabel,
