@@ -3,7 +3,6 @@ import { Uuid } from "@/lib/types/value-objects/uuid";
 import { database } from "@/lib/database";
 import { organization, organization_metrics } from "@/lib/database/schema/organization.schema";
 import { eq } from "drizzle-orm";
-import { Metrics } from "../domain/metrics";
 import { Organization } from "../domain/organization";
 import { OrganizationRepository } from "../domain/organization-repository";
 
@@ -49,5 +48,12 @@ export class DrizzleOrganizationRepository implements OrganizationRepository {
           invoiceSent: data.invoiceSent,
         },
       });
+  }
+
+  async updatePlan(organizationId: Uuid, plan: string): Promise<void> {
+    await database
+      .update(organization)
+      .set({ plan })
+      .where(eq(organization.id, organizationId.value));
   }
 }

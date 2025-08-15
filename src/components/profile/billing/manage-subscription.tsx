@@ -24,7 +24,7 @@ export function ManageSubscription({ plan }: { plan: string }) {
   return (
     <div>
       <h2 className="text-lg font-medium leading-none tracking-tight mb-4">Subscription</h2>
-      <Card className="flex justify-between p-4 bg-transparent rounded-none">
+      <Card className="flex justify-between p-4">
         <div className="flex flex-col gap-1">
           <p className="text-sm text-muted-foreground">
             {!isFree

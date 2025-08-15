@@ -1,3 +1,4 @@
+"use client";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -67,7 +68,7 @@ function CircularProgress({ value }: { value: number }) {
         <circle className="stroke-muted fill-none" cx="18" cy="18" r="16" strokeWidth="4" />
         {/* Progress circle */}
         <circle
-          className="stroke-primary fill-none"
+          className="stroke-white fill-none"
           cx="18"
           cy="18"
           r="16"
@@ -154,12 +155,11 @@ export function Usage({
     invoiceSent?: number;
   };
 }) {
-  //const data = getPlanData(meters, plan);
   const planData = PLAN_DATA[plan as keyof typeof PLAN_DATA];
   return (
     <div>
       <h2 className="text-lg font-medium leading-none tracking-tight mb-4">Usage</h2>
-      <Card className="divide-y rounded-none bg-transparent">
+      <Card className="divide-y ">
         <UsageItem
           label="AI completions"
           current={meters.aiCompletions || 0}

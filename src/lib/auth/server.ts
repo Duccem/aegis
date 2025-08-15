@@ -15,6 +15,7 @@ import {
   sendSubscriptionActivatedEmail,
   sendSubscriptionRevokedEmail,
   sendVerificationEmail,
+  updatePlan,
 } from "./functions";
 import { ac, admin } from "./roles";
 
@@ -109,6 +110,7 @@ export const auth = betterAuth({
               renewalDate: new Date(payload.data.subscription?.endedAt!).toLocaleDateString(),
               billingUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/billing`,
             });
+            await updatePlan(payload.data.metadata?.referenceId! as string, plan);
           },
           onSubscriptionRevoked: async (payload) => {
             await sendSubscriptionRevokedEmail({
@@ -118,6 +120,7 @@ export const auth = betterAuth({
               reason: payload.data.customerCancellationReason as string,
               reactivateUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/billing`,
             });
+            await updatePlan(payload.data.metadata?.referenceId! as string, "free");
           },
         }),
       ],

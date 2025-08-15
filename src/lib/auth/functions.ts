@@ -69,3 +69,13 @@ export async function sendSubscriptionRevokedEmail({
     body: JSON.stringify({ customerName, planName, reason, reactivateUrl, email }),
   });
 }
+
+export async function updatePlan(organizationId: string, plan: string): Promise<void> {
+  await fetch(`/api/organization/${organizationId}?plan=${plan}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "x-notifications-key": env.NOTIFICATIONS_API_KEY || "",
+    },
+  });
+}

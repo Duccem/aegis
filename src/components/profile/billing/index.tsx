@@ -3,6 +3,7 @@
 import { HttpOrganizationApi } from "@/lib/core/organization/infrastructure/http-organization-api";
 import { useQuery } from "@tanstack/react-query";
 import { ManageSubscription } from "./manage-subscription";
+import Orders from "./orders";
 import { Usage, UsageSkeleton } from "./usage";
 
 const BillingSection = () => {
@@ -34,8 +35,9 @@ const BillingSection = () => {
   }
   return (
     <>
-      <Usage meters={organization.metrics} plan={organization.plan} />
       <ManageSubscription plan={organization.plan} />
+      <Usage meters={organization.metrics} plan={organization.plan} />
+      {organization.plan !== "free" && <Orders />}
     </>
   );
 };

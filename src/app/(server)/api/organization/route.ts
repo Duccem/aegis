@@ -9,7 +9,7 @@ export const GET = routeHandler(
   async ({ organization }) => {
     const service = new GetOrganization(new DrizzleOrganizationRepository());
     const org = await service.execute(organization.id);
-    return HttpNextResponse.json({ data: org });
+    return HttpNextResponse.json(org);
   },
   (error: OrganizationNotFound) => {
     switch (true) {
