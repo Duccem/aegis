@@ -68,7 +68,7 @@ function CircularProgress({ value }: { value: number }) {
         <circle className="stroke-muted fill-none" cx="18" cy="18" r="16" strokeWidth="4" />
         {/* Progress circle */}
         <circle
-          className="stroke-white fill-none"
+          className="stroke-primary fill-none"
           cx="18"
           cy="18"
           r="16"

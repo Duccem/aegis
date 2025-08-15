@@ -137,10 +137,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           "flex md:pt-3.5 ",
           isCollapsed
             ? "items-center justify-between gap-y-4 flex-col"
-            : "flex-row items-center justify-between"
+            : "flex-row items-center justify-between",
         )}
       >
-        <a href="#" className="flex items-center gap-2">
+        <a href="/home" className="flex items-center gap-2">
           <div className=" flex aspect-square size-8 items-center justify-center rounded-lg">
             <img src={"/images/aegis-white.png"} className="size-6 hidden dark:block" alt="" />
             <img src={"/images/aegis-black.png"} className="size-6 block dark:hidden" alt="" />

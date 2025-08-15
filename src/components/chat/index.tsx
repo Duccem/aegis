@@ -183,7 +183,7 @@ export const Chat = () => {
   }
   return (
     <motion.button
-      className="flex items-center justify-center border border-white text-white  gap-2  rounded-md overflow-hidden fixed origin-center bottom-4 right-[20px] z-50 p-2 cursor-pointer  "
+      className="flex items-center justify-center border bg-background border-foreground text-foreground  gap-2  rounded-md overflow-hidden fixed origin-center bottom-4 right-[20px] z-50 p-2 cursor-pointer  "
       initial={{ width: "48px", height: "48px" }}
       animate={{
         scale: isHovered ? 1.1 : 1,
