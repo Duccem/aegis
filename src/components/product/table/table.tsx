@@ -16,6 +16,7 @@ import { useProductTableStore } from "@/store/product-table-store";
 import { flexRender, getCoreRowModel, useReactTable, VisibilityState } from "@tanstack/react-table";
 import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
+import ProductDetails from "../details";
 import { columns } from "./columns";
 import ProductsTableHeader from "./header";
 import ProductsTablePagination from "./pagination";
@@ -59,6 +60,7 @@ const ProductsTable = ({ data, meta, initialColumnVisibility }: ProductsTablePro
       setOpen,
     },
   });
+  const selectedProduct = data.find((row) => row.id === productId);
 
   return (
     <div className="mb-8 relative w-full space-y-6">
@@ -121,6 +123,7 @@ const ProductsTable = ({ data, meta, initialColumnVisibility }: ProductsTablePro
         </Table>
       </div>
       <ProductsTablePagination meta={meta} />
+      <ProductDetails data={selectedProduct} isOpen={Boolean(productId)} setIsOpen={setOpen} />
     </div>
   );
 };

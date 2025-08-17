@@ -3,6 +3,8 @@ import { Activity, AlertTriangle, ArrowDown, Package } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
 
+// TODO - Add real data
+
 const Indicators = () => {
   return (
     <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

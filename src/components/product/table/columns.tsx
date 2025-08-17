@@ -59,7 +59,7 @@ export const columns: ColumnDef<Primitives<Product>>[] = [
         <span>Cost</span>
       </SortableHeader>
     ),
-    cell: ({ row }) => <span className="font-medium">{row.original.cost}</span>,
+    cell: ({ row }) => <span className="font-medium">${row.original.price.toFixed(2)}</span>,
   },
   {
     accessorKey: "price",
