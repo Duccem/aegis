@@ -94,6 +94,6 @@ export const GET = routeHandler(
       },
     )();
 
-    return HttpNextResponse.json({ data });
+    return HttpNextResponse.json(data);
   },
 );

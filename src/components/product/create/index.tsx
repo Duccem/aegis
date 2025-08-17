@@ -24,6 +24,7 @@ const CreateNewProduct = () => {
           }
           return (await result.json()).data as Primitives<Unit>[];
         },
+        refetchOnWindowFocus: false,
       },
       {
         queryKey: ["brands"],
@@ -35,6 +36,7 @@ const CreateNewProduct = () => {
           }
           return (await result.json()).data as Primitives<Brand>[];
         },
+        refetchOnWindowFocus: false,
       },
       {
         queryKey: ["categories"],
@@ -46,6 +48,7 @@ const CreateNewProduct = () => {
           }
           return (await result.json()).data as Primitives<Category>[];
         },
+        refetchOnWindowFocus: false,
       },
     ],
     combine: (results) => {

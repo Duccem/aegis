@@ -1,6 +1,17 @@
 import { relations, sql } from "drizzle-orm";
-import { boolean, pgTable, real, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  pgEnum,
+  pgTable,
+  real,
+  text,
+  timestamp,
+  uniqueIndex,
+  uuid,
+} from "drizzle-orm/pg-core";
 import { organization } from "./organization.schema";
+
+export const productStatus = pgEnum("product_status", ["active", "inactive", "archived"]);
 
 export const product = pgTable("product", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -9,6 +20,7 @@ export const product = pgTable("product", {
   description: text("description").notNull(),
   cost: real("cost").notNull(),
   price: real("price").notNull(),
+  status: productStatus("status").notNull().default("active"),
   images: text("image")
     .array()
     .notNull()

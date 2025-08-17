@@ -18,6 +18,8 @@ import {
   gte,
   inArray,
   like,
+  lt,
+  lte,
   ne,
   notInArray,
   notLike,
@@ -28,16 +30,12 @@ interface TransformerFunction<T, K> {
   (value: T, table: AnyTable<any>): K;
 }
 export class DrizzleCriteriaConverter {
-  private filterTransformers: Map<Operator, TransformerFunction<Filter, any>> =
-    new Map([]);
+  private filterTransformers: Map<Operator, TransformerFunction<Filter, any>> = new Map([]);
   private table: AnyTable<any>;
 
   constructor(table: AnyTable<any>) {
     this.table = table;
-    this.filterTransformers = new Map<
-      Operator,
-      TransformerFunction<Filter, any>
-    >([
+    this.filterTransformers = new Map<Operator, TransformerFunction<Filter, any>>([
       [Operator.EQUAL, this.equal],
       [Operator.NOT_EQUAL, this.notEqual],
       [Operator.GT, this.greaterThan],
@@ -150,4 +148,3 @@ export class DrizzleCriteriaConverter {
     return notInArray(table[filter.field], filter.value);
   }
 }
-

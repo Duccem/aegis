@@ -1,3 +1,7 @@
+import { Meta } from "@/lib/types/collection";
+import { Primitives } from "@/lib/types/primitives";
+import { Product } from "../domain/product";
+
 export class HttpProductApi {
   static async createProduct(productData: {
     name: string;
@@ -20,5 +24,31 @@ export class HttpProductApi {
     if (!response.ok) {
       throw new Error("Failed to create product");
     }
+  }
+
+  static async getProducts(params: {
+    query?: string;
+    brandId?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    minCost?: number;
+    maxCost?: number;
+    page?: number;
+    limit?: number;
+    sort?: string;
+    order?: string;
+  }): Promise<{ items: Primitives<Product>[]; meta: Meta }> {
+    const searchParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        searchParams.append(key, String(value));
+      }
+    });
+
+    const response = await fetch(`/api/product?${searchParams.toString()}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch products");
+    }
+    return (await response.json()).data;
   }
 }
