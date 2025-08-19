@@ -114,6 +114,42 @@ export class Product extends Aggregate {
     product.record(ProductCreated.dispatch(product.id.value, product.name.value));
     return product;
   }
+
+  update(
+    name: string,
+    sku: string,
+    description: string,
+    unitId: string,
+    brandId: string,
+    categoriesIds: string[],
+  ) {
+    this.name = new ProductName(name);
+    this.sku = new ProductSKU(sku);
+    this.description = new ProductDescription(description);
+    this.unit = Unit.fromPrimitives({
+      id: unitId,
+      name: "Updated Product Unit",
+      abbreviation: "PU",
+      divisible: true,
+    });
+    this.brand = Brand.fromPrimitives({
+      id: brandId,
+      name: "Updated Product Brand",
+      organizationId: this.organizationId.value,
+      createdAt: DateValueObject.today().value,
+      updatedAt: DateValueObject.today().value,
+    });
+    this.categories = categoriesIds.map((id) =>
+      Category.fromPrimitives({
+        id,
+        name: "Updated Category",
+        organizationId: this.organizationId.value,
+        createdAt: DateValueObject.today().value,
+        updatedAt: DateValueObject.today().value,
+      }),
+    );
+    this.updatedAt = DateValueObject.today();
+  }
 }
 export class ProductID extends Uuid {}
 export class ProductName extends StringValueObject {}

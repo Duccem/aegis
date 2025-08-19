@@ -20,20 +20,28 @@ export class DrizzleProductRepository implements ProductRepository {
   private converter = new DrizzleCriteriaConverter(product);
   async save(data: Product): Promise<void> {
     const { unit, brand, categories, ...productData } = data.toPrimitives();
-    await database.insert(product).values({
-      ...productData,
-      unitId: unit?.id ?? "",
-      brandId: brand?.id ?? "",
-    });
     await database
-      .insert(product_category)
-      .values(
-        categories.map((category) => ({
-          productId: productData.id,
-          categoryId: category.id,
-        })),
-      )
-      .onConflictDoNothing();
+      .insert(product)
+      .values({
+        ...productData,
+        unitId: unit?.id ?? "",
+        brandId: brand?.id ?? "",
+      })
+      .onConflictDoUpdate({
+        target: product.id,
+        set: {
+          ...productData,
+          unitId: unit?.id ?? "",
+          brandId: brand?.id ?? "",
+        },
+      });
+    await database.delete(product_category).where(eq(product_category.productId, productData.id));
+    await database.insert(product_category).values(
+      categories.map((category) => ({
+        productId: productData.id,
+        categoryId: category.id,
+      })),
+    );
   }
   async find(criteria: Criteria): Promise<Product | null> {
     const { where } = this.converter.criteria(criteria);

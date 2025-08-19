@@ -51,4 +51,27 @@ export class HttpProductApi {
     }
     return (await response.json()).data;
   }
+
+  static async updateProduct(
+    productId: string,
+    productData: {
+      name: string;
+      sku: string;
+      description: string;
+      brandId: string;
+      unitId: string;
+      categories: string[];
+    },
+  ) {
+    const response = await fetch(`/api/product/${productId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(productData),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to update product");
+    }
+  }
 }
