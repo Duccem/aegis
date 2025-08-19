@@ -6,7 +6,7 @@ import { Category } from "@/lib/core/product/domain/category";
 import { Unit } from "@/lib/core/product/domain/unit";
 import { Primitives } from "@/lib/types/primitives";
 import { useQueries } from "@tanstack/react-query";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, X } from "lucide-react";
 import { useState } from "react";
 import SaveProductForm from "./form";
 
@@ -76,8 +76,15 @@ const CreateNewProduct = () => {
           New
         </Button>
       </SheetTrigger>
-      <SheetContent className="sm:w-1/3 sm:max-w-full p-4 bg-transparent border-none focus-visible:outline-none ">
-        <div className="bg-background p-6 border border-sidebar h-full overflow-y-auto no-scroll space-y-5 rounded-xl">
+      <SheetContent className="sm:w-1/2 sm:max-w-full p-4 bg-transparent border-none focus-visible:outline-none ">
+        <div className="bg-background p-6 border border-sidebar h-full overflow-y-auto no-scroll space-y-5 rounded-xl relative">
+          <Button
+            variant={"ghost"}
+            onClick={() => setOpen(false)}
+            className="p-2 absolute top-2 right-2"
+          >
+            <X />
+          </Button>
           <SheetHeader className="px-0">
             <SheetTitle>Create New Product</SheetTitle>
           </SheetHeader>

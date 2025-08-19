@@ -1,12 +1,5 @@
 "use client";
 
-import {
-  IconBuildingWarehouse,
-  IconCoin,
-  IconDashboard,
-  IconListDetails,
-  IconSettings,
-} from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import * as React from "react";
 
@@ -21,23 +14,33 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import { Grip, Map, PieChart } from "lucide-react";
+import {
+  CreditCard,
+  Grip,
+  LayoutDashboard,
+  Map,
+  Package,
+  PieChart,
+  Settings,
+  WalletCards,
+  Warehouse,
+} from "lucide-react";
 
 const data = {
   navMain: [
     {
       title: "Dashboard",
       url: "/home",
-      icon: IconDashboard,
+      icon: LayoutDashboard,
       items: [],
     },
     {
-      title: "Actives",
+      title: "Catalogue",
       url: "/actives",
-      icon: IconListDetails,
+      icon: Package,
       items: [
         {
-          title: "Products",
+          title: "Items",
           url: "/products",
         },
         {
@@ -53,7 +56,7 @@ const data = {
     {
       title: "Storage",
       url: "#",
-      icon: IconBuildingWarehouse,
+      icon: Warehouse,
       items: [
         {
           title: "Stores",
@@ -66,28 +69,75 @@ const data = {
       ],
     },
     {
-      title: "Finance",
+      title: "Sales",
       url: "#",
-      icon: IconCoin,
+      icon: CreditCard,
       items: [
         {
-          title: "Invoices",
-          url: "/finance/invoices",
+          title: "Item prices",
+          url: "/sales/prices",
         },
         {
-          title: "Expenses",
-          url: "/finance/expenses",
+          title: "Price lists",
+          url: "/sales/price-lists",
+        },
+        {
+          title: "Customers",
+          url: "/sales/customers",
+        },
+        {
+          title: "Quotations",
+          url: "/sales/quotations",
+        },
+        {
+          title: "Orders",
+          url: "/sales/orders",
+        },
+        {
+          title: "Invoices",
+          url: "/sales/invoices",
         },
         {
           title: "Payments",
-          url: "/finance/payments",
+          url: "/sales/payments",
+        },
+      ],
+    },
+    {
+      title: "Buying",
+      url: "#",
+      icon: WalletCards,
+      items: [
+        {
+          title: "Item costs",
+          url: "/buying/costs",
+        },
+        {
+          title: "Cost lists",
+          url: "/buying/cost-lists",
+        },
+        {
+          title: "Suppliers",
+          url: "/buying/suppliers",
+        },
+        {
+          title: "Quotations",
+          url: "/buying/quotations",
+        },
+        {
+          title: "Orders",
+          url: "/buying/orders",
+        },
+        {
+          title: "Purchase Invoices",
+          url: "/buying/invoices",
         },
       ],
     },
     {
       title: "Configuration",
       url: "/settings",
-      icon: IconSettings,
+      icon: Settings,
       items: [
         {
           title: "General",
