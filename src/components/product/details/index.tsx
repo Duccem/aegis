@@ -16,6 +16,8 @@ import ProductOverview from "./overview";
 import ProductPrice from "./prices";
 import { ProductSuppliers } from "./suppliers";
 
+//TODO - add the edit functionality to the product details
+
 const ProductDetails = ({
   data,
   isOpen,
