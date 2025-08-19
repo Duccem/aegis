@@ -6,7 +6,7 @@ const ImageView = ({ image }: { image: string }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <img src={image} className="rounded-lg object-cover h-48 w-48 mx-auto cursor-pointer" />
+        <img src={image} className="rounded-lg object-cover  mx-auto cursor-pointer" />
       </DialogTrigger>
       <DialogContent className="w-7xl h-7xl">
         <DialogTitle className="hidden"></DialogTitle>
