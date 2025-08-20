@@ -74,4 +74,34 @@ export class HttpProductApi {
       throw new Error("Failed to update product");
     }
   }
+
+  static async toggleProductStatus(productId: string) {
+    const response = await fetch(`/api/product/${productId}/status`, {
+      method: "PUT",
+    });
+    if (!response.ok) {
+      throw new Error("Failed to toggle product status");
+    }
+  }
+
+  static async archiveProduct(productId: string) {
+    const response = await fetch(`/api/product/${productId}/archive`, {
+      method: "PUT",
+    });
+    if (!response.ok) {
+      throw new Error("Failed to archive product");
+    }
+  }
+
+  static async getProductMetrics(): Promise<{
+    totalProducts: number;
+    totalProductsThisMonth: number;
+    totalActiveProducts: number;
+  }> {
+    const response = await fetch("/api/product/metrics");
+    if (!response.ok) {
+      throw new Error("Failed to fetch product metrics");
+    }
+    return (await response.json()).data;
+  }
 }

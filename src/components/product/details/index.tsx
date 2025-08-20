@@ -7,9 +7,12 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useProductComplements } from "@/hooks/use-product-complements";
 import { Product } from "@/lib/core/product/domain/product";
+import { HttpProductApi } from "@/lib/core/product/infrastructure/http-product-api";
 import { Primitives } from "@/lib/types/primitives";
-import { Building2, Calendar, Package, Pencil, Tag, X } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Archive, Building2, Calendar, Loader2, Package, Pencil, Tag, X } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import EditItemForm from "../edit/form";
 import { ProductAnalytics } from "./analytics";
 import ProductGallery from "./gallery";
@@ -17,8 +20,6 @@ import { ProductInventory } from "./inventory";
 import ProductOverview from "./overview";
 import ProductPrice from "./prices";
 import { ProductSuppliers } from "./suppliers";
-
-//TODO - add the edit functionality to the product details
 
 const ProductDetails = ({
   data,
@@ -32,9 +33,43 @@ const ProductDetails = ({
   const [activeTab, setActiveTab] = useState("overview");
   const [isEditing, setIsEditing] = useState(false);
   const complements = useProductComplements();
+  const queryClient = useQueryClient();
+
+  const { mutate: toggle, isPending: togglePending } = useMutation({
+    mutationFn: async () => {
+      await HttpProductApi.toggleProductStatus(data?.id ?? "");
+    },
+    onSuccess: () => {
+      toast.success("Product status updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["product", data?.id] });
+      queryClient.invalidateQueries({ queryKey: ["product-metrics"] });
+    },
+    onError: (error) => {
+      toast.error(`Failed to update product status: ${error.message}`);
+    },
+  });
+
+  const { mutate: archive, isPending: archivePending } = useMutation({
+    mutationFn: async () => {
+      await HttpProductApi.archiveProduct(data?.id ?? "");
+    },
+    onSuccess: () => {
+      toast.success("Product archived successfully");
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["product", data?.id] });
+      queryClient.invalidateQueries({ queryKey: ["product-metrics"] });
+      setIsOpen(false);
+    },
+    onError: (error) => {
+      toast.error(`Failed to archive product: ${error.message}`);
+    },
+  });
+
   if (!data) {
     return null;
   }
+
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetContent className="sm:w-1/2 sm:max-w-full p-4 bg-transparent border-none focus-visible:outline-none no-scroll">
@@ -54,6 +89,35 @@ const ProductDetails = ({
                 <p>{data.name}</p>
                 <p>SKU: {data.sku}</p>
               </SheetTitle>
+              <Button
+                variant={"outline"}
+                onClick={() => toggle()}
+                disabled={togglePending || data.status === "archived"}
+                className="cursor-pointer"
+              >
+                {data.status === "active" && !togglePending && (
+                  <span className="text-emerald-500">Enabled</span>
+                )}
+                {data.status === "inactive" && !togglePending && (
+                  <span className="text-orange-500">Disabled</span>
+                )}
+                {data.status === "archived" && !togglePending && (
+                  <span className="text-red-500">Archived</span>
+                )}
+                {togglePending && <Loader2 className="animate-spin text-muted-foreground" />}
+              </Button>
+              {data.status !== "archived" && (
+                <Button variant={"outline"} className="cursor-pointer" onClick={() => archive()}>
+                  {archivePending ? (
+                    <Loader2 className="animate-spin text-muted-foreground" />
+                  ) : (
+                    <>
+                      <Archive />
+                      Archive
+                    </>
+                  )}
+                </Button>
+              )}
             </div>
           </SheetHeader>
           <div className="flex flex-col flex-1 overflow-y-auto no-scroll gap-4">

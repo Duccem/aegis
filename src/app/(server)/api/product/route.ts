@@ -6,7 +6,6 @@ import { HttpNextResponse } from "@/lib/http/http-response";
 import { paginateSchema } from "@/lib/http/paginate-schema";
 import { routeHandler } from "@/lib/http/route-handler";
 import { Direction } from "@/lib/types/criteria";
-import { unstable_cache as cache } from "next/cache";
 import z from "zod";
 const saveProductSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -85,14 +84,7 @@ export const GET = routeHandler(
       offset: searchParams.page ? searchParams.page - 1 : 0,
     };
 
-    const data = await cache(
-      () => service.execute(filters, order, pagination),
-      ["get-products", JSON.stringify(filters), JSON.stringify(order), JSON.stringify(pagination)],
-      {
-        tags: [`products:${organization.id}`],
-        revalidate: 60 * 60, // 1 hour
-      },
-    )();
+    const data = await service.execute(filters, order, pagination);
 
     return HttpNextResponse.json(data);
   },

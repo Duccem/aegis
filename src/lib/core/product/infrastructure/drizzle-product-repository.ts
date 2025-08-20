@@ -14,6 +14,7 @@ import { and, count, eq, gte } from "drizzle-orm";
 import { Brand } from "../domain/brand";
 import { Category } from "../domain/category";
 import { Product } from "../domain/product";
+import { ProductStatusEnum } from "../domain/product-status";
 import { ProductRepository } from "../domain/product.repository";
 import { Unit } from "../domain/unit";
 
@@ -64,6 +65,7 @@ export class DrizzleProductRepository implements ProductRepository {
       ...result,
       unit: unit!,
       brand: brand!,
+      status: result.status as ProductStatusEnum,
       categories: productCategories.map((pc) => ({
         id: pc.category.id,
         name: pc.category.name,
@@ -97,6 +99,7 @@ export class DrizzleProductRepository implements ProductRepository {
         ...result,
         unit: unit!,
         brand: brand!,
+        status: result.status as ProductStatusEnum,
         categories: productCategories.map((pc) => ({
           id: pc.category.id,
           name: pc.category.name,
@@ -140,7 +143,7 @@ export class DrizzleProductRepository implements ProductRepository {
     return result.map((row) => Unit.fromPrimitives(row));
   }
 
-  async productsMetrics(organizationId: Uuid) {
+  async metrics(organizationId: Uuid) {
     const totalProducts = await database
       .select({ count: count(product.id) })
       .from(product)
@@ -157,7 +160,7 @@ export class DrizzleProductRepository implements ProductRepository {
     const totalActiveProducts = await database
       .select({ count: count(product.id) })
       .from(product)
-      .where(and(eq(product.organizationId, organizationId.value), gte(product.status, "active")));
+      .where(and(eq(product.organizationId, organizationId.value), eq(product.status, "active")));
     return {
       totalProducts: totalProducts[0].count,
       totalProductsThisMonth: totalProductsThisMonth[0].count,

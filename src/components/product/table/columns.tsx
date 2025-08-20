@@ -1,4 +1,5 @@
 "use client";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -9,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Product } from "@/lib/core/product/domain/product";
 import { Primitives } from "@/lib/types/primitives";
+import { cn } from "@/lib/utils";
 import { ColumnDef, Table } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, MoreHorizontal, Pencil } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -53,22 +55,33 @@ export const columns: ColumnDef<Primitives<Product>>[] = [
     cell: ({ row }) => <span className="font-medium">{row.original.sku}</span>,
   },
   {
-    accessorKey: "cost",
-    header: ({ table }) => (
-      <SortableHeader name="cost" table={table}>
-        <span>Cost</span>
-      </SortableHeader>
+    accessorKey: "status",
+    header: ({ table }) => <span>Status</span>,
+    cell: ({ row }) => (
+      <Badge
+        variant={"outline"}
+        className={cn("rounded-full", {
+          "text-emerald-500": row.original.status === "active",
+          "text-orange-500": row.original.status === "inactive",
+          "text-red-500": row.original.status === "archived",
+        })}
+      >
+        {row.original.status.charAt(0).toUpperCase() + row.original.status.slice(1)}
+      </Badge>
     ),
-    cell: ({ row }) => <span className="font-medium">${row.original.price.toFixed(2)}</span>,
   },
   {
-    accessorKey: "price",
-    header: ({ table }) => (
-      <SortableHeader name="price" table={table}>
-        <span>Price</span>
-      </SortableHeader>
+    accessorKey: "categories",
+    header: ({ table }) => <span>Categories</span>,
+    cell: ({ row }) => (
+      <div className="flex flex-wrap gap-1">
+        {row.original.categories.map((category) => (
+          <Badge key={category.id} variant="secondary" className="mr-1">
+            {category.name}
+          </Badge>
+        ))}
+      </div>
     ),
-    cell: ({ row }) => <span className="font-medium">${row.original.price.toFixed(2)}</span>,
   },
   {
     id: "actions",

@@ -14,4 +14,9 @@ export interface ProductRepository {
   categories(organizationId: Uuid): Promise<Category[]>;
   units(): Promise<Unit[]>;
   brands(organizationId: Uuid): Promise<Brand[]>;
+  metrics(organizationId: Uuid): Promise<{
+    totalProducts: number;
+    totalProductsThisMonth: number;
+    totalActiveProducts: number;
+  }>;
 }
