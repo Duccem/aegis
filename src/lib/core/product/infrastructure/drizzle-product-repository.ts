@@ -9,7 +9,8 @@ import {
 } from "@/lib/database/schema/product.schema";
 import { Criteria } from "@/lib/types/criteria";
 import { Uuid } from "@/lib/types/value-objects/uuid";
-import { count, eq } from "drizzle-orm";
+import { subMonths } from "date-fns";
+import { and, count, eq, gte } from "drizzle-orm";
 import { Brand } from "../domain/brand";
 import { Category } from "../domain/category";
 import { Product } from "../domain/product";
@@ -137,5 +138,30 @@ export class DrizzleProductRepository implements ProductRepository {
   async units(): Promise<Unit[]> {
     const result = await database.select().from(unit);
     return result.map((row) => Unit.fromPrimitives(row));
+  }
+
+  async productsMetrics(organizationId: Uuid) {
+    const totalProducts = await database
+      .select({ count: count(product.id) })
+      .from(product)
+      .where(eq(product.organizationId, organizationId.value));
+    const totalProductsThisMonth = await database
+      .select({ count: count(product.id) })
+      .from(product)
+      .where(
+        and(
+          eq(product.organizationId, organizationId.value),
+          gte(product.createdAt, subMonths(new Date(), 1)),
+        ),
+      );
+    const totalActiveProducts = await database
+      .select({ count: count(product.id) })
+      .from(product)
+      .where(and(eq(product.organizationId, organizationId.value), gte(product.status, "active")));
+    return {
+      totalProducts: totalProducts[0].count,
+      totalProductsThisMonth: totalProductsThisMonth[0].count,
+      totalActiveProducts: totalActiveProducts[0].count,
+    };
   }
 }
