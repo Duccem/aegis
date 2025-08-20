@@ -71,13 +71,3 @@ export const organization_metrics = pgTable("organization_metrics", {
   productsCreated: integer("products_created").notNull().default(0),
   invoiceSent: integer("invoice_sent").notNull().default(0),
 });
-
-export const organization_relations = relations(organization, ({ one, many }) => ({
-  metrics: one(organization_metrics, {
-    fields: [organization.id],
-    references: [organization_metrics.organizationId],
-  }),
-  members: many(member),
-  invitations: many(invitation),
-  teams: many(team),
-}));

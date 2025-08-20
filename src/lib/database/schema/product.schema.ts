@@ -1,4 +1,4 @@
-import { relations, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import { boolean, pgEnum, pgTable, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 import { organization } from "./organization.schema";
 
@@ -77,37 +77,3 @@ export const product_category = pgTable(
   },
   (table) => [uniqueIndex("product_category_unique").on(table.productId, table.categoryId)],
 );
-
-export const product_relations = relations(product, ({ many, one }) => ({
-  productCategories: many(product_category),
-  unit: one(unit, {
-    fields: [product.unitId],
-    references: [unit.id],
-  }),
-  brand: one(brand, {
-    fields: [product.brandId],
-    references: [brand.id],
-  }),
-}));
-
-export const category_relations = relations(category, ({ many }) => ({
-  productCategories: many(product_category),
-}));
-
-export const product_category_relations = relations(product_category, ({ one }) => ({
-  product: one(product, {
-    fields: [product_category.productId],
-    references: [product.id],
-  }),
-  category: one(category, {
-    fields: [product_category.categoryId],
-    references: [category.id],
-  }),
-}));
-
-export const brand_relations = relations(brand, ({ many }) => ({
-  products: many(product),
-}));
-export const unit_relations = relations(unit, ({ many }) => ({
-  products: many(product),
-}));
