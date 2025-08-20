@@ -4,8 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 
-//TODO - refactor this to a more generic component
-
 type Props = {
   selectAction: (value: number[]) => void;
 };
