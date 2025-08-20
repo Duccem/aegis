@@ -103,4 +103,30 @@ export class HttpProductApi {
     }
     return (await response.json()).data;
   }
+
+  static async addImage(productId: string, imageUrl: string) {
+    const response = await fetch(`/api/product/${productId}/image`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ url: imageUrl }),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to add product image");
+    }
+  }
+
+  static async removeImage(productId: string, imageUrl: string) {
+    const response = await fetch(`/api/product/${productId}/image`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ url: imageUrl }),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to remove product image");
+    }
+  }
 }

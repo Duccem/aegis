@@ -25,4 +25,16 @@ export class SupabaseProductUploader implements ProductImageUploader {
     }
     return urls;
   }
+
+  async deleteImage(imageUrl: string): Promise<void> {
+    const path = imageUrl.split("/").pop();
+    if (!path) {
+      throw new Error("Invalid image URL");
+    }
+    const storage = this.supabase.storage.from("aegis");
+    const { error } = await storage.remove([`products/${path}`]);
+    if (error) {
+      throw new Error(`Failed to delete image: ${error.message}`);
+    }
+  }
 }

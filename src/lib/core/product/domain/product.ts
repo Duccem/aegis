@@ -162,6 +162,16 @@ export class Product extends Aggregate {
   archive() {
     this.status = ProductStatus.archived();
   }
+
+  addImage(imageUrl: string) {
+    this.images.addImage(imageUrl);
+    this.updatedAt = DateValueObject.today();
+  }
+
+  removeImage(imageUrl: string) {
+    this.images.removeImage(imageUrl);
+    this.updatedAt = DateValueObject.today();
+  }
 }
 export class ProductID extends Uuid {}
 export class ProductName extends StringValueObject {}

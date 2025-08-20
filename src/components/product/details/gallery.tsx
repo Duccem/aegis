@@ -3,15 +3,33 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Product } from "@/lib/core/product/domain/product";
+import { HttpProductApi } from "@/lib/core/product/infrastructure/http-product-api";
+import { SupabaseProductUploader } from "@/lib/core/product/infrastructure/supabase-product-uploader";
 import { Primitives } from "@/lib/types/primitives";
-import { ChevronLeft, ChevronRight, Download, Package, Share2, ZoomIn } from "lucide-react";
-import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  Loader2,
+  Package,
+  Plus,
+  Share2,
+  Trash,
+  ZoomIn,
+} from "lucide-react";
+import { useRef, useState } from "react";
 import ImageView from "./image-view";
 
 export default function ProductGallery({ product }: { product: Primitives<Product> }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const input = useRef<HTMLInputElement>(null);
+  const [deletingImage, setDeletingImage] = useState<boolean>(false);
+  const [addingImage, setAddingImage] = useState<boolean>(false);
+
+  const queryClient = useQueryClient();
 
   const hasMultipleImages = product.images && product.images.length > 1;
   const currentImage = product.images?.[selectedImageIndex];
@@ -46,6 +64,42 @@ export default function ProductGallery({ product }: { product: Primitives<Produc
     }
   };
 
+  const deleteImage = async (url: string) => {
+    if (!url || deletingImage || isAnimating) return;
+    setDeletingImage(true);
+    const uploader = new SupabaseProductUploader();
+    await uploader.deleteImage(url);
+    await HttpProductApi.removeImage(product.id, url);
+    setDeletingImage(false);
+    setSelectedImageIndex((prev) => {
+      const newImages = product.images.filter((image) => image !== url);
+      if (newImages.length === 0) {
+        return 0; // Reset to first image if all are deleted
+      }
+      return prev >= newImages.length ? newImages.length - 1 : prev;
+    });
+    queryClient.invalidateQueries({ queryKey: ["product", product.id] });
+    queryClient.invalidateQueries({ queryKey: ["products"] });
+  };
+
+  const addImage = async (e: any) => {
+    const file: File = e.target.files[0];
+    if (!file) return;
+    setAddingImage(true);
+    const uploader = new SupabaseProductUploader();
+    const [url] = await uploader.uploadImages([file]);
+    await HttpProductApi.addImage(product.id, url);
+    product.images.push(url);
+
+    setSelectedImageIndex(product.images.length - 1); // Select the newly added image
+    if (input.current) {
+      input.current.value = ""; // Reset input value
+    }
+    setAddingImage(false);
+    queryClient.invalidateQueries({ queryKey: ["product", product.id] });
+    queryClient.invalidateQueries({ queryKey: ["products"] });
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -53,6 +107,19 @@ export default function ProductGallery({ product }: { product: Primitives<Produc
           <div className="flex items-center justify-between">
             <CardTitle>Product Gallery</CardTitle>
             <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => deleteImage(currentImage || "")}
+                disabled={!currentImage || deletingImage || isAnimating}
+              >
+                {deletingImage ? (
+                  <Loader2 className="animate-spin h-4 w-4 mr-2" />
+                ) : (
+                  <Trash className="h-4 w-4 mr-2" />
+                )}
+                Delete
+              </Button>
               <Button variant="outline" size="sm">
                 <Download className="h-4 w-4 mr-2" />
                 Download
@@ -130,7 +197,7 @@ export default function ProductGallery({ product }: { product: Primitives<Produc
                     key={index}
                     onClick={() => selectImage(index)}
                     disabled={isAnimating}
-                    className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all duration-300 transform hover:scale-105 ${
+                    className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all duration-300 transform hover:scale-105 cursor-pointer ${
                       selectedImageIndex === index
                         ? "border-primary ring-2 ring-primary/20 scale-105"
                         : "border-border hover:border-primary/50"
@@ -147,9 +214,26 @@ export default function ProductGallery({ product }: { product: Primitives<Produc
                     )}
                   </button>
                 ))}
+                <button
+                  onClick={() => input.current?.click()}
+                  disabled={isAnimating}
+                  className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all duration-300 transform hover:scale-105 cursor-pointer flex justify-center items-center`}
+                >
+                  {addingImage ? <Loader2 className="animate-spin" /> : <Plus className="" />}
+                </button>
               </div>
             </div>
           )}
+          {!hasMultipleImages && (
+            <button
+              onClick={() => input.current?.click()}
+              disabled={isAnimating}
+              className={`relative aspect-square h-22 w-22 rounded-lg overflow-hidden border-2 transition-all duration-300 transform hover:scale-105 cursor-pointer flex justify-center items-center`}
+            >
+              {addingImage ? <Loader2 className="animate-spin" /> : <Plus className="" />}
+            </button>
+          )}
+          <input ref={input} type="file" name="" id="" className="hidden" onChange={addImage} />
 
           {/* Image Information */}
           <div className="mt-6 p-4 bg-muted/50 rounded-lg">

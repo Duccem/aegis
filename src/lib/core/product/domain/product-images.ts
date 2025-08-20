@@ -15,4 +15,19 @@ export class ProductImages extends ValueObject<Array<string>> {
       }
     }
   }
+
+  addImage(imageUrl: string): void {
+    if (typeof imageUrl !== "string" || imageUrl.length === 0) {
+      throw new Error("Image URL must be a non-empty string");
+    }
+    this.value.push(imageUrl);
+  }
+
+  removeImage(imageUrl: string): void {
+    const index = this.value.indexOf(imageUrl);
+    if (index === -1) {
+      throw new Error("Image URL not found in the product images");
+    }
+    this.value.splice(index, 1);
+  }
 }
