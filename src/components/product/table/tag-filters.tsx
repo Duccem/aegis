@@ -2,20 +2,11 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
-import { parseAsFloat, useQueryStates } from "nuqs";
+import { useQueryStates } from "nuqs";
 const ProductTagFilters = () => {
-  const [filters, setFilters] = useQueryStates({
-    minCost: parseAsFloat,
-    maxCost: parseAsFloat,
-    minPrice: parseAsFloat,
-    maxPrice: parseAsFloat,
-  });
+  const [filters, setFilters] = useQueryStates({});
   const renderFilter = ({ key, value }: { key: string; value: any }): React.ReactElement => {
     switch (key) {
-      case "cost":
-        return <>{`Cost: $${value}`}</>;
-      case "price":
-        return <>{`Price: $${value}`}</>;
       default:
         return (
           <>
@@ -33,22 +24,12 @@ const ProductTagFilters = () => {
     }
     setFilters({ [key]: null });
   };
-  return (
-    <FilterList
-      filters={{
-        cost: filters.maxCost && filters.minCost ? `${filters.minCost} - ${filters.maxCost}` : null,
-        price:
-          filters.maxPrice && filters.minPrice
-            ? `${filters.minPrice ?? 0} - ${filters.maxPrice ?? 0}`
-            : null,
-      }}
-      renderFilter={renderFilter}
-      onRemove={remove}
-    />
-  );
+  return <FilterList filters={filters} renderFilter={renderFilter} onRemove={remove} />;
 };
 
 export default ProductTagFilters;
+
+//TODO - refactor this to a more generic component
 const listVariant = {
   hidden: { y: 10, opacity: 0 },
   show: {

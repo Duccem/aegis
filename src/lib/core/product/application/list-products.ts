@@ -7,9 +7,6 @@ import { ProductRepository } from "../domain/product.repository";
 type ProductFilters = {
   organizationId: string;
   query?: string;
-  brandId?: string;
-  priceRange?: { min: number; max: number };
-  costRange?: { min: number; max: number };
 };
 
 export class ListProducts {
@@ -18,7 +15,7 @@ export class ListProducts {
   async execute(
     filters: ProductFilters,
     order: Order,
-    pagination: Pagination
+    pagination: Pagination,
   ): Promise<{ items: Primitives<Product>[]; meta: Meta }> {
     const criteria = this.buildCriteria(filters)
       .orderBy(order.field, order.order)
@@ -48,29 +45,6 @@ export class ListProducts {
       newFilters = [
         ...newFilters,
         { field: "name", value: filters.query, operator: Operator.CONTAINS },
-      ];
-    }
-
-    if (filters.brandId) {
-      newFilters = [
-        ...newFilters,
-        { field: "brandId", value: filters.brandId, operator: Operator.EQUAL },
-      ];
-    }
-
-    if (filters.priceRange) {
-      newFilters = [
-        ...newFilters,
-        { field: "price", value: filters.priceRange.min, operator: Operator.GTE },
-        { field: "price", value: filters.priceRange.max, operator: Operator.LTE },
-      ];
-    }
-
-    if (filters.costRange) {
-      newFilters = [
-        ...newFilters,
-        { field: "cost", value: filters.costRange.min, operator: Operator.GTE },
-        { field: "cost", value: filters.costRange.max, operator: Operator.LTE },
       ];
     }
 

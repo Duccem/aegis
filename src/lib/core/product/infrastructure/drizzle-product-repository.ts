@@ -13,6 +13,7 @@ import { subMonths } from "date-fns";
 import { and, count, eq, gte } from "drizzle-orm";
 import { Brand } from "../domain/brand";
 import { Category } from "../domain/category";
+import { ItemTypeEnum } from "../domain/item-type";
 import { Product } from "../domain/product";
 import { ProductStatusEnum } from "../domain/product-status";
 import { ProductRepository } from "../domain/product.repository";
@@ -66,6 +67,7 @@ export class DrizzleProductRepository implements ProductRepository {
       unit: unit!,
       brand: brand!,
       status: result.status as ProductStatusEnum,
+      type: result.type as ItemTypeEnum,
       categories: productCategories.map((pc) => ({
         id: pc.category.id,
         name: pc.category.name,
@@ -100,6 +102,7 @@ export class DrizzleProductRepository implements ProductRepository {
         unit: unit!,
         brand: brand!,
         status: result.status as ProductStatusEnum,
+        type: result.type as ItemTypeEnum,
         categories: productCategories.map((pc) => ({
           id: pc.category.id,
           name: pc.category.name,

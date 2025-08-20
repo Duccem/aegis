@@ -11,10 +11,9 @@ const saveProductSchema = z.object({
   name: z.string().min(1, "Name is required"),
   sku: z.string().min(1, "SKU is required"),
   description: z.string().min(1, "Description is required"),
-  cost: z.number().min(0, "Cost must be a positive number"),
-  price: z.number().min(0, "Price must be a positive number"),
   images: z.array(z.string()),
   categories: z.array(z.string()),
+  type: z.enum(["product", "service"]),
   unitId: z.string(),
   brandId: z.string(),
 });
@@ -45,11 +44,6 @@ export const POST = routeHandler(
 const getProductSchema = z
   .object({
     query: z.string().optional(),
-    brandId: z.string().optional(),
-    minPrice: z.coerce.number().optional(),
-    maxPrice: z.coerce.number().optional(),
-    minCost: z.coerce.number().optional(),
-    maxCost: z.coerce.number().optional(),
   })
   .merge(paginateSchema);
 
@@ -63,15 +57,6 @@ export const GET = routeHandler(
     const filters = {
       organizationId: organization.id,
       query: searchParams.query,
-      brandId: searchParams.brandId,
-      priceRange:
-        searchParams.minPrice && searchParams.maxPrice
-          ? { min: searchParams.minPrice, max: searchParams.maxPrice }
-          : undefined,
-      costRange:
-        searchParams.minCost && searchParams.maxCost
-          ? { min: searchParams.minCost, max: searchParams.maxCost }
-          : undefined,
     };
 
     const order = {

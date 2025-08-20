@@ -4,9 +4,9 @@ import { DateValueObject, StringValueObject } from "@/lib/types/value-object";
 import { Uuid } from "@/lib/types/value-objects/uuid";
 import { Brand } from "./brand";
 import { Category } from "./category";
+import { ItemType } from "./item-type";
 import { ProductCreated } from "./product-created-event";
 import { ProductImages } from "./product-images";
-import { ProductCost, ProductPrice } from "./product-price";
 import { ProductSKU } from "./product-sku";
 import { ProductStatus } from "./product-status";
 import { Unit } from "./unit";
@@ -17,10 +17,9 @@ export class Product extends Aggregate {
     public name: ProductName,
     public sku: ProductSKU,
     public description: ProductDescription,
-    public cost: ProductCost,
-    public price: ProductPrice,
     public images: ProductImages,
     public status: ProductStatus,
+    public type: ItemType,
     public categories: Category[],
     public unit: Unit | undefined,
     public brand: Brand | undefined,
@@ -37,10 +36,9 @@ export class Product extends Aggregate {
       name: this.name.getValue(),
       sku: this.sku.getValue(),
       description: this.description.getValue(),
-      cost: this.cost.getValue(),
-      price: this.price.getValue(),
       images: this.images.getValue(),
       status: this.status.getValue(),
+      type: this.type.getValue(),
       categories: this.categories.map((category) => category.toPrimitives()),
       unit: this.unit ? this.unit.toPrimitives() : undefined,
       brand: this.brand ? this.brand.toPrimitives() : undefined,
@@ -56,10 +54,9 @@ export class Product extends Aggregate {
       new ProductName(primitives.name),
       new ProductSKU(primitives.sku),
       new ProductDescription(primitives.description),
-      new ProductCost(primitives.cost),
-      new ProductPrice(primitives.price),
       new ProductImages(primitives.images),
       ProductStatus.fromString(primitives.status),
+      ItemType.fromString(primitives.type),
       primitives.categories.map((category) => Category.fromPrimitives(category)),
       primitives.unit ? Unit.fromPrimitives(primitives.unit) : undefined,
       primitives.brand ? Brand.fromPrimitives(primitives.brand) : undefined,
@@ -73,23 +70,21 @@ export class Product extends Aggregate {
     name: string,
     sku: string,
     description: string,
-    cost: number,
-    price: number,
     images: Array<string>,
     unitId: string,
     brandId: string,
     categoriesIds: string[] = [],
     organizationId: string,
+    type: "product" | "service",
   ): Product {
     const product = new Product(
       ProductID.random(),
       new ProductName(name),
       new ProductSKU(sku),
       new ProductDescription(description),
-      new ProductCost(cost),
-      new ProductPrice(price),
       new ProductImages(images),
       ProductStatus.active(),
+      ItemType.fromString(type),
       categoriesIds.map((id) =>
         Category.fromPrimitives({
           id,

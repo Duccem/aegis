@@ -84,6 +84,21 @@ export const columns: ColumnDef<Primitives<Product>>[] = [
     ),
   },
   {
+    accessorKey: "type",
+    header: ({ table }) => <span>Type</span>,
+    cell: ({ row }) => (
+      <Badge
+        variant="secondary"
+        className={cn("rounded-full", {
+          "text-white bg-blue-600": row.original.type === "product",
+          "bg-purple-500 text-white": row.original.type === "service",
+        })}
+      >
+        {row.original.type.charAt(0).toUpperCase() + row.original.type.slice(1)}
+      </Badge>
+    ),
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       return (

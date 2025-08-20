@@ -45,11 +45,11 @@ const data = {
         },
         {
           title: "Categories",
-          url: "/products/categories",
+          url: "/category",
         },
         {
           title: "Brands",
-          url: "/products/brands",
+          url: "/brand",
         },
       ],
     },
@@ -60,11 +60,11 @@ const data = {
       items: [
         {
           title: "Stores",
-          url: "/store/stores",
+          url: "/stores",
         },
         {
           title: "Stock",
-          url: "/store/stock",
+          url: "/stock",
         },
       ],
     },

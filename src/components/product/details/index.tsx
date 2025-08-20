@@ -9,6 +9,7 @@ import { useProductComplements } from "@/hooks/use-product-complements";
 import { Product } from "@/lib/core/product/domain/product";
 import { HttpProductApi } from "@/lib/core/product/infrastructure/http-product-api";
 import { Primitives } from "@/lib/types/primitives";
+import { cn } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Archive, Building2, Calendar, Loader2, Package, Pencil, Tag, X } from "lucide-react";
 import { useState } from "react";
@@ -118,6 +119,16 @@ const ProductDetails = ({
                   )}
                 </Button>
               )}
+              <div>
+                <Badge
+                  className={cn("rounded-full", {
+                    "bg-blue-600 text-white": data.type === "product",
+                    "bg-purple-500 text-white": data.status === "inactive",
+                  })}
+                >
+                  {data.type.charAt(0).toUpperCase() + data.type.slice(1)}
+                </Badge>
+              </div>
             </div>
           </SheetHeader>
           <div className="flex flex-col flex-1 overflow-y-auto no-scroll gap-4">
@@ -143,13 +154,15 @@ const ProductDetails = ({
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      <div className="flex items-center gap-3">
-                        <Building2 className="h-5 w-5 text-muted-foreground" />
-                        <div>
-                          <p className="text-sm font-medium text-muted-foreground">Brand</p>
-                          <p className="font-semibold">{data.brand?.name ?? ""}</p>
+                      {data.type === "product" && (
+                        <div className="flex items-center gap-3">
+                          <Building2 className="h-5 w-5 text-muted-foreground" />
+                          <div>
+                            <p className="text-sm font-medium text-muted-foreground">Brand</p>
+                            <p className="font-semibold">{data.brand?.name ?? ""}</p>
+                          </div>
                         </div>
-                      </div>
+                      )}
 
                       <div className="flex items-center gap-3">
                         <Tag className="h-5 w-5 text-muted-foreground" />
@@ -165,15 +178,17 @@ const ProductDetails = ({
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-3">
-                        <Package className="h-5 w-5 text-muted-foreground" />
-                        <div>
-                          <p className="text-sm font-medium text-muted-foreground">Unit</p>
-                          <p className="font-semibold">
-                            {data.unit?.name ?? ""} ({data.unit?.abbreviation ?? ""})
-                          </p>
+                      {data.type === "product" && (
+                        <div className="flex items-center gap-3">
+                          <Package className="h-5 w-5 text-muted-foreground" />
+                          <div>
+                            <p className="text-sm font-medium text-muted-foreground">Unit</p>
+                            <p className="font-semibold">
+                              {data.unit?.name ?? ""} ({data.unit?.abbreviation ?? ""})
+                            </p>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
 
                     <Separator className="my-4" />

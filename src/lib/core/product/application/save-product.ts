@@ -7,13 +7,12 @@ export type CreateProductData = {
   name: string;
   sku: string;
   description: string;
-  cost: number;
-  price: number;
   images: string[];
   unitId: string;
   brandId: string;
   categories?: string[];
   organizationId: string;
+  type: "product" | "service";
 };
 
 export class CreateProduct {
@@ -32,13 +31,12 @@ export class CreateProduct {
       data.name,
       data.sku,
       data.description,
-      data.cost,
-      data.price,
       data.images,
       data.unitId,
       data.brandId,
       data.categories,
       data.organizationId,
+      data.type,
     );
 
     await this.repository.save(product);

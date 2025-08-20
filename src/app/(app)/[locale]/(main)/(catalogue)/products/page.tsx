@@ -10,7 +10,7 @@ const Page = () => {
         <div className="flex items-center space-x-2">
           <Package className="size-8" />
           <div>
-            <h2 className="text-2xl font-bold ">Products</h2>
+            <h2 className="text-2xl font-bold ">Items</h2>
             <p className="text-sm text-muted-foreground">Manage and review your products here</p>
           </div>
         </div>

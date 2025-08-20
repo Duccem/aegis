@@ -6,13 +6,12 @@ export class HttpProductApi {
   static async createProduct(productData: {
     name: string;
     description: string;
-    price: number;
-    cost: number;
     sku: string;
     images: string[];
     unitId: string;
     brandId: string;
     categories: string[];
+    type: "product" | "service";
   }) {
     const response = await fetch("/api/product", {
       method: "POST",

@@ -43,11 +43,10 @@ const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().min(1, "Description is required"),
   sku: z.string().min(1, "SKU is required"),
-  cost: z.coerce.number().min(0, "Cost must be at least 0"),
-  price: z.coerce.number().min(0, "Price must be at least 0"),
   unitId: z.string().min(1, "Unit is required"),
   brandId: z.string().min(1, "Brand is required"),
   categories: z.array(z.string().min(1, "Category ID cannot be empty")),
+  type: z.enum(["product", "service"]),
   images: z.array(z.url()),
 });
 
@@ -80,12 +79,11 @@ const SaveProductForm = ({
       name: "product 01",
       description: "",
       sku: "",
-      cost: 0,
-      price: 0,
       unitId: "",
       brandId: "",
       categories: [],
       images: [],
+      type: "product",
     },
     mode: "onBlur",
   });
@@ -97,12 +95,11 @@ const SaveProductForm = ({
         name: data.name,
         sku: data.sku,
         description: data.description,
-        price: data.price,
-        cost: data.cost,
         images: imageUrls,
         unitId: data.unitId,
         brandId: data.brandId,
         categories: data.categories,
+        type: data.type,
       });
     },
     onSuccess: () => {
@@ -164,60 +161,6 @@ const SaveProductForm = ({
             </FormItem>
           )}
         />
-        <div className="grid grid-cols-2 gap-2">
-          <FormField
-            control={form.control}
-            name="cost"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cost</FormLabel>
-                <FormControl>
-                  <div className="relative flex rounded-md shadow-xs">
-                    <span className="text-muted-foreground pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-sm">
-                      $
-                    </span>
-                    <Input
-                      type="number"
-                      placeholder="cost"
-                      {...field}
-                      value={field.value as number}
-                      className="-me-px rounded-e-none ps-6 shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                    />
-                    <span className="border-input bg-background text-muted-foreground  inline-flex items-center rounded-e-md border px-3 text-sm">
-                      USD
-                    </span>
-                  </div>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Price</FormLabel>
-                <FormControl>
-                  <div className="relative flex rounded-md shadow-xs">
-                    <span className="text-muted-foreground pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-sm">
-                      $
-                    </span>
-                    <Input
-                      type="number"
-                      placeholder="cost"
-                      {...field}
-                      value={field.value as number}
-                      className="-me-px rounded-e-none ps-6 shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                    />
-                    <span className="border-input bg-background text-muted-foreground  inline-flex items-center rounded-e-md border px-3 text-sm">
-                      USD
-                    </span>
-                  </div>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        </div>
         <div className="grid grid-cols-2 gap-2">
           <FormField
             control={form.control}
@@ -321,6 +264,26 @@ const SaveProductForm = ({
                   field.onChange(items.map((item) => item.value));
                 }}
               />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="type"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Type</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select the unit of messure" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value={"product"}>Product</SelectItem>
+                  <SelectItem value={"service"}>Service</SelectItem>
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />
