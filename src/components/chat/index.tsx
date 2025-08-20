@@ -9,7 +9,7 @@ import { getChat } from "@/lib/core/chat/infrastructure/http-chat-api";
 import { useChat } from "@ai-sdk/react";
 import { useQuery } from "@tanstack/react-query";
 import { DefaultChatTransport } from "ai";
-import { Send, X } from "lucide-react";
+import { Send, Sparkles, X } from "lucide-react";
 import { motion, useAnimate } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
@@ -101,7 +101,7 @@ export const Chat = () => {
         initial={{ width: 0, opacity: 0, y: 0 }}
         animate={{ width: "44%", opacity: 1, y: 1 }}
         ref={scope}
-        className="fixed origin-center bottom-4 right-[20px]  z-50 flex items-center justify-center  p-3 bg-background rounded-xl border  "
+        className="fixed origin-center bottom-4 left-1/2 -translate-x-1/2  z-50 flex items-center justify-center  p-3 bg-background rounded-xl border  "
       >
         <Button onClick={handleClose} variant={"ghost"} size={"icon"}>
           <X />
@@ -183,8 +183,8 @@ export const Chat = () => {
   }
   return (
     <motion.button
-      className="flex items-center justify-center border bg-background border-foreground text-foreground  gap-2  rounded-xl overflow-hidden fixed origin-center bottom-4 right-[20px] z-50 p-2 cursor-pointer  "
-      initial={{ width: "48px", height: "48px" }}
+      className="flex items-center justify-center border bg-foreground border-foreground text-background  gap-2  rounded-[9999px] overflow-hidden fixed origin-center bottom-4 left-1/2 -translate-x-1/2 z-50 py-2 px-6 cursor-pointer  "
+      initial={{ width: "120px", height: "28px" }}
       animate={{
         scale: isHovered ? 1.1 : 1,
       }}
@@ -199,8 +199,7 @@ export const Chat = () => {
         setIsHovered(false);
       }}
     >
-      <img src={"/images/aegis-white.png"} className="size-6 hidden dark:block" alt="" />
-      <img src={"/images/aegis-black.png"} className="size-6 block dark:hidden" alt="" />
+      Aegis <Sparkles className="text-background size-4" />
     </motion.button>
   );
 };
