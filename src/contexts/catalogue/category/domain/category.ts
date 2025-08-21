@@ -3,10 +3,10 @@ import { Primitives } from "@/contexts/shared/domain/primitives";
 import { DateValueObject, StringValueObject } from "@/contexts/shared/domain/value-object";
 import { Uuid } from "@/contexts/shared/domain/value-objects/uuid";
 
-export class Brand extends Aggregate {
+export class Category extends Aggregate {
   constructor(
     id: Uuid,
-    public name: BrandName,
+    public name: CategoryName,
     public organizationId: Uuid,
     createdAt: DateValueObject,
     updatedAt: DateValueObject,
@@ -14,30 +14,29 @@ export class Brand extends Aggregate {
     super(id, createdAt, updatedAt);
   }
 
-  toPrimitives(): Primitives<Brand> {
+  toPrimitives(): Primitives<Category> {
     return {
       id: this.id.getValue(),
       name: this.name.getValue(),
-      organizationId: this.id.getValue(), // Assuming organizationId is the same as brand id
+      organizationId: this.organizationId.getValue(),
       createdAt: this.createdAt.getValue(),
       updatedAt: this.updatedAt.getValue(),
     };
   }
-
-  static fromPrimitives(primitives: Primitives<Brand>): Brand {
-    return new Brand(
+  static fromPrimitives(primitives: Primitives<Category>): Category {
+    return new Category(
       new Uuid(primitives.id),
-      new BrandName(primitives.name),
+      new CategoryName(primitives.name),
       new Uuid(primitives.organizationId),
       new DateValueObject(primitives.createdAt),
       new DateValueObject(primitives.updatedAt),
     );
   }
 
-  static create(name: string, organizationId: string): Brand {
-    return new Brand(
+  static create(name: string, organizationId: string): Category {
+    return new Category(
       Uuid.random(),
-      new BrandName(name),
+      new CategoryName(name),
       new Uuid(organizationId),
       DateValueObject.today(),
       DateValueObject.today(),
@@ -45,9 +44,9 @@ export class Brand extends Aggregate {
   }
 
   updateName(name: string): void {
-    this.name = new BrandName(name);
+    this.name = new CategoryName(name);
     this.updatedAt = DateValueObject.today();
   }
 }
 
-class BrandName extends StringValueObject {}
+class CategoryName extends StringValueObject {}
