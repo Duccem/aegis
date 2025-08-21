@@ -125,22 +125,6 @@ export class DrizzleProductRepository implements ProductRepository {
     await database.delete(product).where(eq(product.id, productId.value));
   }
 
-  async categories(organizationId: Uuid): Promise<Category[]> {
-    const result = await database
-      .select()
-      .from(category)
-      .where(eq(category.organizationId, organizationId.value));
-    return result.map((row) => Category.fromPrimitives(row));
-  }
-
-  async brands(organizationId: Uuid): Promise<Brand[]> {
-    const result = await database
-      .select()
-      .from(brand)
-      .where(eq(brand.organizationId, organizationId.value));
-    return result.map((row) => Brand.fromPrimitives(row));
-  }
-
   async units(): Promise<Unit[]> {
     const result = await database.select().from(unit);
     return result.map((row) => Unit.fromPrimitives(row));
@@ -169,5 +153,63 @@ export class DrizzleProductRepository implements ProductRepository {
       totalProductsThisMonth: totalProductsThisMonth[0].count,
       totalActiveProducts: totalActiveProducts[0].count,
     };
+  }
+
+  async saveCategory(data: Category): Promise<void> {
+    const categoryData = data.toPrimitives();
+    await database.insert(category).values(categoryData).onConflictDoUpdate({
+      target: category.id,
+      set: categoryData,
+    });
+  }
+
+  async categories(criteria: Criteria): Promise<Category[]> {
+    const converter = new DrizzleCriteriaConverter(category);
+    const { where, limit, offset, orderBy } = converter.criteria(criteria);
+    const result = await database
+      .select()
+      .from(category)
+      .where(where)
+      .limit(limit)
+      .offset(offset)
+      .orderBy(orderBy);
+    return result.map((row) => Category.fromPrimitives(row));
+  }
+
+  async category(criteria: Criteria): Promise<Category | null> {
+    const converter = new DrizzleCriteriaConverter(category);
+    const { where } = converter.criteria(criteria);
+    const result = await database.select().from(category).where(where).limit(1);
+    if (result.length === 0) return null;
+    return Category.fromPrimitives(result[0]);
+  }
+
+  async saveBrand(data: Brand): Promise<void> {
+    const brandData = data.toPrimitives();
+    await database.insert(brand).values(brandData).onConflictDoUpdate({
+      target: brand.id,
+      set: brandData,
+    });
+  }
+
+  async brands(criteria: Criteria): Promise<Brand[]> {
+    const converter = new DrizzleCriteriaConverter(brand);
+    const { where, limit, offset, orderBy } = converter.criteria(criteria);
+    const result = await database
+      .select()
+      .from(brand)
+      .where(where)
+      .limit(limit)
+      .offset(offset)
+      .orderBy(orderBy);
+    return result.map((row) => Brand.fromPrimitives(row));
+  }
+
+  async brand(criteria: Criteria): Promise<Brand | null> {
+    const converter = new DrizzleCriteriaConverter(brand);
+    const { where } = converter.criteria(criteria);
+    const result = await database.select().from(brand).where(where).limit(1);
+    if (result.length === 0) return null;
+    return Brand.fromPrimitives(result[0]);
   }
 }

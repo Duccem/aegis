@@ -40,6 +40,11 @@ export class Brand {
       DateValueObject.today(),
     );
   }
+
+  updateName(name: string): void {
+    this.name = new BrandName(name);
+    this.updatedAt = DateValueObject.today();
+  }
 }
 
 class BrandName extends StringValueObject {}
