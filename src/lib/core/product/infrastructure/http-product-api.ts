@@ -129,4 +129,17 @@ export class HttpProductApi {
       throw new Error("Failed to remove product image");
     }
   }
+
+  static async saveCategory(name: string, id?: string) {
+    const response = await fetch(`/api/product/category${id ? `/${id}` : ""}`, {
+      method: id ? "PUT" : "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name }),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to save category");
+    }
+  }
 }
