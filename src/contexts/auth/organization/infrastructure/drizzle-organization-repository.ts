@@ -1,9 +1,12 @@
 import { Uuid } from "@/contexts/shared/domain/value-objects/uuid";
 import { database } from "@/contexts/shared/infrastructure/database";
+import {
+  organization,
+  organization_metrics,
+} from "@/contexts/shared/infrastructure/database/schema";
 import { eq } from "drizzle-orm";
-import { Organization } from "../../domain/organization";
-import { OrganizationRepository } from "../../domain/organization-repository";
-import { organization, organization_metrics } from "./drizzle-organization-schema";
+import { Organization } from "../domain/organization";
+import { OrganizationRepository } from "../domain/organization-repository";
 
 export class DrizzleOrganizationRepository implements OrganizationRepository {
   async find(id: Uuid): Promise<Organization | null> {
