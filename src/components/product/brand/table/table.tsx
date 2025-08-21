@@ -17,7 +17,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Category } from "@/lib/core/product/domain/category";
 import { Primitives } from "@/lib/types/primitives";
 import {
   ColumnFiltersState,
@@ -32,20 +31,22 @@ import {
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
-import EditCategorySheet from "../save/edit-sheet";
+
+import { Brand } from "@/lib/core/product/domain/brand";
+import EditBrandSheet from "../save/edit-sheet";
 import { columns } from "./columns";
 
-const CategoryTable = ({ data }: { data: Primitives<Category>[] }) => {
+const BrandTable = ({ data }: { data: Primitives<Brand>[] }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
 
-  const [categoryId, setCategoryId] = useQueryState("categoryId");
+  const [brandId, setBrandId] = useQueryState("brandId");
   const setOpen = (id: string | boolean) => {
     if (id) {
-      setCategoryId(id as string);
+      setBrandId(id as string);
     } else {
-      setCategoryId(null);
+      setBrandId(null);
     }
   };
 
@@ -68,7 +69,7 @@ const CategoryTable = ({ data }: { data: Primitives<Category>[] }) => {
       setOpen,
     },
   });
-  const selectedCategory = data.find((row) => row.id === categoryId);
+  const selectedBrand = data.find((row) => row.id === brandId);
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
@@ -85,7 +86,7 @@ const CategoryTable = ({ data }: { data: Primitives<Category>[] }) => {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="h-[40px] md:h-[45px] select-text border-none bg-card"
+                className="h-[40px] md:h-[45px] cursor-pointer select-text border-none bg-card"
               >
                 {headerGroup.headers.map((header) => {
                   return (
@@ -195,9 +196,9 @@ const CategoryTable = ({ data }: { data: Primitives<Category>[] }) => {
           </Button>
         </div>
       </div>
-      <EditCategorySheet data={selectedCategory} isOpen={Boolean(categoryId)} setIsOpen={setOpen} />
+      <EditBrandSheet data={selectedBrand} isOpen={Boolean(brandId)} setIsOpen={setOpen} />
     </div>
   );
 };
 
-export default CategoryTable;
+export default BrandTable;

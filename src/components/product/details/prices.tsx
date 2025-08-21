@@ -56,7 +56,7 @@ const ProductPrices = ({ product: data }: { product: Primitives<Product> }) => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Cost</p>
-                <p className="text-2xl font-bold text-foreground">${data.cost.toFixed(2)}</p>
+                <p className="text-2xl font-bold text-foreground">$100</p>
               </div>
               <TrendingUp className="h-8 w-8 text-chart-2" />
             </div>
@@ -70,7 +70,7 @@ const ProductPrices = ({ product: data }: { product: Primitives<Product> }) => {
                 <p className="text-sm font-medium text-muted-foreground">Avg Profit</p>
                 <p className="text-2xl font-bold text-foreground">
                   $
-                  {priceInLists.reduce((acc, entry) => acc + (entry.price - data.cost), 0) /
+                  {priceInLists.reduce((acc, entry) => acc + (entry.price - 10), 0) /
                     priceInLists.length}
                 </p>
               </div>
@@ -87,7 +87,7 @@ const ProductPrices = ({ product: data }: { product: Primitives<Product> }) => {
                 <p className="text-2xl font-bold  text-foreground">
                   {(
                     priceInLists.reduce(
-                      (acc, entry) => acc + ((entry.price - data.cost) / entry.price) * 100,
+                      (acc, entry) => acc + ((entry.price - 10) / entry.price) * 100,
                       0,
                     ) / priceInLists.length
                   ).toFixed(2)}
@@ -135,8 +135,8 @@ const ProductPrices = ({ product: data }: { product: Primitives<Product> }) => {
         <CardContent>
           <div className="space-y-4">
             {sortedPriceInLists.map((entry, index) => {
-              const priceChangeFromPrev = entry.price - data.cost;
-              const margin = (((entry.price - data.cost) / entry.price) * 100).toFixed(1);
+              const priceChangeFromPrev = entry.price - 10;
+              const margin = (((entry.price - 10) / entry.price) * 100).toFixed(1);
 
               return (
                 <div
@@ -156,7 +156,7 @@ const ProductPrices = ({ product: data }: { product: Primitives<Product> }) => {
                   <div className="flex items-center gap-6">
                     <div className="text-right">
                       <p className="font-semibold">${entry.price.toFixed(2)}</p>
-                      <p className="text-sm text-muted-foreground">Cost: ${data.cost.toFixed(2)}</p>
+                      <p className="text-sm text-muted-foreground">Cost: ${(10.0).toFixed(2)}</p>
                     </div>
 
                     <div className="text-right">
