@@ -1,6 +1,6 @@
-import GoToHome from "@/components/auth/go-to-home";
-import Oauth from "@/components/auth/oauth";
-import SignInForm from "@/components/auth/sign-in-form";
+import Oauth from "@/contexts/auth/user/ui/components/auth/oauth";
+import SignInForm from "@/contexts/auth/user/ui/components/auth/sign-in-form";
+import GoToHome from "@/contexts/shared/ui/components/aegis/go-to-home";
 import Link from "next/link";
 
 const Page = () => {

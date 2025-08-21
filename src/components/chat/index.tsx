@@ -1,8 +1,8 @@
 "use client";
-import { useSession } from "@/components/auth/session-provider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useSession } from "@/contexts/auth/user/ui/components/auth/session-provider";
 import { useEnterSubmit } from "@/hooks/use-enter-submit";
 import { useScrollAnchor } from "@/hooks/use-scroll-anchor";
 import { getChat } from "@/lib/core/chat/infrastructure/http-chat-api";

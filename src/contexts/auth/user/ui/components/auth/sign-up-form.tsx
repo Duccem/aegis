@@ -7,11 +7,17 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+import { Button } from "../../../../../../components/ui/button";
+import { Checkbox } from "../../../../../../components/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "../../../../../../components/ui/form";
+import { Input } from "../../../../../../components/ui/input";
+import { Label } from "../../../../../../components/ui/label";
 
 const formSchema = z
   .object({

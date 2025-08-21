@@ -1,6 +1,6 @@
 "use client";
-import { useSession } from "@/components/auth/session-provider";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useSession } from "@/contexts/auth/user/ui/components/auth/session-provider";
 import { Bot } from "lucide-react";
 
 type Props = {

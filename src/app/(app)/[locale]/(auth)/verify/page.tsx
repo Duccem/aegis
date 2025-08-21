@@ -1,6 +1,6 @@
-import GoToHome from "@/components/auth/go-to-home";
-import ResendCode from "@/components/auth/resend-code";
-import VerifyForm from "@/components/auth/verify-form";
+import ResendCode from "@/contexts/auth/user/ui/components/auth/resend-code";
+import VerifyForm from "@/contexts/auth/user/ui/components/auth/verify-form";
+import GoToHome from "@/contexts/shared/ui/components/aegis/go-to-home";
 
 const Page = () => {
   return (

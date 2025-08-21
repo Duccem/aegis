@@ -1,6 +1,6 @@
-import AegisForgetPassword from "@/contexts/auth/user/infrastructure/email-templates/forget-password";
-import AegisVerifyEmail from "@/contexts/auth/user/infrastructure/email-templates/verification-code";
 import { resend } from "@/contexts/shared/infrastructure/emails";
+import AegisForgetPassword from "./email-templates/forget-password";
+import AegisVerifyEmail from "./email-templates/verification-code";
 
 export class ResendUserMailer {
   async sendVerificationEmail(email: string, code: string): Promise<void> {
