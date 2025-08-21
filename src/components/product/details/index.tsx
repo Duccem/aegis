@@ -67,10 +67,6 @@ const ProductDetails = ({
     },
   });
 
-  if (!data) {
-    return null;
-  }
-
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetContent className="sm:w-1/2 sm:max-w-full p-4 bg-transparent border-none focus-visible:outline-none no-scroll">
@@ -87,27 +83,27 @@ const ProductDetails = ({
             <div className="flex items-center gap-4">
               <Package className="size-8" />
               <SheetTitle>
-                <p>{data.name}</p>
-                <p>SKU: {data.sku}</p>
+                <p>{data?.name ?? ""}</p>
+                <p>SKU: {data?.sku}</p>
               </SheetTitle>
               <Button
                 variant={"outline"}
                 onClick={() => toggle()}
-                disabled={togglePending || data.status === "archived"}
+                disabled={togglePending || data?.status === "archived"}
                 className="cursor-pointer"
               >
-                {data.status === "active" && !togglePending && (
+                {data?.status === "active" && !togglePending && (
                   <span className="text-emerald-500">Enabled</span>
                 )}
-                {data.status === "inactive" && !togglePending && (
+                {data?.status === "inactive" && !togglePending && (
                   <span className="text-orange-500">Disabled</span>
                 )}
-                {data.status === "archived" && !togglePending && (
+                {data?.status === "archived" && !togglePending && (
                   <span className="text-red-500">Archived</span>
                 )}
                 {togglePending && <Loader2 className="animate-spin text-muted-foreground" />}
               </Button>
-              {data.status !== "archived" && (
+              {data?.status !== "archived" && (
                 <Button variant={"outline"} className="cursor-pointer" onClick={() => archive()}>
                   {archivePending ? (
                     <Loader2 className="animate-spin text-muted-foreground" />
@@ -122,11 +118,11 @@ const ProductDetails = ({
               <div>
                 <Badge
                   className={cn("rounded-full", {
-                    "bg-blue-600 text-white": data.type === "product",
-                    "bg-purple-500 text-white": data.status === "inactive",
+                    "bg-blue-600 text-white": data?.type === "product",
+                    "bg-purple-500 text-white": data?.status === "inactive",
                   })}
                 >
-                  {data.type.charAt(0).toUpperCase() + data.type.slice(1)}
+                  {(data?.type?.charAt(0)?.toUpperCase() ?? "") + data?.type.slice(1)}
                 </Badge>
               </div>
             </div>
@@ -134,7 +130,7 @@ const ProductDetails = ({
           <div className="flex flex-col flex-1 overflow-y-auto no-scroll gap-4">
             {isEditing ? (
               <EditItemForm
-                product={data}
+                product={data!}
                 toggleEdit={() => setIsEditing((current) => !current)}
                 complements={complements}
               />
@@ -154,7 +150,7 @@ const ProductDetails = ({
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {data.type === "product" && (
+                      {data?.type === "product" && (
                         <div className="flex items-center gap-3">
                           <Building2 className="h-5 w-5 text-muted-foreground" />
                           <div>
@@ -169,7 +165,7 @@ const ProductDetails = ({
                         <div>
                           <p className="text-sm font-medium text-muted-foreground">Categories</p>
                           <div className="flex flex-wrap gap-1">
-                            {data.categories.map((category, index) => (
+                            {data?.categories.map((category, index) => (
                               <Badge key={category.id} variant="secondary" className="mr-1">
                                 {category.name}
                               </Badge>
@@ -178,13 +174,13 @@ const ProductDetails = ({
                         </div>
                       </div>
 
-                      {data.type === "product" && (
+                      {data?.type === "product" && (
                         <div className="flex items-center gap-3">
                           <Package className="h-5 w-5 text-muted-foreground" />
                           <div>
                             <p className="text-sm font-medium text-muted-foreground">Unit</p>
                             <p className="font-semibold">
-                              {data.unit?.name ?? ""} ({data.unit?.abbreviation ?? ""})
+                              {data?.unit?.name ?? ""} ({data?.unit?.abbreviation ?? ""})
                             </p>
                           </div>
                         </div>
@@ -195,17 +191,27 @@ const ProductDetails = ({
 
                     <div>
                       <p className="text-sm font-medium text-muted-foreground mb-2">Description</p>
-                      <p className="text-foreground">{data.description}</p>
+                      <p className="text-foreground">{data?.description}</p>
                     </div>
 
                     <div className="flex items-center gap-6 mt-4 text-sm text-muted-foreground">
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4" />
-                        <span>Created: {new Date(data.createdAt).toLocaleDateString()}</span>
+                        <span>
+                          Created:{" "}
+                          {data?.createdAt
+                            ? new Date(data.createdAt).toLocaleDateString()
+                            : new Date().toLocaleDateString()}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4" />
-                        <span>Updated: {new Date(data.updatedAt).toLocaleDateString()}</span>
+                        <span>
+                          Updated:{" "}
+                          {data?.updatedAt
+                            ? new Date(data.updatedAt).toLocaleDateString()
+                            : new Date().toLocaleDateString()}
+                        </span>
                       </div>
                     </div>
                   </CardContent>
@@ -233,22 +239,22 @@ const ProductDetails = ({
                   </TabsList>
 
                   <TabsContent value="overview" className="">
-                    <ProductOverview product={data} />
+                    <ProductOverview product={data!} />
                   </TabsContent>
                   <TabsContent value="pricing">
-                    <ProductPrice product={data} />
+                    <ProductPrice product={data!} />
                   </TabsContent>
                   <TabsContent value="gallery">
-                    <ProductGallery product={data} />
+                    <ProductGallery product={data!} />
                   </TabsContent>
                   <TabsContent value="inventory">
-                    <ProductInventory product={data} />
+                    <ProductInventory product={data!} />
                   </TabsContent>
                   <TabsContent value="suppliers">
-                    <ProductSuppliers product={data} />
+                    <ProductSuppliers product={data!} />
                   </TabsContent>
                   <TabsContent value="analytics">
-                    <ProductAnalytics product={data} />
+                    <ProductAnalytics product={data!} />
                   </TabsContent>
                 </Tabs>
               </>

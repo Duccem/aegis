@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Category } from "@/lib/core/product/domain/category";
+import { Brand } from "@/lib/core/product/domain/brand";
 import { Primitives } from "@/lib/types/primitives";
 import { LayoutList, X } from "lucide-react";
-import SaveCategoryForm from "./form";
+import SaveBrandForm from "./form";
 
-const EditCategorySheet = ({
+const EditBrandSheet = ({
   data,
   isOpen,
   setIsOpen,
 }: {
-  data: Primitives<Category> | undefined;
+  data: Primitives<Brand> | undefined;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
 }) => {
@@ -34,7 +34,7 @@ const EditCategorySheet = ({
             </div>
           </SheetHeader>
           <div className="w-full">
-            <SaveCategoryForm category={data} toggleSheet={() => setIsOpen(false)} />
+            <SaveBrandForm category={data} toggleSheet={() => setIsOpen(false)} />
           </div>
         </div>
       </SheetContent>
@@ -42,4 +42,4 @@ const EditCategorySheet = ({
   );
 };
 
-export default EditCategorySheet;
+export default EditBrandSheet;

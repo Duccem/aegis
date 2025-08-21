@@ -1,19 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Product } from "@/lib/core/product/domain/product";
 import { Primitives } from "@/lib/types/primitives";
-import {
-  BarChart3,
-  Building2,
-  Calendar,
-  CheckCircle,
-  Clock,
-  DollarSign,
-  Package,
-  Tag,
-  TrendingUp,
-} from "lucide-react";
+import { CheckCircle, Clock, TrendingUp } from "lucide-react";
 
 const ProductOverview = ({ product }: { product: Primitives<Product> }) => {
   return (
@@ -35,12 +24,12 @@ const ProductOverview = ({ product }: { product: Primitives<Product> }) => {
 
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-muted-foreground">Current Stock</span>
-                <span className="font-semibold">150 {product.unit?.abbreviation}</span>
+                <span className="font-semibold">150 {product?.unit?.abbreviation}</span>
               </div>
 
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-muted-foreground">Reorder Point</span>
-                <span className="font-semibold">50 {product.unit?.abbreviation}</span>
+                <span className="font-semibold">50 {product?.unit?.abbreviation}</span>
               </div>
 
               <div className="flex items-center justify-between">
@@ -62,22 +51,10 @@ const ProductOverview = ({ product }: { product: Primitives<Product> }) => {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-muted-foreground">Profit Margin</span>
-                <span className="font-semibold">
-                  {(((product.price - product.cost) / product.price) * 100).toFixed(1)}%
-                </span>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-muted-foreground">Total Value</span>
-                <span className="font-semibold">${(150 * product.price).toFixed(2)}</span>
-              </div>
-
-              <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-muted-foreground">
                   Avg. Monthly Sales
                 </span>
-                <span className="font-semibold">45 {product.unit?.abbreviation}</span>
+                <span className="font-semibold">45 {product?.unit?.abbreviation}</span>
               </div>
             </div>
           </div>

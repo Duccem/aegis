@@ -142,4 +142,17 @@ export class HttpProductApi {
       throw new Error("Failed to save category");
     }
   }
+
+  static async saveBrand(name: string, id?: string) {
+    const response = await fetch(`/api/product/brand${id ? `/${id}` : ""}`, {
+      method: id ? "PUT" : "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name }),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to save brand");
+    }
+  }
 }
