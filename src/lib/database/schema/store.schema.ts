@@ -1,14 +1,17 @@
 import { numeric, pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
-import { v7 } from "uuid";
+import { organization } from "./organization.schema";
 import { product } from "./product.schema";
 
 export const store_status = pgEnum("store_status", ["active", "inactive", "closed"]);
 
 export const store = pgTable("store", {
-  id: uuid("id").$defaultFn(v7).primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   address: text("address").notNull(),
   status: store_status("status").notNull().default("active"),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organization.id, { onDelete: "cascade" }),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")
     .notNull()
@@ -17,7 +20,7 @@ export const store = pgTable("store", {
 });
 
 export const stock = pgTable("stock", {
-  id: uuid("id").$defaultFn(v7).primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
   productId: uuid("product_id")
     .notNull()
     .references(() => product.id, { onDelete: "cascade" }),
@@ -35,7 +38,7 @@ export const stock_movement_type = pgEnum("stock_movement_type", [
 ]);
 
 export const stock_movement = pgTable("stock_movement", {
-  id: uuid("id").$defaultFn(v7).primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
   productId: uuid("product_id")
     .notNull()
     .references(() => product.id, { onDelete: "cascade" }),
