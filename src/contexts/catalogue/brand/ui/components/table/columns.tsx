@@ -1,10 +1,11 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Brand } from "@/lib/core/product/domain/brand";
-import { Primitives } from "@/lib/types/primitives";
+
+import { Primitives } from "@/contexts/shared/domain/primitives";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import { ColumnDef, TableMeta } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { Pencil } from "lucide-react";
+import { Brand } from "../../../domain/brand";
 
 export const columns: ColumnDef<Primitives<Brand>>[] = [
   {

@@ -1,7 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Brand } from "@/lib/core/product/domain/brand";
-import { Primitives } from "@/lib/types/primitives";
+import { Brand } from "@/contexts/catalogue/brand/domain/brand";
+import { Primitives } from "@/contexts/shared/domain/primitives";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/contexts/shared/ui/components/shadcn/sheet";
 import { LayoutList, X } from "lucide-react";
 import SaveBrandForm from "./form";
 

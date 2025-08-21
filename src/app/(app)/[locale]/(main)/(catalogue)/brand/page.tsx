@@ -1,5 +1,5 @@
-import CreateBrandSheet from "@/components/product/brand/save/create-sheet";
-import Brands from "@/components/product/brand/table";
+import CreateBrandSheet from "@/contexts/catalogue/brand/ui/components/save/create-sheet";
+import Brands from "@/contexts/catalogue/brand/ui/components/table";
 import { Hexagon } from "lucide-react";
 
 const Page = () => {
