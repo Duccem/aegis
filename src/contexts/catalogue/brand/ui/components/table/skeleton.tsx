@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/contexts/shared/ui/components/shadcn/skeleton";
 import {
   Table,
   TableBody,
@@ -6,7 +6,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/contexts/shared/ui/components/shadcn/table";
 import { cn } from "@/lib/utils";
 
 const data = [...Array(10)].map((_, i) => ({ id: i.toString() }));

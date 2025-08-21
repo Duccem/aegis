@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { Category } from "@/lib/core/product/domain/category";
-import { Primitives } from "@/lib/types/primitives";
+import { Primitives } from "@/contexts/shared/domain/primitives";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import { ColumnDef, TableMeta } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { Pencil } from "lucide-react";
+import { Category } from "../../../domain/category";
 
 export const columns: ColumnDef<Primitives<Category>>[] = [
   {

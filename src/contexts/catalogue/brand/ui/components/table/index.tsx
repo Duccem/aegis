@@ -1,8 +1,7 @@
 "use client";
 
-import { Brand } from "@/lib/core/product/domain/brand";
-import { Primitives } from "@/lib/types/primitives";
 import { useQuery } from "@tanstack/react-query";
+import { HttpBrandApi } from "../../../infrastructure/http-brand-api";
 import BrandsSkeleton from "./skeleton";
 import BrandTable from "./table";
 
@@ -11,11 +10,7 @@ const Brands = () => {
     queryKey: ["brands"],
     initialData: [],
     queryFn: async () => {
-      const response = await fetch("/api/product/brand");
-      if (!response.ok) {
-        throw new Error("Failed to fetch categories");
-      }
-      return (await response.json()).data as Primitives<Brand>[];
+      return await HttpBrandApi.list();
     },
     refetchOnWindowFocus: false,
   });

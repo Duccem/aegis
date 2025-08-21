@@ -11,16 +11,10 @@ export class DrizzleBrandRepository implements BrandRepository {
   async save(data: Brand): Promise<void> {
     const primitive = data.toPrimitives();
 
-    await database
-      .insert(brand)
-      .values(primitive)
-      .onConflictDoUpdate({
-        target: brand.id,
-        set: {
-          name: primitive.name,
-          updatedAt: primitive.updatedAt,
-        },
-      });
+    await database.insert(brand).values(primitive).onConflictDoUpdate({
+      target: brand.id,
+      set: primitive,
+    });
   }
 
   async find(criteria: Criteria): Promise<Brand | null> {

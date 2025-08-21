@@ -1,16 +1,22 @@
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Category } from "@/lib/core/product/domain/category";
-import { HttpProductApi } from "@/lib/core/product/infrastructure/http-product-api";
-import { Primitives } from "@/lib/types/primitives";
+import { Primitives } from "@/contexts/shared/domain/primitives";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/contexts/shared/ui/components/shadcn/form";
+import { Input } from "@/contexts/shared/ui/components/shadcn/input";
+import { Separator } from "@/contexts/shared/ui/components/shadcn/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
+import { Category } from "../../../domain/category";
+import { HttpCategoryApi } from "../../../infrastructure/http-category-api";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -32,7 +38,7 @@ const SaveCategoryForm = ({
   });
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: FormSchema) => {
-      await HttpProductApi.saveCategory(data.name, category ? category.id : undefined);
+      await HttpCategoryApi.save(data.name, category ? category.id : undefined);
     },
     onSuccess: () => {
       console.log("Category saved successfully");

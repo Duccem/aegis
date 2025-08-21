@@ -1,14 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import { Input } from "@/contexts/shared/ui/components/shadcn/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/contexts/shared/ui/components/shadcn/select";
 import {
   Table,
   TableBody,
@@ -16,8 +16,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Primitives } from "@/lib/types/primitives";
+} from "@/contexts/shared/ui/components/shadcn/table";
+
 import {
   ColumnFiltersState,
   flexRender,
@@ -32,7 +32,8 @@ import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-r
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 
-import { Brand } from "@/lib/core/product/domain/brand";
+import { Primitives } from "@/contexts/shared/domain/primitives";
+import { Brand } from "../../../domain/brand";
 import EditBrandSheet from "../save/edit-sheet";
 import { columns } from "./columns";
 
