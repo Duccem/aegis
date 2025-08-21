@@ -1,5 +1,5 @@
+import { user } from "@/contexts/auth/user/infrastructure/drizzle-user-schema";
 import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
-import { user } from "./user.schema";
 
 export const organization = pgTable("organization", {
   id: uuid("id").primaryKey().defaultRandom(),
