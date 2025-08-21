@@ -39,6 +39,11 @@ export class Category {
       DateValueObject.today(),
     );
   }
+
+  updateName(name: string): void {
+    this.name = new CategoryName(name);
+    this.updatedAt = DateValueObject.today();
+  }
 }
 
 class CategoryName extends StringValueObject {}

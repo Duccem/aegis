@@ -11,12 +11,20 @@ export interface ProductRepository {
   search(criteria: Criteria): Promise<Product[]>;
   count(criteria: Criteria): Promise<number>;
   delete(productId: Uuid): Promise<void>;
-  categories(organizationId: Uuid): Promise<Category[]>;
-  units(): Promise<Unit[]>;
-  brands(organizationId: Uuid): Promise<Brand[]>;
+
   metrics(organizationId: Uuid): Promise<{
     totalProducts: number;
     totalProductsThisMonth: number;
     totalActiveProducts: number;
   }>;
+
+  saveCategory(category: Category): Promise<void>;
+  categories(criteria: Criteria): Promise<Category[]>;
+  category(criteria: Criteria): Promise<Category | null>;
+
+  saveBrand(brand: Brand): Promise<void>;
+  brands(criteria: Criteria): Promise<Brand[]>;
+  brand(criteria: Criteria): Promise<Brand | null>;
+
+  units(): Promise<Unit[]>;
 }
