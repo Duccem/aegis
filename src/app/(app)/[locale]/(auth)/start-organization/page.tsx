@@ -1,4 +1,4 @@
-import OrganizationForm from "@/components/auth/organization-form";
+import OrganizationForm from "@/contexts/auth/organization/ui/components/organization-form";
 import GoToHome from "@/contexts/shared/ui/components/aegis/go-to-home";
 
 const Page = () => {
