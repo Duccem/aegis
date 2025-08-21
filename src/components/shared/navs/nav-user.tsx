@@ -8,7 +8,6 @@ import {
   IconUserCircle,
 } from "@tabler/icons-react";
 
-import { useSession } from "@/components/auth/session-provider";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -32,6 +31,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useSession } from "@/contexts/auth/user/ui/components/auth/session-provider";
 import { SunMoon } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";

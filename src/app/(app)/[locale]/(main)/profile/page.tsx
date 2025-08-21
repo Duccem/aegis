@@ -1,7 +1,7 @@
-import ProfileAccount from "@/components/profile/account";
 import BillingSection from "@/components/profile/billing";
-import ChangePasswordForm from "@/components/profile/password";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ProfileAccount from "@/contexts/auth/user/ui/components/profile/account";
+import ChangePasswordForm from "@/contexts/auth/user/ui/components/profile/password";
 const Page = () => {
   return (
     <div className="w-full flex flex-col gap-6 p-9">

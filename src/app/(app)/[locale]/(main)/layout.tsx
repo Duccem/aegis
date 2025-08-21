@@ -1,7 +1,7 @@
-import { SessionProvider } from "@/components/auth/session-provider";
 import { Chat } from "@/components/chat";
 import { AppSidebar } from "@/components/shared/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { SessionProvider } from "@/contexts/auth/user/ui/components/auth/session-provider";
 import { getSession } from "@/lib/auth/server";
 import { redirect } from "next/navigation";
 

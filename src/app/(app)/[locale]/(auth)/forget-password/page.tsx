@@ -1,5 +1,5 @@
-import ForgetPasswordForm from "@/components/auth/forget-password-form";
-import GoToHome from "@/components/auth/go-to-home";
+import ForgetPasswordForm from "@/contexts/auth/user/ui/components/auth/forget-password-form";
+import GoToHome from "@/contexts/shared/ui/components/aegis/go-to-home";
 
 const Page = () => {
   return (

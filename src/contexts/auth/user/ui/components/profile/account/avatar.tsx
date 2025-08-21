@@ -1,8 +1,8 @@
-import { useSession } from "@/components/auth/session-provider";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { InputAvatar } from "@/components/ui/input-avatar";
+import { useSession } from "@/contexts/auth/user/ui/components/auth/session-provider";
 import { authClient } from "@/lib/auth/client";
 import { SupabaseUserStorage } from "@/lib/core/user/infrastructure/supabase-user-storage";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -53,7 +53,7 @@ const ProfileAvatar = ({ image }: FormSchema) => {
           action=""
           onSubmit={form.handleSubmit(
             (data) => mutate(data),
-            (error) => console.error(error)
+            (error) => console.error(error),
           )}
         >
           <CardHeader className="flex flex-row justify-between items-center pb-2">

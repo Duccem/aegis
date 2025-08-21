@@ -1,42 +1,46 @@
 "use client";
+
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/contexts/shared/ui/components/shadcn/form";
+import { Input } from "@/contexts/shared/ui/components/shadcn/input";
 import { authClient } from "@/lib/auth/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { parseAsString, useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { Button } from "../ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import { Input } from "../ui/input";
 
 const formSchema = z.object({
-  code: z.string().min(1, "Code is required"),
+  email: z.string().email("Invalid email address"),
 });
-
 type FormSchema = z.infer<typeof formSchema>;
-const VerifyForm = () => {
+const ForgetPasswordForm = () => {
   const router = useRouter();
-  const [email] = useQueryState("email", parseAsString.withDefault(""));
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      code: "",
+      email: "",
     },
   });
   const submit = async (data: FormSchema) => {
     try {
-      await authClient.emailOtp.verifyEmail({
-        otp: data.code,
-        email,
+      await authClient.forgetPassword.emailOtp({
+        email: data.email,
       });
-      router.push("/start-organization");
+      router.push(`/verify-reset?email=${data.email}`);
     } catch (error) {
-      console.error("Verification error:", error);
-      toast.error("An error occurred while verifying your email. Please try again.");
+      console.error("Error sending reset password email:", error);
+      toast.error("Failed to send reset password email. Please try again.");
     }
   };
+
   const {
     formState: { isSubmitting },
   } = form;
@@ -49,7 +53,7 @@ const VerifyForm = () => {
         >
           <FormField
             control={form.control}
-            name="code"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
@@ -60,7 +64,7 @@ const VerifyForm = () => {
             )}
           />
           <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? <Loader2 className="animate-spin" /> : "Verify Email"}
+            {isSubmitting ? <Loader2 className="animate-spin" /> : "Send verification code"}
           </Button>
         </form>
       </Form>
@@ -68,4 +72,4 @@ const VerifyForm = () => {
   );
 };
 
-export default VerifyForm;
+export default ForgetPasswordForm;
