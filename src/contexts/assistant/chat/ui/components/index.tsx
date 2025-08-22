@@ -61,7 +61,7 @@ export const Chat = () => {
   const { messages, sendMessage, setMessages } = useChat({
     messages: initialMessages,
     transport: new DefaultChatTransport({
-      api: "/api/chat",
+      api: "/api/assistant/chat",
       body: {
         user,
         chatId: chatId ?? v4(),
