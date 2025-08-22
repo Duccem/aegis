@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/contexts/shared/ui/utils/utils";
 import { RowData } from "@tanstack/react-table";
 
 function Table({ className, ...props }: React.ComponentProps<"table">) {

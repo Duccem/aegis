@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/contexts/shared/ui/components/shadcn/dropdown-menu";
 import { ListFilter } from "lucide-react";
 import { parseAsFloat, useQueryStates } from "nuqs";
 

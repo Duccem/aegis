@@ -1,5 +1,5 @@
 "use client";
-import FilterList from "@/components/shared/filter-list";
+import FilterList from "@/contexts/shared/ui/components/aegis/filter-list";
 import { useQueryStates } from "nuqs";
 const ProductTagFilters = () => {
   const [filters, setFilters] = useQueryStates({});

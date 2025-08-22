@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/contexts/shared/ui/components/shadcn/table";
-import { cn } from "@/lib/utils";
+import { cn } from "@/contexts/shared/ui/utils/utils";
 
 const data = [...Array(10)].map((_, i) => ({ id: i.toString() }));
 const CategoriesSkeleton = () => {

@@ -9,9 +9,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/contexts/shared/ui/components/shadcn/table";
+import { cn } from "@/contexts/shared/ui/utils/utils";
 import { Meta } from "@/lib/types/collection";
 import { Primitives } from "@/lib/types/primitives";
-import { cn } from "@/lib/utils";
 import { flexRender, getCoreRowModel, useReactTable, VisibilityState } from "@tanstack/react-table";
 import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";

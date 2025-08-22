@@ -1,11 +1,12 @@
 "use client";
 
-import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import { Card, CardContent } from "@/contexts/shared/ui/components/shadcn/card";
 import {
+  DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "@/contexts/shared/ui/components/shadcn/dropdown-menu";
 import {
   Table,

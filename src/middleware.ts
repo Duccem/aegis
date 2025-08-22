@@ -1,6 +1,6 @@
 import { createI18nMiddleware } from "next-international/middleware";
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionMiddleware } from "./lib/auth/utils";
+import { getSessionMiddleware } from "./contexts/shared/infrastructure/auth/utils";
 
 const publicRoutes = new Set([
   "/",

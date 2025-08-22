@@ -1,7 +1,12 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BillingSection from "@/contexts/auth/organization/ui/components/billing";
 import ProfileAccount from "@/contexts/auth/user/ui/components/profile/account";
 import ChangePasswordForm from "@/contexts/auth/user/ui/components/profile/password";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/contexts/shared/ui/components/shadcn/tabs";
 const Page = () => {
   return (
     <div className="w-full flex flex-col gap-6 p-9">

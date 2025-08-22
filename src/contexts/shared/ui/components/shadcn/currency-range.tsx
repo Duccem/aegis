@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import { Slider } from "@/contexts/shared/ui/components/shadcn/slider";
 import { useState } from "react";
 
 type Props = {

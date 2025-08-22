@@ -23,7 +23,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/contexts/shared/ui/components/shadcn/tabs";
-import { cn } from "@/lib/utils";
+import { cn } from "@/contexts/shared/ui/utils/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Archive, Building2, Calendar, Loader2, Package, Pencil, Tag, X } from "lucide-react";
 import { useState } from "react";

@@ -1,8 +1,8 @@
-import { Chat } from "@/components/chat";
-import { AppSidebar } from "@/components/shared/app-sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Chat } from "@/contexts/assistant/chat/ui/components";
 import { SessionProvider } from "@/contexts/auth/user/ui/components/auth/session-provider";
-import { getSession } from "@/lib/auth/server";
+import { getSession } from "@/contexts/shared/infrastructure/auth/server";
+import { AppSidebar } from "@/contexts/shared/ui/components/aegis/app-sidebar";
+import { SidebarInset, SidebarProvider } from "@/contexts/shared/ui/components/shadcn/sidebar";
 import { redirect } from "next/navigation";
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {

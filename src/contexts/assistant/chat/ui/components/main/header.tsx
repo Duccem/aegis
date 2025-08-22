@@ -1,6 +1,6 @@
 import { useChatStore } from "@/contexts/assistant/chat/ui/store/chat-store";
 import { Button } from "@/contexts/shared/ui/components/shadcn/button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/contexts/shared/ui/utils/utils";
 import { Sidebar, X } from "lucide-react";
 
 type Props = {
