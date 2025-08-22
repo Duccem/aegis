@@ -26,7 +26,7 @@ export class HttpNextResponse {
     return NextResponse.json({ data }, { status: 200 });
   }
 
-  static noResponse(status: 200 | 201 | 204 = 204): NextResponse {
+  static noResponse(status: 200 | 201 | 204 = 200): NextResponse {
     return new NextResponse(null, { status });
   }
 }

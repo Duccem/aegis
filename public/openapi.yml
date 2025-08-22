@@ -1,0 +1,360 @@
+openapi: 3.1.0
+info:
+  title: Aegis API
+  version: 1.0.0
+  description: The official API for the Aegis ERP application.
+servers:
+  - url: http://localhost:3000
+    description: Development server
+tags:
+  - name: Assistant
+    description: AI-powered assistant endpoints.
+  - name: Auth
+    description: Authentication related endpoints.
+  - name: Catalogue
+    description: Product catalogue management.
+  - name: Identity
+    description: User and organization identity management.
+paths:
+  /api/assistant/chat:
+    post:
+      tags:
+        - Assistant
+      summary: Create a new chat
+      description: Creates a new chat session with the assistant.
+      responses:
+        "200":
+          description: Chat created successfully.
+  /api/assistant/chat/{id}:
+    get:
+      tags:
+        - Assistant
+      summary: Get chat by ID
+      description: Retrieves a specific chat session by its unique identifier.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+  /api/catalogue/brand:
+    get:
+      tags:
+        - Catalogue
+      summary: Get all brands
+      description: Retrieves a list of all product brands.
+      responses:
+        "200":
+          description: Successful response
+    post:
+      tags:
+        - Catalogue
+      summary: Create a new brand
+      description: Adds a new brand to the catalogue.
+      responses:
+        "201":
+          description: Brand created successfully.
+  /api/catalogue/brand/{id}:
+    get:
+      tags:
+        - Catalogue
+      summary: Get brand by ID
+      description: Retrieves a specific brand by its unique identifier.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+    put:
+      tags:
+        - Catalogue
+      summary: Update a brand
+      description: Updates the details of an existing brand.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Brand updated successfully.
+    delete:
+      tags:
+        - Catalogue
+      summary: Delete a brand
+      description: Deletes a brand from the catalogue.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Brand deleted successfully.
+  /api/catalogue/category:
+    get:
+      tags:
+        - Catalogue
+      summary: Get all categories
+      description: Retrieves a list of all product categories.
+      responses:
+        "200":
+          description: Successful response
+    post:
+      tags:
+        - Catalogue
+      summary: Create a new category
+      description: Adds a new category to the catalogue.
+      responses:
+        "201":
+          description: Category created successfully.
+  /api/catalogue/category/{id}:
+    get:
+      tags:
+        - Catalogue
+      summary: Get category by ID
+      description: Retrieves a specific category by its unique identifier.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+    put:
+      tags:
+        - Catalogue
+      summary: Update a category
+      description: Updates the details of an existing category.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Category updated successfully.
+    delete:
+      tags:
+        - Catalogue
+      summary: Delete a category
+      description: Deletes a category from the catalogue.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Category deleted successfully.
+  /api/catalogue/item:
+    get:
+      tags:
+        - Catalogue
+      summary: Get all items
+      description: Retrieves a list of all items in the catalogue.
+      responses:
+        "200":
+          description: Successful response
+    post:
+      tags:
+        - Catalogue
+      summary: Create a new item
+      description: Adds a new item to the catalogue.
+      responses:
+        "201":
+          description: Item created successfully.
+  /api/catalogue/item/metrics:
+    get:
+      tags:
+        - Catalogue
+      summary: Get item metrics
+      description: Retrieves metrics about the items in the catalogue.
+      responses:
+        "200":
+          description: Successful response
+  /api/catalogue/item/unit:
+    get:
+      tags:
+        - Catalogue
+      summary: Get all item units
+      description: Retrieves a list of all available units of measure for items.
+      responses:
+        "200":
+          description: Successful response
+  /api/catalogue/item/{id}:
+    get:
+      tags:
+        - Catalogue
+      summary: Get item by ID
+      description: Retrieves a specific item by its unique identifier.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+    put:
+      tags:
+        - Catalogue
+      summary: Update an item
+      description: Updates the details of an existing item.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Item updated successfully.
+    delete:
+      tags:
+        - Catalogue
+      summary: Delete an item
+      description: Deletes an item from the catalogue.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Item deleted successfully.
+  /api/catalogue/item/{id}/archive:
+    post:
+      tags:
+        - Catalogue
+      summary: Archive an item
+      description: Archives a specific item.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Item archived successfully.
+  /api/catalogue/item/{id}/image:
+    post:
+      tags:
+        - Catalogue
+      summary: Add an image to an item
+      description: Uploads and associates an image with a specific item.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Image added successfully.
+  /api/catalogue/item/{id}/status:
+    put:
+      tags:
+        - Catalogue
+      summary: Update item status
+      description: Updates the status of a specific item (e.g., in stock, out of stock).
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Item status updated successfully.
+  /api/identity/organization:
+    get:
+      tags:
+        - Identity
+      summary: Get all organizations
+      description: Retrieves a list of all organizations.
+      responses:
+        "200":
+          description: Successful response
+    post:
+      tags:
+        - Identity
+      summary: Create a new organization
+      description: Creates a new organization.
+      responses:
+        "201":
+          description: Organization created successfully.
+  /api/identity/organization/{id}:
+    get:
+      tags:
+        - Identity
+      summary: Get organization by ID
+      description: Retrieves a specific organization by its unique identifier.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+    put:
+      tags:
+        - Identity
+      summary: Update an organization
+      description: Updates the details of an existing organization.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Organization updated successfully.
+    delete:
+      tags:
+        - Identity
+      summary: Delete an organization
+      description: Deletes an organization.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Organization deleted successfully.
+  /api/identity/payments/order/{id}/invoice:
+    get:
+      tags:
+        - Identity
+      summary: Get order invoice
+      description: Retrieves the invoice for a specific order.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
