@@ -1,5 +1,5 @@
-import { Chat } from "@/lib/core/chat/domain/chat";
-import { cn } from "@/lib/utils";
+import { cn } from "@/contexts/shared/ui/utils/utils";
+import { Chat } from "../../../domain/chat";
 
 interface SidebarItemProps {
   chat: Chat;
@@ -13,7 +13,7 @@ export function SidebarItem({ chat, chatId, onSelect }: SidebarItemProps) {
       type="button"
       className={cn(
         "text-left transition-colors px-0 py-1 rounded-lg w-full text-[#878787] hover:text-primary",
-        chatId === chat.id && "text-primary"
+        chatId === chat.id && "text-primary",
       )}
       onClick={() => onSelect(chat.id)}
     >

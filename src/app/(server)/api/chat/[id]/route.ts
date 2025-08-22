@@ -1,5 +1,5 @@
-import { DeleteChat } from "@/lib/core/chat/application/delete-chat";
-import { GetChat } from "@/lib/core/chat/application/get-chat";
+import { DeleteChat } from "@/contexts/assistant/chat/application/delete-chat";
+import { GetChat } from "@/contexts/assistant/chat/application/get-chat";
 import { RedisChatRepository } from "@/lib/core/chat/infrastructure/redis-chat-repository";
 import { HttpNextResponse } from "@/lib/http/http-response";
 import { routeHandler } from "@/lib/http/route-handler";

@@ -1,4 +1,4 @@
-import { BetterOrganization, BetterUser } from "@/lib/auth/server";
+import { BetterOrganization, BetterUser } from "@/contexts/shared/infrastructure/auth/server";
 import { google } from "@ai-sdk/google";
 import {
   InferUITools,

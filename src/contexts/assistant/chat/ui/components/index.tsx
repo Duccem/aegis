@@ -1,11 +1,11 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { useSession } from "@/contexts/auth/user/ui/components/auth/session-provider";
-import { useEnterSubmit } from "@/hooks/use-enter-submit";
-import { useScrollAnchor } from "@/hooks/use-scroll-anchor";
-import { getChat } from "@/lib/core/chat/infrastructure/http-chat-api";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import { Input } from "@/contexts/shared/ui/components/shadcn/input";
+import { ScrollArea } from "@/contexts/shared/ui/components/shadcn/scroll-area";
+import { useEnterSubmit } from "@/contexts/shared/ui/hooks/use-enter-submit";
+import { useScrollAnchor } from "@/contexts/shared/ui/hooks/use-scroll-anchor";
 import { useChat } from "@ai-sdk/react";
 import { useQuery } from "@tanstack/react-query";
 import { DefaultChatTransport } from "ai";
@@ -14,6 +14,7 @@ import { motion, useAnimate } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 import { v4 } from "uuid";
+import { getChat } from "../../infrastructure/http-chat-api";
 import { ChatEmpty } from "./main/chat-empty";
 import { ChatExamples } from "./main/chat-examples";
 import { ChatList } from "./main/chat-list";

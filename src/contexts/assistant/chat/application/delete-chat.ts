@@ -1,4 +1,4 @@
-import { ChatRepository } from "../domain/chat-repository";
+import { ChatRepository } from "../../../../lib/core/chat/domain/chat-repository";
 
 export class DeleteChat {
   constructor(private chatRepository: ChatRepository) {}
