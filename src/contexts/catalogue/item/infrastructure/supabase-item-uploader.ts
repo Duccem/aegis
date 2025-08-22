@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/contexts/shared/infrastructure/supabase/client";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { ItemImageUploader } from "../domain/item-image-uploader";
 
@@ -12,7 +12,7 @@ export class SupabaseItemImageUploader implements ItemImageUploader {
     const uploads = [];
     for (const file of files) {
       const path = `items/${file.name}`;
-      const storage = this.supabase.storage.from("aegis");
+      const storage = this.supabase.storage.from("products");
       uploads.push(storage.upload(path, file));
     }
     const results = await Promise.all(uploads);
