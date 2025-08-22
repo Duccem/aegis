@@ -2,8 +2,8 @@
 
 import { CircleUserRoundIcon, XIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { useFileUpload } from "@/hooks/use-file-upload";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import { useFileUpload } from "@/contexts/shared/ui/hooks/use-file-upload";
 import { useEffect } from "react";
 
 function InputAvatar({

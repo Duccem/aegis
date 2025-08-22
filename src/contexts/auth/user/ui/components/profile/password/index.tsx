@@ -1,7 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import {
+  Card,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/contexts/shared/ui/components/shadcn/card";
 import {
   Form,
   FormControl,
@@ -9,8 +14,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { InputPassword } from "@/components/ui/input-password";
+} from "@/contexts/shared/ui/components/shadcn/form";
+import { InputPassword } from "@/contexts/shared/ui/components/shadcn/input-password";
 import { authClient } from "@/lib/auth/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -64,7 +69,7 @@ const ChangePasswordForm = ({}) => {
           action=""
           onSubmit={form.handleSubmit(
             (data) => mutate(data),
-            (error) => console.error(error)
+            (error) => console.error(error),
           )}
         >
           <CardHeader className="pb-5">

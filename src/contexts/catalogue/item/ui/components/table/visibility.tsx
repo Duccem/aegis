@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/contexts/shared/ui/components/shadcn/dropdown-menu";
 import { Primitives } from "@/lib/types/primitives";
 import { Table } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";

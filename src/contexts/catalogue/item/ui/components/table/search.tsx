@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import { Input } from "@/contexts/shared/ui/components/shadcn/input";
 import { useDebounce } from "@uidotdev/usehooks";
 import { Search, X } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";

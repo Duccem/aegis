@@ -1,15 +1,15 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/contexts/shared/ui/components/shadcn/badge";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import { Checkbox } from "@/contexts/shared/ui/components/shadcn/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/contexts/shared/ui/components/shadcn/dropdown-menu";
+import { cn } from "@/contexts/shared/ui/utils/utils";
 import { Primitives } from "@/lib/types/primitives";
-import { cn } from "@/lib/utils";
 import { ColumnDef, Table } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, MoreHorizontal, Pencil } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
