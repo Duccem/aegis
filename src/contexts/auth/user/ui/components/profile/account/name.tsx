@@ -1,5 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+"use client";
+import { authClient } from "@/contexts/shared/infrastructure/auth/client";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import {
+  Card,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/contexts/shared/ui/components/shadcn/card";
 import {
   Form,
   FormControl,
@@ -7,9 +14,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { authClient } from "@/lib/auth/client";
+} from "@/contexts/shared/ui/components/shadcn/form";
+import { Input } from "@/contexts/shared/ui/components/shadcn/input";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
@@ -53,7 +60,7 @@ const Name = ({ name }: FormSchema) => {
           action=""
           onSubmit={form.handleSubmit(
             (data) => mutate(data),
-            (error) => console.error(error)
+            (error) => console.error(error),
           )}
         >
           <CardHeader className="">

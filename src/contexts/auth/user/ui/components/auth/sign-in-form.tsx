@@ -1,22 +1,22 @@
 "use client";
 
-import { authClient } from "@/lib/auth/client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import z from "zod";
-import { Button } from "../../../../../../components/ui/button";
+import { authClient } from "@/contexts/shared/infrastructure/auth/client";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from "../../../../../../components/ui/form";
-import { Input } from "../../../../../../components/ui/input";
-import { InputPassword } from "../../../../../../components/ui/input-password";
+} from "@/contexts/shared/ui/components/shadcn/form";
+import { Input } from "@/contexts/shared/ui/components/shadcn/input";
+import { InputPassword } from "@/contexts/shared/ui/components/shadcn/input-password";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import z from "zod";
 
 const formSchema = z.object({
   email: z.email("Invalid email address"),

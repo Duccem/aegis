@@ -270,7 +270,7 @@ export const organization_relations = relations(organization, ({ one, many }) =>
 }));
 
 export const item_relations = relations(item, ({ many, one }) => ({
-  productCategories: many(item_category),
+  itemCategories: many(item_category),
   unit: one(unit, {
     fields: [item.unitId],
     references: [unit.id],
@@ -284,7 +284,7 @@ export const item_relations = relations(item, ({ many, one }) => ({
 }));
 
 export const category_relations = relations(category, ({ many }) => ({
-  productCategories: many(item_category),
+  itemCategories: many(item_category),
 }));
 
 export const product_category_relations = relations(item_category, ({ one }) => ({
@@ -299,10 +299,10 @@ export const product_category_relations = relations(item_category, ({ one }) => 
 }));
 
 export const brand_relations = relations(brand, ({ many }) => ({
-  products: many(item),
+  items: many(item),
 }));
 export const unit_relations = relations(unit, ({ many }) => ({
-  products: many(item),
+  items: many(item),
 }));
 
 export const store_relations = relations(store, ({ many }) => ({
@@ -311,7 +311,7 @@ export const store_relations = relations(store, ({ many }) => ({
 }));
 
 export const stock_relations = relations(stock, ({ one }) => ({
-  product: one(item, {
+  item: one(item, {
     fields: [stock.itemId],
     references: [item.id],
   }),

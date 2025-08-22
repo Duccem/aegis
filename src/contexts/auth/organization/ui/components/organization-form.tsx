@@ -1,15 +1,22 @@
 "use client";
-import { authClient } from "@/lib/auth/client";
-import { HttpOrganizationApi } from "@/lib/core/organization/infrastructure/http-organization-api";
+
+import { authClient } from "@/contexts/shared/infrastructure/auth/client";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/contexts/shared/ui/components/shadcn/form";
+import { Input } from "@/contexts/shared/ui/components/shadcn/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { Button } from "../ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import { Input } from "../ui/input";
+import { HttpOrganizationApi } from "../../infrastructure/http-organization-api";
 
 const formSchema = z.object({
   name: z.string().min(1, "Organization name is required"),

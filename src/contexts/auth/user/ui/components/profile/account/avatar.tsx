@@ -1,10 +1,20 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { InputAvatar } from "@/components/ui/input-avatar";
+import { SupabaseUserStorage } from "@/contexts/auth/user/infrastructure/supabase-user-storage";
 import { useSession } from "@/contexts/auth/user/ui/components/auth/session-provider";
-import { authClient } from "@/lib/auth/client";
-import { SupabaseUserStorage } from "@/lib/core/user/infrastructure/supabase-user-storage";
+import { authClient } from "@/contexts/shared/infrastructure/auth/client";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import {
+  Card,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/contexts/shared/ui/components/shadcn/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+} from "@/contexts/shared/ui/components/shadcn/form";
+import { InputAvatar } from "@/contexts/shared/ui/components/shadcn/input-avatar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";

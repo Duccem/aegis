@@ -1,5 +1,5 @@
 "use client";
-import { authClient } from "@/lib/auth/client";
+import { authClient } from "@/contexts/shared/infrastructure/auth/client";
 import { useQuery } from "@tanstack/react-query";
 import ProfileAvatar from "./avatar";
 import { DeleteAccountSection } from "./delete";
