@@ -1,5 +1,3 @@
-import { database } from "@/lib/database";
-import * as schema from "@/lib/database/schema/_index";
 import { checkout, polar, portal, usage, webhooks } from "@polar-sh/better-auth";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
@@ -7,6 +5,8 @@ import { nextCookies } from "better-auth/next-js";
 import { bearer, emailOTP, openAPI, organization } from "better-auth/plugins";
 import { headers } from "next/headers";
 import { cache } from "react";
+import { database } from "../database";
+import * as schema from "../database/schema";
 import { env } from "../env";
 import { client } from "../payments";
 import { paymentProducts } from "../payments/products";
