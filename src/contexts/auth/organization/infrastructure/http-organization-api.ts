@@ -4,7 +4,7 @@ import { Organization } from "../domain/organization";
 
 export class HttpOrganizationApi {
   static async initializeMetrics(id: string): Promise<void> {
-    const response = await fetch(`/api/organization/${id}`, {
+    const response = await fetch(`/api/identity/organization/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export class HttpOrganizationApi {
   }
 
   static async getOrganization(): Promise<Primitives<Organization>> {
-    const response = await fetch("/api/organization");
+    const response = await fetch("/api/identity/organization");
     if (!response.ok) {
       throw new Error("Failed to fetch organization data");
     }
