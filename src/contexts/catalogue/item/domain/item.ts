@@ -3,6 +3,7 @@ import { Primitives } from "@/contexts/shared/domain/primitives";
 import { DateValueObject, StringValueObject } from "@/contexts/shared/domain/value-object";
 import { Uuid } from "@/contexts/shared/domain/value-objects/uuid";
 import { ItemImages } from "./item-images";
+import { ItemName } from "./item-name";
 import { ItemStatus } from "./item-status";
 import { ItemType } from "./item-type";
 
@@ -124,5 +125,5 @@ export class Item extends Aggregate {
 
 export class ItemID extends Uuid {}
 export class ItemSKU extends StringValueObject {}
-export class ItemName extends StringValueObject {}
+
 export class ItemDescription extends StringValueObject {}
