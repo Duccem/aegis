@@ -1,8 +1,9 @@
-import { SaveChat } from "@/lib/core/chat/application/save-chat";
-import { Chat } from "@/lib/core/chat/domain/chat";
-import { RedisChatRepository } from "@/lib/core/chat/infrastructure/redis-chat-repository";
+import { SaveChat } from "@/contexts/assistant/chat/application/save-chat";
+
 import { TextPart } from "ai";
 import { ChatMessage } from ".";
+import { Chat } from "../../domain/chat";
+import { RedisChatRepository } from "../redis-chat-repository";
 
 export async function saveChat(chatId: string, userId: string, messages: ChatMessage[]) {
   const createdAt = new Date();

@@ -1,5 +1,5 @@
-import { getChatHistory } from "@/lib/core/chat/infrastructure/http-chat-api";
 import { useQuery } from "@tanstack/react-query";
+import { getChatHistory } from "../../../infrastructure/http-chat-api";
 import { SidebarItem } from "./sidebar-item";
 
 interface SidebarItemsProps {

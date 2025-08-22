@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/contexts/shared/ui/utils/utils";
 import { Loader2 } from "lucide-react";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 import { ChatAvatar } from "./chat-avatar";
@@ -66,7 +66,7 @@ export function BotCard({
         <div
           className={cn(
             "ml-4 flex-1 space-y-2 overflow-hidden pl-2 font-mono leading-relaxed mt-2",
-            className
+            className,
           )}
         >
           {children}

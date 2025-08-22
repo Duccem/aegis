@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { useChatStore } from "@/contexts/assistant/chat/ui/store/chat-store";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import { cn } from "@/lib/utils";
-import { useChatStore } from "@/store/chat-store";
 import { Sidebar, X } from "lucide-react";
 
 type Props = {
@@ -37,7 +37,7 @@ function Experimental({ className }: { className: string }) {
     <span
       className={cn(
         "flex items-center py-[3px] px-3 rounded-full border border-primary text-[10px] h-full font-normal",
-        className
+        className,
       )}
     >
       Experimental

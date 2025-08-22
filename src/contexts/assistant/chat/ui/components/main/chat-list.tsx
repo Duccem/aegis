@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/contexts/shared/ui/utils/utils";
 import { UIMessage } from "ai";
 import { BotMessage, UserMessage } from "./messages";
 

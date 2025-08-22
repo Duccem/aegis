@@ -1,5 +1,5 @@
-import { Chat } from "../domain/chat";
-import { ChatRepository } from "../domain/chat-repository";
+import { Chat } from "../../../../lib/core/chat/domain/chat";
+import { ChatRepository } from "../../../../lib/core/chat/domain/chat-repository";
 
 export class ListChats {
   constructor(private chatRepository: ChatRepository) {}

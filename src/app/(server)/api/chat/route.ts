@@ -1,6 +1,6 @@
-import { agent } from "@/agent";
-import { ClearChats } from "@/lib/core/chat/application/clear-chats";
-import { ListChats } from "@/lib/core/chat/application/list-chats";
+import { ClearChats } from "@/contexts/assistant/chat/application/clear-chats";
+import { ListChats } from "@/contexts/assistant/chat/application/list-chats";
+import { agent } from "@/contexts/assistant/chat/infrastructure/agent";
 import { RedisChatRepository } from "@/lib/core/chat/infrastructure/redis-chat-repository";
 import { HttpNextResponse } from "@/lib/http/http-response";
 import { routeHandler } from "@/lib/http/route-handler";
