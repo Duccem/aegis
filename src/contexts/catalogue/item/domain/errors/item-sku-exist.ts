@@ -1,4 +1,4 @@
-import { DomainError } from "@/lib/types/domain-error";
+import { DomainError } from "@/contexts/shared/domain/domain-error";
 
 export class ItemSKUExist extends DomainError {
   constructor(sku: string) {

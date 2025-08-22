@@ -1,4 +1,4 @@
-import { DomainError } from "@/lib/types/domain-error";
+import { DomainError } from "@/contexts/shared/domain/domain-error";
 
 export class CannotUpdateBrandError extends DomainError {
   constructor() {
