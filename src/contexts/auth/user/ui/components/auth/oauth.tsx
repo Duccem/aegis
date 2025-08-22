@@ -1,8 +1,9 @@
 "use client";
-import { authClient } from "@/lib/auth/client";
+
+import { authClient } from "@/contexts/shared/infrastructure/auth/client";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import Facebook from "../../../../../../components/icons/facebook-icon";
 import Google from "../../../../../../components/icons/google-icon";
-import { Button } from "../../../../../../components/ui/button";
 
 const Oauth = ({ signIn = false }: { signIn?: boolean }) => {
   const socialLogin = async (provider: "google" | "facebook") => {

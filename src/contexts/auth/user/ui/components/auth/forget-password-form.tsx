@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/contexts/shared/infrastructure/auth/client";
 import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import {
   Form,
@@ -9,7 +10,6 @@ import {
   FormLabel,
 } from "@/contexts/shared/ui/components/shadcn/form";
 import { Input } from "@/contexts/shared/ui/components/shadcn/input";
-import { authClient } from "@/lib/auth/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";

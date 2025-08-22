@@ -1,5 +1,16 @@
 "use client";
-import { authClient } from "@/lib/auth/client";
+import { authClient } from "@/contexts/shared/infrastructure/auth/client";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import { Checkbox } from "@/contexts/shared/ui/components/shadcn/checkbox";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/contexts/shared/ui/components/shadcn/form";
+import { Input } from "@/contexts/shared/ui/components/shadcn/input";
+import { Label } from "@/contexts/shared/ui/components/shadcn/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -7,17 +18,6 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { Button } from "../../../../../../components/ui/button";
-import { Checkbox } from "../../../../../../components/ui/checkbox";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "../../../../../../components/ui/form";
-import { Input } from "../../../../../../components/ui/input";
-import { Label } from "../../../../../../components/ui/label";
 
 const formSchema = z
   .object({

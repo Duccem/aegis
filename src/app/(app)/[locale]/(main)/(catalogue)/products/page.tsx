@@ -1,6 +1,6 @@
-import CreateNewProduct from "@/components/product/create";
-import Indicators from "@/components/product/indicators";
-import Products from "@/components/product/table";
+import CreateNewItem from "@/contexts/catalogue/item/ui/components/create";
+import Indicators from "@/contexts/catalogue/item/ui/components/indicators";
+import Items from "@/contexts/catalogue/item/ui/components/table";
 import { Package } from "lucide-react";
 
 const Page = () => {
@@ -14,10 +14,10 @@ const Page = () => {
             <p className="text-sm text-muted-foreground">Manage and review your products here</p>
           </div>
         </div>
-        <CreateNewProduct />
+        <CreateNewItem />
       </div>
       <Indicators />
-      <Products />
+      <Items />
     </div>
   );
 };

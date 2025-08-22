@@ -1,6 +1,6 @@
 "use client";
 
-import { BetterUser } from "@/lib/auth/server";
+import { BetterUser } from "@/contexts/shared/infrastructure/auth/server";
 import { createContext, useContext } from "react";
 
 const SessionContext = createContext<{ user: BetterUser } | undefined>(undefined);

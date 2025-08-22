@@ -1,5 +1,5 @@
-import BillingSection from "@/components/profile/billing";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import BillingSection from "@/contexts/auth/organization/ui/components/billing";
 import ProfileAccount from "@/contexts/auth/user/ui/components/profile/account";
 import ChangePasswordForm from "@/contexts/auth/user/ui/components/profile/password";
 const Page = () => {

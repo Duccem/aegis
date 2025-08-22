@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/contexts/shared/infrastructure/auth/client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,11 +11,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { InputPassword } from "@/components/ui/input-password";
-import { authClient } from "@/lib/auth/client";
+} from "@/contexts/shared/ui/components/shadcn/alert-dialog";
+import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import {
+  Card,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/contexts/shared/ui/components/shadcn/card";
+import { InputPassword } from "@/contexts/shared/ui/components/shadcn/input-password";
+
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";

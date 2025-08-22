@@ -1,6 +1,6 @@
 "use client";
 
-import { authClient } from "@/lib/auth/client";
+import { authClient } from "@/contexts/shared/infrastructure/auth/client";
 import { Loader2 } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
 import { useState } from "react";
