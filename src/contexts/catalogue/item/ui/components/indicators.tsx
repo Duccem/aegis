@@ -1,9 +1,6 @@
 "use client";
-import { HttpProductApi } from "@/lib/core/product/infrastructure/http-product-api";
-import { IconTrendingUp } from "@tabler/icons-react";
-import { useQuery } from "@tanstack/react-query";
-import { Activity, AlertTriangle, ArrowDown, ArrowRight, Package } from "lucide-react";
-import { Badge } from "../../../../../components/ui/badge";
+
+import { Badge } from "@/contexts/shared/ui/components/shadcn/badge";
 import {
   Card,
   CardAction,
@@ -11,7 +8,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../../../../components/ui/card";
+} from "@/contexts/shared/ui/components/shadcn/card";
+import { IconTrendingUp } from "@tabler/icons-react";
+import { useQuery } from "@tanstack/react-query";
+import { Activity, AlertTriangle, ArrowDown, ArrowRight, Package } from "lucide-react";
+import { HttpItemApi } from "../../infrastructure/http-item-api";
 
 const Indicators = () => {
   const { data, isPending } = useQuery({
@@ -22,7 +23,7 @@ const Indicators = () => {
       totalActiveProducts: 0,
     },
     queryFn: async () => {
-      return await HttpProductApi.getProductMetrics();
+      return await HttpItemApi.getItemsMetrics();
     },
     refetchOnWindowFocus: false,
   });

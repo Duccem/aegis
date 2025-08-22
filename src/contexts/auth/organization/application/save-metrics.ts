@@ -20,10 +20,10 @@ export class SaveMetrics {
     }
     organization.updateMetrics({
       organizationMembers:
-        metrics.organizationMembers ?? organization.metrics.organizationMembers.value,
-      aiCompletions: metrics.aiCompletions ?? organization.metrics.aiCompletions.value,
-      productsCreated: metrics.productsCreated ?? organization.metrics.productsCreated.value,
-      invoiceSent: metrics.invoiceSent ?? organization.metrics.invoiceSent.value,
+        metrics.organizationMembers ?? organization.metrics?.organizationMembers.value ?? 0,
+      aiCompletions: metrics.aiCompletions ?? organization.metrics?.aiCompletions.value ?? 0,
+      productsCreated: metrics.productsCreated ?? organization.metrics?.productsCreated.value ?? 0,
+      invoiceSent: metrics.invoiceSent ?? organization.metrics?.invoiceSent.value ?? 0,
     });
 
     await this.repository.saveMetrics(Uuid.fromString(organizationId), organization);

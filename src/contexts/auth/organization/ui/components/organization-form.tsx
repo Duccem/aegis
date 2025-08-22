@@ -40,6 +40,9 @@ const OrganizationForm = () => {
         name: data.name,
         slug: data.name.toLowerCase().replace(/\s+/g, "-"),
       });
+      if (org.error) {
+        throw new Error(org.error.message);
+      }
       await HttpOrganizationApi.initializeMetrics(org.data?.id ?? "");
       toast.success("Organization created successfully!");
       router.push("/home");

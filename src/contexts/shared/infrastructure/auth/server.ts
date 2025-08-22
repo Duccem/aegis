@@ -48,16 +48,6 @@ export const auth = betterAuth({
       roles: {
         admin,
       },
-      schema: {
-        organization: {
-          additionalFields: {
-            plan: {
-              type: "string",
-              defaultValue: "free",
-            },
-          },
-        },
-      },
     }),
     emailOTP({
       otpLength: 6,

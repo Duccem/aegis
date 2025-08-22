@@ -8,8 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/contexts/shared/ui/components/shadcn/card";
-import { HttpProductApi } from "@/lib/core/product/infrastructure/http-product-api";
-import { SupabaseProductUploader } from "@/lib/core/product/infrastructure/supabase-product-uploader";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ChevronLeft,
@@ -25,6 +23,7 @@ import {
 import { useRef, useState } from "react";
 import { Item } from "../../../domain/item";
 import { HttpItemApi } from "../../../infrastructure/http-item-api";
+import { SupabaseItemImageUploader } from "../../../infrastructure/supabase-item-uploader";
 import ImageView from "./image-view";
 
 export default function ItemGallery({ item }: { item: Primitives<Item> }) {
@@ -73,9 +72,9 @@ export default function ItemGallery({ item }: { item: Primitives<Item> }) {
   const deleteImage = async (url: string) => {
     if (!url || deletingImage || isAnimating) return;
     setDeletingImage(true);
-    const uploader = new SupabaseProductUploader();
+    const uploader = new SupabaseItemImageUploader();
     await uploader.deleteImage(url);
-    await HttpProductApi.removeImage(item.id, url);
+    await HttpItemApi.removeImage(item.id, url);
     setDeletingImage(false);
     setSelectedImageIndex((prev) => {
       const newImages = item.images.filter((image) => image !== url);
@@ -92,7 +91,7 @@ export default function ItemGallery({ item }: { item: Primitives<Item> }) {
     const file: File = e.target.files[0];
     if (!file) return;
     setAddingImage(true);
-    const uploader = new SupabaseProductUploader();
+    const uploader = new SupabaseItemImageUploader();
     const [url] = await uploader.uploadImages([file]);
     await HttpItemApi.addImage(item.id, url);
     item.images.push(url);

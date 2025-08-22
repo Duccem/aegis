@@ -12,7 +12,7 @@ export class Organization extends Aggregate {
     public logo: StringValueObject | null,
     public metadata: StringValueObject | null,
     public plan: StringValueObject,
-    public metrics: Metrics,
+    public metrics: Metrics | null,
     createdAt: DateValueObject,
   ) {
     super(id, createdAt, createdAt);
@@ -26,7 +26,7 @@ export class Organization extends Aggregate {
       logo: this.logo?.value ?? null,
       metadata: this.metadata?.value ?? null,
       plan: this.plan.value,
-      metrics: this.metrics.toPrimitives(),
+      metrics: this.metrics ? this.metrics.toPrimitives() : null,
       createdAt: this.createdAt.value,
       updatedAt: this.updatedAt.value,
     };
@@ -40,12 +40,13 @@ export class Organization extends Aggregate {
       data.logo ? new StringValueObject(data.logo) : null,
       data.metadata ? new StringValueObject(data.metadata) : null,
       new StringValueObject(data.plan),
-      Metrics.fromPrimitives(data.metrics),
+      data.metrics ? Metrics.fromPrimitives(data.metrics) : null,
       new DateValueObject(data.createdAt),
     );
   }
 
   updateMetrics(metrics: Primitives<Metrics>): void {
+    console.log(metrics);
     this.metrics = Metrics.fromPrimitives(metrics);
     this.updatedAt = new DateValueObject(new Date());
   }

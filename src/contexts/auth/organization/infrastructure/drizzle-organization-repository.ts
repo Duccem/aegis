@@ -31,25 +31,28 @@ export class DrizzleOrganizationRepository implements OrganizationRepository {
   }
 
   async saveMetrics(organizationId: Uuid, organization: Organization): Promise<void> {
-    const data = organization.metrics.toPrimitives();
-    await database
-      .insert(organization_metrics)
-      .values({
+    const data = organization.metrics?.toPrimitives() ?? {
+      organizationMembers: 0,
+      aiCompletions: 0,
+      productsCreated: 0,
+      invoiceSent: 0,
+    };
+    const exist = await database
+      .select()
+      .from(organization_metrics)
+      .where(eq(organization_metrics.organizationId, organizationId.value))
+      .limit(1);
+    if (exist.length > 0) {
+      await database
+        .update(organization_metrics)
+        .set(data)
+        .where(eq(organization_metrics.organizationId, organizationId.value));
+    } else {
+      await database.insert(organization_metrics).values({
         organizationId: organizationId.value,
-        organizationMembers: data.organizationMembers,
-        aiCompletions: data.aiCompletions,
-        productsCreated: data.productsCreated,
-        invoiceSent: data.invoiceSent,
-      })
-      .onConflictDoUpdate({
-        target: [organization_metrics.organizationId],
-        set: {
-          organizationMembers: data.organizationMembers,
-          aiCompletions: data.aiCompletions,
-          productsCreated: data.productsCreated,
-          invoiceSent: data.invoiceSent,
-        },
+        ...data,
       });
+    }
   }
 
   async updatePlan(organizationId: Uuid, plan: string): Promise<void> {
