@@ -1,5 +1,5 @@
-import { Meta } from "@/lib/types/collection";
-import { Primitives } from "@/lib/types/primitives";
+import { Meta } from "@/contexts/shared/domain/collection";
+import { Primitives } from "@/contexts/shared/domain/primitives";
 import { Item } from "../domain/item";
 import { Unit } from "../domain/unit";
 
