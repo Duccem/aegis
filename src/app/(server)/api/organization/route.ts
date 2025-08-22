@@ -1,8 +1,8 @@
-import { GetOrganization } from "@/lib/core/organization/application/get-organization";
-import { OrganizationNotFound } from "@/lib/core/organization/domain/organization-not-found";
-import { DrizzleOrganizationRepository } from "@/lib/core/organization/infrastructure/drizzle-organization-repository";
-import { HttpNextResponse } from "@/lib/http/http-response";
-import { routeHandler } from "@/lib/http/route-handler";
+import { GetOrganization } from "@/contexts/auth/organization/application/get-organization";
+import { OrganizationNotFound } from "@/contexts/auth/organization/domain/organization-not-found";
+import { DrizzleOrganizationRepository } from "@/contexts/auth/organization/infrastructure/drizzle-organization-repository";
+import { HttpNextResponse } from "@/contexts/shared/infrastructure/http/http-response";
+import { routeHandler } from "@/contexts/shared/infrastructure/http/route-handler";
 
 export const GET = routeHandler(
   { name: "get-org" },

@@ -1,7 +1,7 @@
 "use client";
+import { authClient } from "@/contexts/shared/infrastructure/auth/client";
 import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import { cn } from "@/contexts/shared/ui/utils/utils";
-import { authClient } from "@/lib/auth/client";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -88,12 +88,12 @@ export const HeroHeader = () => {
                       size="sm"
                       className={cn(isScrolled && "lg:hidden")}
                     >
-                      <Link href="#">
+                      <Link href="/sign-in">
                         <span>Login</span>
                       </Link>
                     </Button>
                     <Button asChild size="sm" className={cn(isScrolled && "lg:hidden")}>
-                      <Link href="#">
+                      <Link href="/sign-up">
                         <span>Sign Up</span>
                       </Link>
                     </Button>
