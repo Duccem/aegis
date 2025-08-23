@@ -1,5 +1,5 @@
 "use client";
-import { Primitives } from "@/lib/types/primitives";
+import { Primitives } from "@/contexts/shared/domain/primitives";
 import { Table } from "@tanstack/react-table";
 import { Item } from "../../../domain/item";
 import ProductsTableFilter from "./filter";

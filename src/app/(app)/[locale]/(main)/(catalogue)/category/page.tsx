@@ -1,5 +1,5 @@
-import CreateCategorySheet from "@/components/product/category/save/create-sheet";
-import Categories from "@/components/product/category/table";
+import CreateCategorySheet from "@/contexts/catalogue/category/ui/components/save/create-sheet";
+import Categories from "@/contexts/catalogue/category/ui/components/table";
 import { LayoutList } from "lucide-react";
 
 const Page = () => {

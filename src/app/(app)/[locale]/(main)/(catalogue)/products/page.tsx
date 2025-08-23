@@ -1,12 +1,13 @@
 import CreateNewItem from "@/contexts/catalogue/item/ui/components/create";
 import Indicators from "@/contexts/catalogue/item/ui/components/indicators";
+import ItemsStats from "@/contexts/catalogue/item/ui/components/stats";
 import Items from "@/contexts/catalogue/item/ui/components/table";
 import { Package } from "lucide-react";
 
 const Page = () => {
   return (
-    <div className="flex flex-col h-screen p-6 gap-8">
-      <div className="flex items-center justify-between w-full">
+    <div className="flex flex-col">
+      <div className="flex items-center justify-between w-full border-b px-6 py-3">
         <div className="flex items-center space-x-2">
           <Package className="size-8" />
           <div>
@@ -17,7 +18,10 @@ const Page = () => {
         <CreateNewItem />
       </div>
       <Indicators />
-      <Items />
+      <ItemsStats />
+      <div className="w-full p-6">
+        <Items />
+      </div>
     </div>
   );
 };

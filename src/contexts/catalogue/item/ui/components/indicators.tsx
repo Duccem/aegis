@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@/contexts/shared/ui/components/shadcn/badge";
 import {
   Card,
   CardAction,
@@ -9,9 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/contexts/shared/ui/components/shadcn/card";
-import { IconTrendingUp } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
-import { Activity, AlertTriangle, ArrowDown, ArrowRight, Package } from "lucide-react";
+import { Activity, Package, PackageX, Siren } from "lucide-react";
 import { HttpItemApi } from "../../infrastructure/http-item-api";
 
 const Indicators = () => {
@@ -52,86 +50,67 @@ const Indicators = () => {
     );
   }
   return (
-    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Total products</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data.totalProducts}
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              {data.totalProductsThisMonth > 0 ? (
-                <IconTrendingUp className="size-4" />
-              ) : (
-                <ArrowRight className="size-4" />
-              )}
-              {data.totalProducts > 0
-                ? `${Math.round((data.totalProductsThisMonth / data.totalProducts) * 100)}%`
-                : "0%"}
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            New products added this month <IconTrendingUp className="size-4" />
-          </div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Active products</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data.totalActiveProducts}
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <Activity />
-              {data.totalProducts > 0
-                ? `${Math.round((data.totalActiveProducts / data.totalProducts) * 100)}%`
-                : "0%"}
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">Products available for sale</div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Under stock</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <ArrowDown />
-              20%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">Under 20% of maximun existence</div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Out of stock</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <Package />0
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Existence is 0 <AlertTriangle className="size-4" />
-          </div>
-        </CardFooter>
-      </Card>
+    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 border-b">
+      <div className="border-r">
+        <Card className="@container/card border-none  bg-background">
+          <CardHeader>
+            <CardDescription>Total products</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+              {data.totalProducts}
+            </CardTitle>
+            <CardAction>
+              <div className="flex items-center text-foreground px-2 py-2 bg-foreground/10 border border-foreground">
+                <Package className="size-4" />
+              </div>
+            </CardAction>
+          </CardHeader>
+        </Card>
+      </div>
+      <div className="border-r">
+        <Card className="@container/card border-none border-x bg-background">
+          <CardHeader>
+            <CardDescription>Active products</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+              {data.totalActiveProducts}
+            </CardTitle>
+            <CardAction>
+              <div className="flex items-center text-emerald-500 px-2 py-2 bg-emerald-500/10  border border-emerald-500">
+                <Activity className="size-4" />
+              </div>
+            </CardAction>
+          </CardHeader>
+        </Card>
+      </div>
+      <div className="border-r">
+        <Card className="@container/card border-none border-x bg-background">
+          <CardHeader>
+            <CardDescription>Under stock</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+              1
+            </CardTitle>
+            <CardAction>
+              <div className="flex items-center text-orange-500 px-2 py-2 bg-orange-500/10  border border-orange-500">
+                <Siren className="size-4" />
+              </div>
+            </CardAction>
+          </CardHeader>
+        </Card>
+      </div>
+      <div>
+        <Card className="@container/card border-none border-x bg-background">
+          <CardHeader>
+            <CardDescription>Out of stock</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+              1
+            </CardTitle>
+            <CardAction>
+              <div className="flex items-center text-red-500 px-2 py-2 bg-red-500/10  border border-red-500">
+                <PackageX className="size-4" />
+              </div>
+            </CardAction>
+          </CardHeader>
+        </Card>
+      </div>
     </div>
   );
 };

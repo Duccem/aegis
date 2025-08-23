@@ -2,6 +2,7 @@ import { Chat } from "@/contexts/assistant/chat/ui/components";
 import { SessionProvider } from "@/contexts/auth/user/ui/components/auth/session-provider";
 import { getSession } from "@/contexts/shared/infrastructure/auth/server";
 import { AppSidebar } from "@/contexts/shared/ui/components/aegis/app-sidebar";
+import Header from "@/contexts/shared/ui/components/aegis/header";
 import { SidebarInset, SidebarProvider } from "@/contexts/shared/ui/components/shadcn/sidebar";
 import { redirect } from "next/navigation";
 
@@ -20,10 +21,11 @@ export default async function MainLayout({ children }: { children: React.ReactNo
           } as React.CSSProperties
         }
       >
-        <AppSidebar variant="floating" />
+        <AppSidebar variant="sidebar" />
         <SidebarInset>
           <div className="flex flex-col">
-            <main className="flex-1">{children}</main>
+            <Header />
+            <main>{children}</main>
           </div>
           <Chat />
         </SidebarInset>

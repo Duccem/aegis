@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/contexts/shared/infrastructure/auth/client";
 import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import {
   Card,
@@ -16,7 +17,6 @@ import {
   FormMessage,
 } from "@/contexts/shared/ui/components/shadcn/form";
 import { InputPassword } from "@/contexts/shared/ui/components/shadcn/input-password";
-import { authClient } from "@/lib/auth/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";

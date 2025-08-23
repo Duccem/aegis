@@ -1,5 +1,6 @@
 "use client";
 
+import { Meta } from "@/contexts/shared/domain/collection";
 import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import {
   Select,
@@ -8,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/contexts/shared/ui/components/shadcn/select";
-import { Meta } from "@/lib/types/collection";
+
 import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeft, ChevronsRight } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
@@ -50,7 +51,7 @@ const ProductsTablePagination = ({ meta }: Props) => {
             onValueChange={(value) => createPageSizeQuery(value)}
             disabled={meta.total < 10}
           >
-            <SelectTrigger className="h-8 w-[70px] rounded-xl">
+            <SelectTrigger className="h-8 w-[70px] rounded-md bg-transparent dark:bg-transparent">
               <SelectValue placeholder={pageSize} />
             </SelectTrigger>
             <SelectContent side="top" className="rounded-xl">

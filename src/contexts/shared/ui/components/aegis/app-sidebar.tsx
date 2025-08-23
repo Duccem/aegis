@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import * as React from "react";
 
 import {
@@ -8,10 +7,8 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarTrigger,
   useSidebar,
 } from "@/contexts/shared/ui/components/shadcn/sidebar";
-import { cn } from "@/contexts/shared/ui/utils/utils";
 import {
   ChevronRight,
   CreditCard,
@@ -22,7 +19,6 @@ import {
   Package,
   PieChart,
   Settings,
-  SunMoon,
   WalletCards,
   Warehouse,
 } from "lucide-react";
@@ -42,15 +38,10 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/contexts/shared/ui/components/shadcn/sidebar";
-import {
-  IconCreditCard,
-  IconDotsVertical,
-  IconLogout,
-  IconNotification,
-  IconUserCircle,
-} from "@tabler/icons-react";
+import { IconDotsVertical } from "@tabler/icons-react";
 
 import { useSession } from "@/contexts/auth/user/ui/components/auth/session-provider";
+import { authClient } from "@/contexts/shared/infrastructure/auth/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/contexts/shared/ui/components/shadcn/avatar";
 import {
   DropdownMenu,
@@ -61,15 +52,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/contexts/shared/ui/components/shadcn/dropdown-menu";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/contexts/shared/ui/components/shadcn/select";
+import { useQuery } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
-import Link from "next/link";
 
 const data = {
   navMain: [
@@ -227,36 +211,30 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const isCollapsed = state === "collapsed";
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader
-        className={cn(
-          "flex md:pt-3.5 ",
-          isCollapsed
-            ? "items-center justify-between gap-y-4 flex-col"
-            : "flex-row items-center justify-between",
-        )}
-      >
-        <a href="/home" className="flex items-center gap-2">
-          <div className=" flex aspect-square size-8 items-center justify-center rounded-lg">
-            <img src={"/images/aegis-white.png"} className="size-6 hidden dark:block" alt="" />
-            <img src={"/images/aegis-black.png"} className="size-6 block dark:hidden" alt="" />
-          </div>
-          {!isCollapsed && (
-            <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-medium">Aegis</span>
-            </div>
-          )}
-        </a>
-        <motion.div
-          key={isCollapsed ? "header-collapsed" : "header-expanded"}
-          className={`flex ${
-            isCollapsed ? "flex-row md:flex-col-reverse" : "flex-row"
-          } items-center gap-2`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          <SidebarTrigger />
-        </motion.div>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <a href="#">
+                <div className=" flex aspect-square size-8 items-center justify-center rounded-lg">
+                  <img
+                    src={"/images/aegis-white.png"}
+                    className="size-6 hidden dark:block"
+                    alt=""
+                  />
+                  <img
+                    src={"/images/aegis-black.png"}
+                    className="size-6 block dark:hidden"
+                    alt=""
+                  />
+                </div>
+                <div className="flex flex-col gap-0.5 leading-none">
+                  <span className="font-medium">Aegis</span>
+                </div>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
@@ -338,6 +316,40 @@ function NavUser() {
   const { isMobile } = useSidebar();
   const { setTheme, resolvedTheme } = useTheme();
 
+  const { data, isPending } = useQuery({
+    queryKey: ["organizations"],
+    queryFn: async () => {
+      const response = await authClient.organization.list();
+      const active = await authClient.organization.getFullOrganization();
+      return {
+        organizations: response.data?.filter((org) => org.id !== active?.data?.id) ?? [],
+        active: active.data,
+      };
+    },
+    refetchOnWindowFocus: false,
+  });
+
+  if (isPending) {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+            <div className="animate-pulse flex items-center gap-2 w-full">
+              <div className="size-8 rounded-lg bg-muted" />
+              <div className="flex flex-1 flex-col gap-1">
+                <div className="h-4 w-1/2 rounded bg-muted" />
+                <div className="h-3 w-3/4 rounded bg-muted" />
+              </div>
+              <div className="ml-auto">
+                <IconDotsVertical className="size-4" />
+              </div>
+            </div>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    );
+  }
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -348,81 +360,60 @@ function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={user?.image ?? ""} alt={user.name} />
+                <AvatarImage src={data?.active?.logo ?? ""} alt={data?.active?.name} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="text-muted-foreground truncate text-xs">{user.email}</span>
+                <span className="truncate font-medium">{data?.active?.name}</span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
-            align="end"
-            sideOffset={4}
+            side={isMobile ? "bottom" : "top"}
+            align="start"
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.image ?? ""} alt={user.name} />
+                  <AvatarImage src={data?.active?.logo ?? ""} alt={data?.active?.name} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="text-muted-foreground truncate text-xs">{user.email}</span>
+                  <span className="truncate font-medium">{data?.active?.name}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Link href={"/profile"} className="flex items-center gap-2 w-full">
-                  <IconUserCircle />
-                  Account
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconCreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconNotification />
-                Notifications
+              {(data?.organizations?.length ?? 0) > 0 && (
+                <>
+                  {data?.organizations.map((org) => (
+                    <DropdownMenuItem
+                      key={org.id}
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        await authClient.organization.setActive({
+                          organizationId: org.id,
+                        });
+                        window.location.reload();
+                      }}
+                    >
+                      <Avatar className="h-6 w-6 rounded-lg grayscale">
+                        <AvatarImage src={org.logo ?? ""} alt={org.name} />
+                        <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                      </Avatar>
+                      {org.name}
+                    </DropdownMenuItem>
+                  ))}
+                  <DropdownMenuSeparator />
+                </>
+              )}
+              <DropdownMenuItem className="cursor-pointer">
+                Create new organization
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <div className="flex justify-between items-center gap-3 py-3 pr-3">
-                <div className="ml-2 flex justify-start items-center gap-2">
-                  <SunMoon className="size-4" />
-                  Theme
-                </div>
-                <Select defaultValue={resolvedTheme} onValueChange={(theme) => setTheme(theme)}>
-                  <SelectTrigger className=" w-1/2 p-2 h-[25px]">
-                    <SelectValue placeholder="select" />
-                  </SelectTrigger>
-                  <SelectContent className="">
-                    <SelectItem value={"light"}>
-                      <span className="flex w-full justify-between items-center gap-3">Light</span>
-                    </SelectItem>
-                    <SelectItem value={"dark"}>
-                      <span className="flex w-full justify-between items-center gap-3">Dark</span>
-                    </SelectItem>
-                    <SelectItem value={"system"}>
-                      <span className="flex w-full justify-between items-center gap-3">System</span>
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <IconLogout />
-              Log out
-            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

@@ -1,6 +1,8 @@
 "use client";
 
 import { useItemTableStore } from "@/contexts/catalogue/item/ui/store/item-table-store";
+import { Meta } from "@/contexts/shared/domain/collection";
+import { Primitives } from "@/contexts/shared/domain/primitives";
 import {
   Table,
   TableBody,
@@ -10,8 +12,6 @@ import {
   TableRow,
 } from "@/contexts/shared/ui/components/shadcn/table";
 import { cn } from "@/contexts/shared/ui/utils/utils";
-import { Meta } from "@/lib/types/collection";
-import { Primitives } from "@/lib/types/primitives";
 import { flexRender, getCoreRowModel, useReactTable, VisibilityState } from "@tanstack/react-table";
 import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
@@ -62,15 +62,15 @@ const ItemsTable = ({ data, meta, initialColumnVisibility }: ItemTableProps) => 
   const selectedProduct = data.find((row) => row.id === productId);
 
   return (
-    <div className="mb-8 relative w-full space-y-6">
+    <div className=" relative w-full space-y-6">
       <ItemsTableHeader table={table} />
-      <div className="border rounded-xl">
+      <div className="border rounded-md">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="h-[40px] md:h-[45px] cursor-pointer select-text border-none bg-card"
+                className="h-[40px] md:h-[45px] select-text border-none hover:bg-transparent"
               >
                 {headerGroup.headers.map((header) => {
                   return (
@@ -87,7 +87,10 @@ const ItemsTable = ({ data, meta, initialColumnVisibility }: ItemTableProps) => 
           <TableBody>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} className="h-[40px] md:h-[45px] cursor-pointer select-text">
+                <TableRow
+                  key={row.id}
+                  className="h-[40px] md:h-[45px] cursor-pointer select-text hover:bg-transparent"
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
@@ -112,8 +115,8 @@ const ItemsTable = ({ data, meta, initialColumnVisibility }: ItemTableProps) => 
                 </TableRow>
               ))
             ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableRow className="hover:bg-transparent">
+                <TableCell colSpan={columns.length} className=" text-center">
                   No results.
                 </TableCell>
               </TableRow>
