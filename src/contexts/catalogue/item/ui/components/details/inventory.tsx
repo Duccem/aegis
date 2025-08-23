@@ -75,7 +75,7 @@ export function ItemInventory({
     }
   };
 
-  const unit = units.find((u) => u.id === item.unitId) || { abbreviation: "N/A" };
+  const unit = units.find((u) => u.id === item?.unitId) || { abbreviation: "N/A" };
 
   return (
     <div className="space-y-6">

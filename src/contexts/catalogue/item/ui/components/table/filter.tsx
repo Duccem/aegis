@@ -17,7 +17,7 @@ const ProductsTableFilter = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant={"outline"} className="h-10 cursor-pointer">
+        <Button variant={"outline"} className="h-10 cursor-pointer border-none">
           Filter
           <ListFilter className="size-4" />
           <span className="sr-only">Filter</span>

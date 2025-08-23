@@ -116,7 +116,7 @@ const SaveItemForm = ({
       form.reset();
       setImages([]);
       toast.success("Product created successfully");
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["items"] });
       closeAction?.();
     },
     onError: (error) => {
@@ -219,7 +219,7 @@ const SaveItemForm = ({
                   </PopoverTrigger>
                   <PopoverContent className="w-full p-0" align="start">
                     <Command>
-                      <CommandInput placeholder="Search framework..." className="h-9" />
+                      <CommandInput placeholder="Search brand..." className="h-9" />
                       <CommandList>
                         <CommandEmpty>No framework found.</CommandEmpty>
                         <CommandGroup>

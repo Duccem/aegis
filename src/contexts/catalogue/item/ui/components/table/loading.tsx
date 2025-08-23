@@ -15,7 +15,7 @@ const data = [...Array(10)].map((_, i) => ({ id: i.toString() }));
 
 export function ItemTableSkeleton({ isEmpty }: { isEmpty?: boolean }) {
   return (
-    <div className="mb-8 relative w-full border rounded-xl">
+    <div className="mb-8 relative w-full border rounded-md">
       <Table className="">
         <TableHeader>
           <TableRow>

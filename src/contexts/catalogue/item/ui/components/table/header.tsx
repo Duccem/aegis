@@ -10,12 +10,14 @@ import ItemsTableVisibility from "./visibility";
 const ItemsTableHeader = ({ table }: { table: Table<Primitives<Item>> }) => {
   return (
     <div className="w-full flex items-center justify-between">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1">
         <ProductSearch />
-        <ProductsTableFilter />
+        <div className="border-x">
+          <ProductsTableFilter />
+        </div>
         <ProductTagFilters />
       </div>
-      <div className="flex flex-1">
+      <div className="border-x">
         <ItemsTableVisibility table={table} />
       </div>
     </div>

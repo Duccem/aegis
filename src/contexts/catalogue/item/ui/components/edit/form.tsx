@@ -87,12 +87,12 @@ const EditItemForm = ({
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: item.name,
-      sku: item.sku,
-      description: item.description || "",
-      unitId: item.unitId,
-      brandId: item.brandId,
-      categories: item.categoriesIds || [],
+      name: item?.name,
+      sku: item?.sku,
+      description: item?.description || "",
+      unitId: item?.unitId,
+      brandId: item?.brandId,
+      categories: item?.categoriesIds || [],
     },
   });
   const { isPending, mutate } = useMutation({

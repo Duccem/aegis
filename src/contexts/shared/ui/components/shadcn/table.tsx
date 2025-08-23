@@ -3,7 +3,6 @@
 import * as React from "react";
 
 import { cn } from "@/contexts/shared/ui/utils/utils";
-import { RowData } from "@tanstack/react-table";
 
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
@@ -88,12 +87,6 @@ function TableCaption({ className, ...props }: React.ComponentProps<"caption">) 
       {...props}
     />
   );
-}
-
-declare module "@tanstack/table-core" {
-  interface TableMeta<TData extends RowData> {
-    setOpen?: (id: string | boolean) => void;
-  }
 }
 
 export { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow };

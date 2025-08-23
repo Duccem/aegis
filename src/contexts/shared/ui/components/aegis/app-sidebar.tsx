@@ -40,7 +40,6 @@ import {
 } from "@/contexts/shared/ui/components/shadcn/sidebar";
 import { IconDotsVertical } from "@tabler/icons-react";
 
-import { useSession } from "@/contexts/auth/user/ui/components/auth/session-provider";
 import { authClient } from "@/contexts/shared/infrastructure/auth/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/contexts/shared/ui/components/shadcn/avatar";
 import {
@@ -53,7 +52,6 @@ import {
   DropdownMenuTrigger,
 } from "@/contexts/shared/ui/components/shadcn/dropdown-menu";
 import { useQuery } from "@tanstack/react-query";
-import { useTheme } from "next-themes";
 
 const data = {
   navMain: [
@@ -312,9 +310,7 @@ function NavMain({
 }
 
 function NavUser() {
-  const { user } = useSession();
   const { isMobile } = useSidebar();
-  const { setTheme, resolvedTheme } = useTheme();
 
   const { data, isPending } = useQuery({
     queryKey: ["organizations"],

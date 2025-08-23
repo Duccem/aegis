@@ -20,13 +20,15 @@ import ItemDetails from "../details";
 import { columns } from "./columns";
 import ItemsTableHeader from "./header";
 import ProductsTablePagination from "./pagination";
+import { Category } from "@/contexts/catalogue/category/domain/category";
 
 interface ItemTableProps {
   data: Primitives<Item>[];
+  categories: Primitives<Category>[];
   meta: Meta;
   initialColumnVisibility?: VisibilityState;
 }
-const ItemsTable = ({ data, meta, initialColumnVisibility }: ItemTableProps) => {
+const ItemsTable = ({ data, meta, initialColumnVisibility, categories }: ItemTableProps) => {
   const [productId, setProductId] = useQueryState("productId");
   const { setColumns, setRowSelection, rowSelection } = useItemTableStore();
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
@@ -54,6 +56,7 @@ const ItemsTable = ({ data, meta, initialColumnVisibility }: ItemTableProps) => 
     },
     meta: {
       setOpen,
+      categories,
     },
   });
   useEffect(() => {
@@ -62,9 +65,14 @@ const ItemsTable = ({ data, meta, initialColumnVisibility }: ItemTableProps) => 
   const selectedProduct = data.find((row) => row.id === productId);
 
   return (
-    <div className=" relative w-full space-y-6">
+    <div className=" relative w-full">
+      <div className="p-6 border-b">
+        <p>
+          All items: <span className="font-medium">{meta.total}</span>
+        </p>
+      </div>
       <ItemsTableHeader table={table} />
-      <div className="border rounded-md">
+      <div className="border-y rounded-md">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

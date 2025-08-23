@@ -1,5 +1,6 @@
 "use client";
 
+import { Primitives } from "@/contexts/shared/domain/primitives";
 import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import {
   DropdownMenu,
@@ -7,7 +8,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/contexts/shared/ui/components/shadcn/dropdown-menu";
-import { Primitives } from "@/lib/types/primitives";
 import { Table } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
 import { Item } from "../../../domain/item";
@@ -16,7 +16,7 @@ const ItemsTableVisibility = ({ table }: { table: Table<Primitives<Item>> }) => 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="ml-auto">
+        <Button variant="outline" className="ml-auto border-none">
           Columns <ChevronDown />
         </Button>
       </DropdownMenuTrigger>

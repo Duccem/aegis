@@ -11,7 +11,7 @@ import { Item } from "../../../domain/item";
 import { Unit } from "../../../domain/unit";
 
 const ItemOverview = ({ item, units }: { item: Primitives<Item>; units: Primitives<Unit>[] }) => {
-  const unit = units.find((unit) => unit.id === item.unitId);
+  const unit = units.find((unit) => unit.id === (item?.unitId ?? ""));
   return (
     <div className="flex flex-col gap-3">
       <Card className="lg:col-span-2">

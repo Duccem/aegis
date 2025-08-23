@@ -19,7 +19,7 @@ const Page = () => {
       </div>
       <Indicators />
       <ItemsStats />
-      <div className="w-full p-6">
+      <div className="w-full">
         <Items />
       </div>
     </div>

@@ -81,7 +81,7 @@ export function ItemSuppliers({
     return "text-chart-2";
   };
 
-  const unit = units.find((u) => u.id === item.unitId) || { abbreviation: "N/A" };
+  const unit = units.find((u) => u.id === item?.unitId) || { abbreviation: "N/A" };
 
   return (
     <div className="space-y-6">

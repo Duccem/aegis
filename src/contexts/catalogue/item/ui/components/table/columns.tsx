@@ -9,7 +9,8 @@ import {
   DropdownMenuTrigger,
 } from "@/contexts/shared/ui/components/shadcn/dropdown-menu";
 import { cn } from "@/contexts/shared/ui/utils/utils";
-import { Primitives } from "@/lib/types/primitives";
+
+import { Primitives } from "@/contexts/shared/domain/primitives";
 import { ColumnDef, Table } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, MoreHorizontal, Pencil } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -60,7 +61,7 @@ export const columns: ColumnDef<Primitives<Item>>[] = [
     cell: ({ row }) => (
       <Badge
         variant={"outline"}
-        className={cn("rounded-full", {
+        className={cn("rounded-md", {
           "text-emerald-500": row.original.status === "active",
           "text-orange-500": row.original.status === "inactive",
           "text-red-500": row.original.status === "archived",
@@ -92,9 +93,9 @@ export const columns: ColumnDef<Primitives<Item>>[] = [
     cell: ({ row }) => (
       <Badge
         variant="secondary"
-        className={cn("rounded-full", {
-          "text-white bg-blue-600": row.original.type === "product",
-          "bg-purple-500 text-white": row.original.type === "service",
+        className={cn("rounded-md", {
+          "text-blue-600 bg-blue-600/10": row.original.type === "product",
+          "bg-purple-500/10 text-purple-600": row.original.type === "service",
         })}
       >
         {row.original.type.charAt(0).toUpperCase() + row.original.type.slice(1)}

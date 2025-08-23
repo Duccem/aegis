@@ -18,7 +18,7 @@ const ProductSearch = () => {
     <div className="relative ">
       <Search className="absolute left-2 top-3 text-muted-foreground size-4" />
       <Input
-        className="h-10 pl-8 rounded-md focus-visible:ring-0 bg-background dark:bg-background"
+        className="h-10 pl-8 rounded-md focus-visible:ring-0 bg-background dark:bg-background border-none"
         placeholder="Search file"
         value={term || ""}
         onChange={(e) => setTerm(e.target.value)}

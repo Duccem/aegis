@@ -1,4 +1,3 @@
-import { Chat } from "@/contexts/assistant/chat/ui/components";
 import { SessionProvider } from "@/contexts/auth/user/ui/components/auth/session-provider";
 import { getSession } from "@/contexts/shared/infrastructure/auth/server";
 import { AppSidebar } from "@/contexts/shared/ui/components/aegis/app-sidebar";
@@ -27,7 +26,6 @@ export default async function MainLayout({ children }: { children: React.ReactNo
             <Header />
             <main>{children}</main>
           </div>
-          <Chat />
         </SidebarInset>
       </SidebarProvider>
     </SessionProvider>

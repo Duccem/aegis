@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { parseAsInteger, parseAsString, useQueryStates } from "nuqs";
 import { useEffect } from "react";
 import { HttpItemApi } from "../../../infrastructure/http-item-api";
+import { useItemComplements } from "../../hooks/use-item-complements";
 import { ItemTableSkeleton } from "./loading";
 import ItemsTable from "./table";
 
@@ -15,6 +16,7 @@ const Items = () => {
     page: parseAsInteger,
     limit: parseAsInteger,
   });
+  const { categories } = useItemComplements();
   const { data, isPending, refetch } = useQuery({
     queryKey: ["items"],
     queryFn: async () => {
@@ -36,6 +38,7 @@ const Items = () => {
   }
   return (
     <ItemsTable
+      categories={categories}
       data={data?.items ?? []}
       meta={data?.meta ?? { page: 1, pages: 1, size: 10, total: 0 }}
     />

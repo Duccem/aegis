@@ -391,8 +391,8 @@ export function DataTable() {
   }
 
   return (
-    <Tabs defaultValue="outline" className="w-full flex-col justify-start gap-6">
-      <div className="flex items-center justify-between px-4 lg:px-6">
+    <Tabs defaultValue="outline" className="w-full flex-col justify-start gap-6 py-4">
+      <div className="flex items-center justify-between px-4">
         <Label htmlFor="view-selector" className="sr-only">
           View
         </Label>
@@ -451,11 +451,8 @@ export function DataTable() {
           </Button>
         </div>
       </div>
-      <TabsContent
-        value="outline"
-        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
-      >
-        <div className="overflow-hidden rounded-lg border">
+      <TabsContent value="outline" className="relative flex flex-col gap-4 overflow-auto">
+        <div className="overflow-hidden rounded-lg border-y">
           <DndContext
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}
@@ -464,7 +461,7 @@ export function DataTable() {
             id={sortableId}
           >
             <Table>
-              <TableHeader className="bg-muted sticky top-0 z-10">
+              <TableHeader className="bg-background sticky top-0 z-10">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
@@ -497,7 +494,7 @@ export function DataTable() {
             </Table>
           </DndContext>
         </div>
-        <div className="flex items-center justify-between px-4">
+        <div className="flex items-center justify-between px-4 border-b pb-2">
           <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
