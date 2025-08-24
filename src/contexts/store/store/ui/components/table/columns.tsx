@@ -1,9 +1,11 @@
 import { Primitives } from "@/contexts/shared/domain/primitives";
-import { Badge } from "@/contexts/shared/ui/components/shadcn/badge";
 import { Button } from "@/contexts/shared/ui/components/shadcn/button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
-import { MapPin } from "lucide-react";
+import { Loader2, MapPin } from "lucide-react";
+import { toast } from "sonner";
 import { Store } from "../../../domain/store";
+import { HttpStoreApi } from "../../../infrastructure/http-store-api";
 
 export const columns: ColumnDef<Primitives<Store>>[] = [
   {
@@ -25,19 +27,45 @@ export const columns: ColumnDef<Primitives<Store>>[] = [
     id: "actions",
     header: ({}) => <span>Actions</span>,
     cell: ({ row }) => {
+      const queryClient = useQueryClient();
+      const { mutate, isPending } = useMutation({
+        mutationFn: async () => {
+          await HttpStoreApi.toggleStatus(row.original.id);
+        },
+        onSuccess: () => {
+          toast.success(`Store status updated successfully`);
+          queryClient.invalidateQueries({ queryKey: ["stores"] });
+        },
+        onError: (error) => {
+          console.error(error);
+          toast.error("An error occurred while updating the store status");
+        },
+      });
       return (
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon">
+          <>
             {row.original.status === "active" ? (
-              <Badge className="text-green-500 border-green-500" variant={"outline"}>
-                ● Active
-              </Badge>
+              <Button
+                disabled={isPending}
+                onClick={() => mutate()}
+                className="text-green-500 border-green-500 cursor-pointer"
+                variant={"outline"}
+                size={"sm"}
+              >
+                {!isPending ? "●" : <Loader2 className="animate-spin" />} Active
+              </Button>
             ) : (
-              <Badge className="text-red-500 border-red-500" variant={"outline"}>
-                ● Active
-              </Badge>
+              <Button
+                disabled={isPending}
+                onClick={() => mutate()}
+                className="text-red-500 border-red-500 cursor-pointer"
+                variant={"outline"}
+                size={"sm"}
+              >
+                {!isPending ? "●" : <Loader2 className="animate-spin" />} Disabled
+              </Button>
             )}
-          </Button>
+          </>
         </div>
       );
     },

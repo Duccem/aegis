@@ -4,6 +4,8 @@ import { FilterById } from "../domain/filter-by-id";
 import { StoreNotFound } from "../domain/store-not-found";
 import { StoreRepository } from "../domain/store-repository";
 
+export type ToggleStoreStatusError = StoreNotFound | CannotUpdateStore;
+
 export class ToggleStoreStatus {
   constructor(private readonly repository: StoreRepository) {}
 
