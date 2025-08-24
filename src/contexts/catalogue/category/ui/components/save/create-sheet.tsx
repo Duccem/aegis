@@ -23,7 +23,7 @@ const CreateCategorySheet = () => {
         </Button>
       </SheetTrigger>
       <SheetContent className="sm:w-1/3 sm:max-w-full p-4 bg-transparent border-none focus-visible:outline-none ">
-        <div className="bg-background p-6 border border-sidebar h-full overflow-y-auto no-scroll space-y-5 rounded-xl relative">
+        <div className="bg-background p-6 border border-sidebar h-full overflow-y-auto no-scroll space-y-5 rounded-md relative">
           <Button
             variant={"ghost"}
             onClick={() => setOpen(false)}

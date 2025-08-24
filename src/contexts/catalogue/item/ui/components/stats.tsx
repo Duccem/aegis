@@ -135,7 +135,7 @@ const ItemsStats = () => {
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <div className="space-y-1">
             <CardTitle>Items Orders</CardTitle>
-            <CardDescription>Overview of item orders over the past six months.</CardDescription>
+            <CardDescription>Item orders over the past six months.</CardDescription>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             <Badge className="bg-purple-500/10 text-purple-500 border-0">

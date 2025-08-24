@@ -4,8 +4,8 @@ import { Hexagon } from "lucide-react";
 
 const Page = () => {
   return (
-    <div className="flex flex-col h-screen p-6 gap-8">
-      <div className="flex items-center justify-between w-full">
+    <div className="flex flex-col h-screen">
+      <div className="flex items-center justify-between w-full border-b p-6">
         <div className="flex items-center space-x-2">
           <Hexagon className="size-8" />
           <div>

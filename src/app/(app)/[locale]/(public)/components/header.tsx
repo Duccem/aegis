@@ -37,7 +37,16 @@ export const HeroHeader = () => {
           <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0">
             <div className="flex w-full justify-between gap-6 lg:w-auto">
               <Link href="/" aria-label="home" className="flex items-center space-x-2">
-                <img src="/images/aegis-logo.png" alt="" className="object-contain size-20" />
+                <img
+                  src="/images/aegis-logo-white.png"
+                  alt=""
+                  className="object-contain size-20 hidden dark:block"
+                />
+                <img
+                  src="/images/aegis-logo-black.png"
+                  alt=""
+                  className="object-contain size-20 dark:hidden"
+                />
               </Link>
 
               <button

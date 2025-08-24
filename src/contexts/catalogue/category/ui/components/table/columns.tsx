@@ -1,6 +1,6 @@
 import { Primitives } from "@/contexts/shared/domain/primitives";
 import { Button } from "@/contexts/shared/ui/components/shadcn/button";
-import { ColumnDef, TableMeta } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { Pencil } from "lucide-react";
 import { Category } from "../../../domain/category";
@@ -20,7 +20,7 @@ export const columns: ColumnDef<Primitives<Category>>[] = [
     id: "actions",
     header: ({}) => <span>Actions</span>,
     cell: ({ row, table }) => {
-      const { setOpen } = table.options.meta as TableMeta<Primitives<Category>>;
+      const { setOpen } = table.options.meta as any;
       return (
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="icon" onClick={() => setOpen?.(row.original.id)}>

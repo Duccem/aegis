@@ -28,7 +28,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 
@@ -73,22 +73,22 @@ const BrandTable = ({ data }: { data: Primitives<Brand>[] }) => {
   const selectedBrand = data.find((row) => row.id === brandId);
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter categories..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
-          className="max-w-sm rounded-xl"
-        />
+      <div className="flex items-center">
+        <div className="border-r relative">
+          <Input
+            placeholder="Filter brands..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
+            className="max-w-sm border-none focus-visible:ring-0 pl-8 h-10"
+          />
+          <Search className="absolute left-2 top-3 text-muted-foreground size-4" />
+        </div>
       </div>
-      <div className="overflow-hidden rounded-xl border">
+      <div className="overflow-hidden  border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow
-                key={headerGroup.id}
-                className="h-[40px] md:h-[45px] cursor-pointer select-text border-none bg-card"
-              >
+              <TableRow key={headerGroup.id} className="cursor-pointer select-text border-b">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -107,7 +107,7 @@ const BrandTable = ({ data }: { data: Primitives<Brand>[] }) => {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="h-[40px] md:h-[45px]  select-text"
+                  className=" select-text"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -126,7 +126,7 @@ const BrandTable = ({ data }: { data: Primitives<Brand>[] }) => {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between gap-2 py-4">
+      <div className="flex items-center justify-between gap-2 border-b px-4">
         <div className="flex items-center gap-2">
           <div className="flex items-center space-x-6 lg:space-x-8">
             <div className="flex items-center gap-2">
@@ -137,7 +137,7 @@ const BrandTable = ({ data }: { data: Primitives<Brand>[] }) => {
                   table.setPageSize(Number(value));
                 }}
               >
-                <SelectTrigger className="h-8 w-[70px] rounded-xl">
+                <SelectTrigger className="bg-background dark:bg-background border-none">
                   <SelectValue placeholder={table.getState().pagination.pageSize} />
                 </SelectTrigger>
                 <SelectContent side="top">
@@ -156,7 +156,7 @@ const BrandTable = ({ data }: { data: Primitives<Brand>[] }) => {
         </div>
         <div className="flex items-center space-x-2">
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
             className="hidden size-8 lg:flex"
             onClick={() => table.setPageIndex(0)}
@@ -166,7 +166,7 @@ const BrandTable = ({ data }: { data: Primitives<Brand>[] }) => {
             <ChevronsLeft />
           </Button>
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
             className="size-8"
             onClick={() => table.previousPage()}
@@ -176,7 +176,7 @@ const BrandTable = ({ data }: { data: Primitives<Brand>[] }) => {
             <ChevronLeft />
           </Button>
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
             className="size-8"
             onClick={() => table.nextPage()}
@@ -186,7 +186,7 @@ const BrandTable = ({ data }: { data: Primitives<Brand>[] }) => {
             <ChevronRight />
           </Button>
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
             className="hidden size-8 lg:flex"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}

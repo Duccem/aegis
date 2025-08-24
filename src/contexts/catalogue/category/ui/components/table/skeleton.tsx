@@ -12,7 +12,7 @@ import { cn } from "@/contexts/shared/ui/utils/utils";
 const data = [...Array(10)].map((_, i) => ({ id: i.toString() }));
 const CategoriesSkeleton = () => {
   return (
-    <div className="mb-8 relative w-full border rounded-xl">
+    <div className="mb-8 relative w-full border-y rounded-lg">
       <Table className="">
         <TableHeader>
           <TableRow>

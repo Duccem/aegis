@@ -42,7 +42,7 @@ const ProductsTablePagination = ({ meta }: Props) => {
     [searchParams, router, pathname],
   );
   return (
-    <div className="flex items-center justify-between px-2 mt-2 py-2 border-b">
+    <div className="flex items-center justify-between px-2 border-b">
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Tamaño de la pagina</p>
@@ -51,7 +51,7 @@ const ProductsTablePagination = ({ meta }: Props) => {
             onValueChange={(value) => createPageSizeQuery(value)}
             disabled={meta.total < 10}
           >
-            <SelectTrigger className="h-8 w-[70px] rounded-md bg-transparent dark:bg-transparent">
+            <SelectTrigger className="h-8 w-[70px] border-none bg-transparent dark:bg-transparent">
               <SelectValue placeholder={pageSize} />
             </SelectTrigger>
             <SelectContent side="top" className="rounded-xl">
@@ -70,7 +70,7 @@ const ProductsTablePagination = ({ meta }: Props) => {
           Page {meta.page} of {meta.pages}
         </div>
         <Button
-          variant="outline"
+          variant="ghost"
           className="hidden h-8 w-8 p-0 lg:flex"
           onClick={() => createPageQuery("1")}
           disabled={meta.page === 1}
@@ -79,7 +79,7 @@ const ProductsTablePagination = ({ meta }: Props) => {
           <ChevronsLeft className="h-4 w-4" />
         </Button>
         <Button
-          variant="outline"
+          variant="ghost"
           className="h-8 w-8 p-0"
           onClick={() => createPageQuery(`${meta.page - 1}`)}
           disabled={meta.page === 1}
@@ -88,7 +88,7 @@ const ProductsTablePagination = ({ meta }: Props) => {
           <ChevronLeftIcon className="h-4 w-4" />
         </Button>
         <Button
-          variant="outline"
+          variant="ghost"
           className="h-8 w-8 p-0"
           onClick={() => createPageQuery(`${meta.page + 1}`)}
           disabled={meta.page === meta.pages}
@@ -97,7 +97,7 @@ const ProductsTablePagination = ({ meta }: Props) => {
           <ChevronRightIcon className="h-4 w-4" />
         </Button>
         <Button
-          variant="outline"
+          variant="ghost"
           className="hidden h-8 w-8 p-0 lg:flex"
           onClick={() => createPageQuery(`${meta.pages}`)}
           disabled={meta.page == meta.pages}

@@ -29,7 +29,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { Category } from "../../../domain/category";
@@ -72,22 +72,22 @@ const CategoryTable = ({ data }: { data: Primitives<Category>[] }) => {
   const selectedCategory = data.find((row) => row.id === categoryId);
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter categories..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
-          className="max-w-sm rounded-xl"
-        />
+      <div className="flex items-center ">
+        <div className="border-r relative">
+          <Input
+            placeholder="Filter categories..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
+            className="max-w-sm border-none focus-visible:ring-0 pl-8 h-10"
+          />
+          <Search className="absolute left-2 top-3 text-muted-foreground size-4" />
+        </div>
       </div>
-      <div className="overflow-hidden rounded-xl border">
+      <div className="overflow-hidden rounded-lg border-y">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow
-                key={headerGroup.id}
-                className="h-[40px] md:h-[45px] select-text border-none bg-card"
-              >
+              <TableRow key={headerGroup.id} className="select-text border-b">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -106,7 +106,7 @@ const CategoryTable = ({ data }: { data: Primitives<Category>[] }) => {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="h-[40px] md:h-[45px]  select-text"
+                  className="  select-text"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -125,7 +125,7 @@ const CategoryTable = ({ data }: { data: Primitives<Category>[] }) => {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between gap-2 py-4">
+      <div className="flex items-center justify-between gap-2 px-6 border-b">
         <div className="flex items-center gap-2">
           <div className="flex items-center space-x-6 lg:space-x-8">
             <div className="flex items-center gap-2">
@@ -136,10 +136,10 @@ const CategoryTable = ({ data }: { data: Primitives<Category>[] }) => {
                   table.setPageSize(Number(value));
                 }}
               >
-                <SelectTrigger className="h-8 w-[70px] rounded-xl">
+                <SelectTrigger className="rounded-lg bg-background dark:bg-background border-none">
                   <SelectValue placeholder={table.getState().pagination.pageSize} />
                 </SelectTrigger>
-                <SelectContent side="top">
+                <SelectContent side="top" className="bg-background rounded-lg">
                   {[10, 20, 25, 30, 40, 50].map((pageSize) => (
                     <SelectItem key={pageSize} value={`${pageSize}`}>
                       {pageSize}
@@ -155,7 +155,7 @@ const CategoryTable = ({ data }: { data: Primitives<Category>[] }) => {
         </div>
         <div className="flex items-center space-x-2">
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
             className="hidden size-8 lg:flex"
             onClick={() => table.setPageIndex(0)}
@@ -165,7 +165,7 @@ const CategoryTable = ({ data }: { data: Primitives<Category>[] }) => {
             <ChevronsLeft />
           </Button>
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
             className="size-8"
             onClick={() => table.previousPage()}
@@ -175,7 +175,7 @@ const CategoryTable = ({ data }: { data: Primitives<Category>[] }) => {
             <ChevronLeft />
           </Button>
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
             className="size-8"
             onClick={() => table.nextPage()}
@@ -185,7 +185,7 @@ const CategoryTable = ({ data }: { data: Primitives<Category>[] }) => {
             <ChevronRight />
           </Button>
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
             className="hidden size-8 lg:flex"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}

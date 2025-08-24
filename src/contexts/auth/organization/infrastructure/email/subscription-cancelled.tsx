@@ -44,7 +44,7 @@ export default function AegisSubscriptionCancelled({
           <Section style={coverSection}>
             <Section style={imageSection}>
               <Img
-                src={`${baseUrl}/images/aegis-logo.png`}
+                src={`${baseUrl}/images/aegis-logo-black.png`}
                 width="75"
                 height="45"
                 alt="Aegis Logo"

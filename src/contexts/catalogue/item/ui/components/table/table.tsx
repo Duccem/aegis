@@ -1,5 +1,6 @@
 "use client";
 
+import { Category } from "@/contexts/catalogue/category/domain/category";
 import { useItemTableStore } from "@/contexts/catalogue/item/ui/store/item-table-store";
 import { Meta } from "@/contexts/shared/domain/collection";
 import { Primitives } from "@/contexts/shared/domain/primitives";
@@ -20,7 +21,6 @@ import ItemDetails from "../details";
 import { columns } from "./columns";
 import ItemsTableHeader from "./header";
 import ProductsTablePagination from "./pagination";
-import { Category } from "@/contexts/catalogue/category/domain/category";
 
 interface ItemTableProps {
   data: Primitives<Item>[];
@@ -72,7 +72,7 @@ const ItemsTable = ({ data, meta, initialColumnVisibility, categories }: ItemTab
         </p>
       </div>
       <ItemsTableHeader table={table} />
-      <div className="border-y rounded-md">
+      <div className="border-t rounded-md">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
