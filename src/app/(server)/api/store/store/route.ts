@@ -41,5 +41,5 @@ export const GET = routeHandler({ name: "get-stores" }, async ({ organization })
     tags: [`stores:${organization.id}`],
     revalidate: 60 * 60,
   })();
-  return HttpNextResponse.json({ stores });
+  return HttpNextResponse.json(stores);
 });
