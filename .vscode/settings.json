@@ -15,5 +15,11 @@
   },
   "editor.formatOnSave": true,
   "postman.settings.dotenv-detection-notification-visibility": false,
-  "cSpell.words": ["navs"]
+  "cSpell.words": ["navs"],
+  "symbols.folders.associations": {
+    "domain": "folder-red",
+    "application": "folder-orange",
+    "infrastructure": "folder-green",
+    "ui": "folder-sky"
+  }
 }
