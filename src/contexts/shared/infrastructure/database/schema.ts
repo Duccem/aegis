@@ -5,6 +5,7 @@ import {
   numeric,
   pgEnum,
   pgTable,
+  real,
   text,
   timestamp,
   uniqueIndex,
@@ -234,8 +235,15 @@ export const stock = pgTable("stock", {
   storeId: uuid("store_id")
     .notNull()
     .references(() => store.id, { onDelete: "cascade" }),
-  quantity: numeric("quantity").default("0").notNull(),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organization.id, { onDelete: "cascade" }),
+  quantity: real("quantity").default(0.0).notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 });
 
 export const stock_movement_type = pgEnum("stock_movement_type", [
@@ -252,6 +260,9 @@ export const stock_movement = pgTable("stock_movement", {
   storeId: uuid("store_id")
     .notNull()
     .references(() => store.id, { onDelete: "cascade" }),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organization.id, { onDelete: "cascade" }),
   type: stock_movement_type("type").notNull().default("addition"),
   quantity: numeric("quantity").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
