@@ -1,6 +1,7 @@
 import { Button } from "@/contexts/shared/ui/components/shadcn/button";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
+import { Skeleton } from "../shadcn/skeleton";
 const listVariant = {
   hidden: { y: 10, opacity: 0 },
   show: {
@@ -20,33 +21,46 @@ type FilterListProps = {
   filters: { [key: string]: string | number | boolean | string[] | number[] | null };
   onRemove: (key: any) => void;
   renderFilter: ({ key, value }: { key: string; value: any }) => React.ReactElement;
+  loading?: boolean;
 };
-export default function FilterList({ filters, onRemove, renderFilter }: FilterListProps) {
+export default function FilterList({ filters, onRemove, renderFilter, loading }: FilterListProps) {
   const handleOnRemove = (key: string) => {
     onRemove(key);
   };
   return (
     <motion.ul variants={listVariant} initial="hidden" animate="show" className="flex gap-2">
-      {Object.entries(filters)
-        .filter(([key, value]) => value !== null && key !== "end")
-        .map(([key, value]) => {
-          return (
-            <motion.li key={key} variants={itemVariant}>
-              <Button
-                className="rounded-full h-f h-8 px-3 bg-secondary hover:bg-secondary font-normal text-[#878787] flex items-center group"
-                onClick={() => handleOnRemove(key)}
-              >
-                <span>
-                  {renderFilter({
-                    key,
-                    value,
-                  })}
-                </span>
-                <X className="scale-0 group-hover:scale-100 transition-all w-0 group-hover:w-4" />
-              </Button>
-            </motion.li>
-          );
-        })}
+      {loading && (
+        <div className="flex space-x-2">
+          <motion.li key="1" variants={itemVariant}>
+            <Skeleton className=" h-8 w-[100px]" />
+          </motion.li>
+          <motion.li key="2" variants={itemVariant}>
+            <Skeleton className=" h-8 w-[100px]" />
+          </motion.li>
+        </div>
+      )}
+
+      {!loading &&
+        Object.entries(filters)
+          .filter(([key, value]) => value !== null && key !== "end")
+          .map(([key, value]) => {
+            return (
+              <motion.li key={key} variants={itemVariant}>
+                <Button
+                  className=" h-f h-8 px-3 bg-secondary hover:bg-secondary font-normal text-[#878787] flex items-center group"
+                  onClick={() => handleOnRemove(key)}
+                >
+                  <span>
+                    {renderFilter({
+                      key,
+                      value,
+                    })}
+                  </span>
+                  <X className="scale-0 group-hover:scale-100 transition-all w-0 group-hover:w-4" />
+                </Button>
+              </motion.li>
+            );
+          })}
     </motion.ul>
   );
 }

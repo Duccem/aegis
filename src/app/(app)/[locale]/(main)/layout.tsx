@@ -1,17 +1,29 @@
 import { SessionProvider } from "@/contexts/auth/user/ui/components/auth/session-provider";
-import { getSession } from "@/contexts/shared/infrastructure/auth/server";
+import {
+  getOrganization,
+  getSession,
+  listOrganizations,
+} from "@/contexts/shared/infrastructure/auth/server";
 import { AppSidebar } from "@/contexts/shared/ui/components/aegis/app-sidebar";
 import Header from "@/contexts/shared/ui/components/aegis/header";
 import { SidebarInset, SidebarProvider } from "@/contexts/shared/ui/components/shadcn/sidebar";
 import { redirect } from "next/navigation";
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
-  const data = await getSession();
+  const [data, organization, organizations] = await Promise.all([
+    getSession(),
+    getOrganization(),
+    listOrganizations(),
+  ]);
   if (!data || !data?.session) {
     return redirect("/sign-in");
   }
   return (
-    <SessionProvider user={data.user}>
+    <SessionProvider
+      user={data.user}
+      organization={organization ?? undefined}
+      organizations={organizations}
+    >
       <SidebarProvider
         style={
           {

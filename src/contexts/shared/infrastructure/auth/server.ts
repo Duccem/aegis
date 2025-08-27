@@ -137,6 +137,14 @@ export const getOrganization = cache(async (): Promise<BetterOrganization | null
     },
   });
 });
+export const listOrganizations = cache(async (): Promise<BetterOrganization[]> => {
+  return await auth.api.listOrganizations({
+    headers: await headers(),
+    query: {
+      limit: 100,
+    },
+  });
+});
 export const getMember = cache(async (): Promise<BetterMember | null> => {
   return await auth.api.getActiveMember({
     headers: await headers(),
