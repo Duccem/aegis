@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Aegis",
   description: "Aegis ERP - Your AI-Powered Business Companion",
+  manifest: "/manifest.json",
 };
 
 export default async function RootLayout({

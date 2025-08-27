@@ -40,6 +40,7 @@ import {
 } from "@/contexts/shared/ui/components/shadcn/sidebar";
 import { IconDotsVertical } from "@tabler/icons-react";
 
+import { useSession } from "@/contexts/auth/user/ui/components/auth/session-provider";
 import { authClient } from "@/contexts/shared/infrastructure/auth/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/contexts/shared/ui/components/shadcn/avatar";
 import {
@@ -47,11 +48,10 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/contexts/shared/ui/components/shadcn/dropdown-menu";
-import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 
 const data = {
   navMain: [
@@ -284,9 +284,9 @@ function NavMain({
                       {item.items?.map((subItem) => (
                         <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton asChild>
-                            <a href={subItem.url}>
+                            <Link href={subItem.url}>
                               <span>{subItem.title}</span>
-                            </a>
+                            </Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       ))}
@@ -311,41 +311,7 @@ function NavMain({
 
 function NavUser() {
   const { isMobile } = useSidebar();
-
-  const { data, isPending } = useQuery({
-    queryKey: ["organizations"],
-    queryFn: async () => {
-      const response = await authClient.organization.list();
-      const active = await authClient.organization.getFullOrganization();
-      return {
-        organizations: response.data?.filter((org) => org.id !== active?.data?.id) ?? [],
-        active: active.data,
-      };
-    },
-    refetchOnWindowFocus: false,
-  });
-
-  if (isPending) {
-    return (
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-            <div className="animate-pulse flex items-center gap-2 w-full">
-              <div className="size-8 rounded-lg bg-muted" />
-              <div className="flex flex-1 flex-col gap-1">
-                <div className="h-4 w-1/2 rounded bg-muted" />
-                <div className="h-3 w-3/4 rounded bg-muted" />
-              </div>
-              <div className="ml-auto">
-                <IconDotsVertical className="size-4" />
-              </div>
-            </div>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    );
-  }
-
+  const { organization, organizations } = useSession();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -356,11 +322,11 @@ function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={data?.active?.logo ?? ""} alt={data?.active?.name} />
+                <AvatarImage src={organization?.logo ?? ""} alt={organization?.name} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{data?.active?.name}</span>
+                <span className="truncate font-medium">{organization?.name}</span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -370,22 +336,10 @@ function NavUser() {
             side={isMobile ? "bottom" : "top"}
             align="start"
           >
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={data?.active?.logo ?? ""} alt={data?.active?.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{data?.active?.name}</span>
-                </div>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              {(data?.organizations?.length ?? 0) > 0 && (
+              {(organizations?.length ?? 0) > 0 && (
                 <>
-                  {data?.organizations.map((org) => (
+                  {organizations?.map((org) => (
                     <DropdownMenuItem
                       key={org.id}
                       onClick={async (e) => {

@@ -4,23 +4,14 @@ import { Category } from "@/contexts/catalogue/category/domain/category";
 import { useItemTableStore } from "@/contexts/catalogue/item/ui/store/item-table-store";
 import { Meta } from "@/contexts/shared/domain/collection";
 import { Primitives } from "@/contexts/shared/domain/primitives";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/contexts/shared/ui/components/shadcn/table";
-import { cn } from "@/contexts/shared/ui/utils/utils";
-import { flexRender, getCoreRowModel, useReactTable, VisibilityState } from "@tanstack/react-table";
+import { ServerPagination, ServerTable } from "@/contexts/shared/ui/components/shadcn/server-table";
+import { getCoreRowModel, useReactTable, VisibilityState } from "@tanstack/react-table";
 import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
 import { Item } from "../../../domain/item";
 import ItemDetails from "../details";
 import { columns } from "./columns";
 import ItemsTableHeader from "./header";
-import ProductsTablePagination from "./pagination";
 
 interface ItemTableProps {
   data: Primitives<Item>[];
@@ -73,66 +64,9 @@ const ItemsTable = ({ data, meta, initialColumnVisibility, categories }: ItemTab
       </div>
       <ItemsTableHeader table={table} />
       <div className="border-t rounded-md">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow
-                key={headerGroup.id}
-                className="h-[40px] md:h-[45px] select-text border-none hover:bg-transparent"
-              >
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id} className="px-3 md:px-4 py-2 border-none">
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  className="h-[40px] md:h-[45px] cursor-pointer select-text hover:bg-transparent"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={cn(
-                        "px-3 md:px-4 py-2 border-y",
-                        (cell.column.id === "select" ||
-                          cell.column.id === "date" ||
-                          cell.column.id === "doctor" ||
-                          cell.column.id === "status" ||
-                          cell.column.id === "type") &&
-                          "hidden md:table-cell",
-                      )}
-                      onClick={() => {
-                        if (cell.column.id !== "select" && cell.column.id !== "actions") {
-                          setOpen(row.id);
-                        }
-                      }}
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow className="hover:bg-transparent">
-                <TableCell colSpan={columns.length} className=" text-center">
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+        <ServerTable table={table} setOpen={setOpen} columns={columns} />
       </div>
-      <ProductsTablePagination meta={meta} />
+      <ServerPagination meta={meta} />
       <ItemDetails data={selectedProduct} isOpen={Boolean(productId)} setIsOpen={setOpen} />
     </div>
   );

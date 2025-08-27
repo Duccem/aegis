@@ -1,7 +1,6 @@
 "use client";
 import { Badge } from "@/contexts/shared/ui/components/shadcn/badge";
 import { Button } from "@/contexts/shared/ui/components/shadcn/button";
-import { Checkbox } from "@/contexts/shared/ui/components/shadcn/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,29 +10,20 @@ import {
 import { cn } from "@/contexts/shared/ui/utils/utils";
 
 import { Primitives } from "@/contexts/shared/domain/primitives";
-import { ColumnDef, Table } from "@tanstack/react-table";
-import { ArrowDown, ArrowUp, MoreHorizontal, Pencil } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import {
+  SelectableCell,
+  SelectableHeader,
+  SortableHeader,
+} from "@/contexts/shared/ui/components/shadcn/server-table";
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal, Pencil } from "lucide-react";
 import { Item } from "../../../domain/item";
 
 export const columns: ColumnDef<Primitives<Item>>[] = [
   {
     id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllRowsSelected() || (table.getIsSomeRowsSelected() && "indeterminate")}
-        onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
+    header: ({ table }) => <SelectableHeader table={table} />,
+    cell: ({ row }) => <SelectableCell row={row} />,
     enableSorting: false,
     enableHiding: false,
   },
@@ -124,60 +114,3 @@ export const columns: ColumnDef<Primitives<Item>>[] = [
     },
   },
 ];
-
-function SortableHeader({
-  table,
-  children,
-  name,
-}: {
-  table: Table<Primitives<Item>>;
-  name: string;
-  children: React.ReactNode;
-}) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
-  const column = searchParams.get("sort");
-  const order = searchParams.get("order");
-  const createSortQuery = useCallback(
-    (name: string) => {
-      const params = new URLSearchParams(searchParams);
-      const prevSort = params.get("sort");
-      const prevOrder = params.get("order");
-
-      params.set("sort", name);
-
-      if (prevSort === name) {
-        if (prevOrder === "ASC") {
-          params.set("order", "DESC");
-        } else if (prevOrder === "DESC") {
-          params.delete("sort");
-          params.delete("order");
-        } else {
-          params.set("order", "ASC");
-        }
-      } else {
-        params.set("order", "ASC");
-      }
-
-      router.replace(`${pathname}?${params.toString()}`);
-    },
-    [searchParams, router, pathname],
-  );
-  const isVisible = (id: any) =>
-    table
-      .getAllLeafColumns()
-      .find((col: any) => col.id === id)
-      ?.getIsVisible() ?? false;
-
-  if (isVisible(name)) {
-    return (
-      <Button className=" cursor-pointer" variant="ghost" onClick={() => createSortQuery(name)}>
-        {children}
-        {name === column && order === "ASC" && <ArrowUp size={16} />}
-        {name === column && order === "DESC" && <ArrowDown size={16} />}
-      </Button>
-    );
-  }
-  return null;
-}

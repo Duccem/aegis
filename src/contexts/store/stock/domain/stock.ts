@@ -10,6 +10,8 @@ export class Stock extends Aggregate {
     public storeId: Uuid,
     public organizationId: Uuid,
     public quantity: StockQuantity,
+    public store: StockStore | null = null,
+    public item: StockItem | null = null,
     createdAt: DateValueObject,
     updatedAt: DateValueObject,
   ) {
@@ -23,6 +25,8 @@ export class Stock extends Aggregate {
       storeId: this.storeId.value,
       quantity: this.quantity.value,
       organizationId: this.organizationId.value,
+      store: this.store ? this.store.toPrimitives() : null,
+      item: this.item ? this.item.toPrimitives() : null,
       createdAt: this.createdAt.value,
       updatedAt: this.updatedAt.value,
     };
@@ -35,6 +39,8 @@ export class Stock extends Aggregate {
       new Uuid(primitives.storeId),
       new Uuid(primitives.organizationId),
       new StockQuantity(primitives.quantity),
+      primitives.store ? StockStore.fromPrimitives(primitives.store) : null,
+      primitives.item ? StockItem.fromPrimitives(primitives.item) : null,
       new DateValueObject(primitives.createdAt),
       new DateValueObject(primitives.updatedAt),
     );
@@ -47,6 +53,8 @@ export class Stock extends Aggregate {
       new Uuid(storeId),
       new Uuid(organizationId),
       StockQuantity.zero(),
+      null,
+      null,
       DateValueObject.today(),
       DateValueObject.today(),
     );
@@ -78,5 +86,41 @@ export class StockQuantity extends NumberValueObject {
       return StockQuantity.zero();
     }
     return new StockQuantity(this.value - quantity);
+  }
+}
+
+export class StockItem {
+  constructor(
+    public id: Uuid,
+    public name: string,
+  ) {}
+
+  toPrimitives(): Primitives<StockItem> {
+    return {
+      id: this.id.value,
+      name: this.name,
+    };
+  }
+
+  static fromPrimitives(primitives: Primitives<StockItem>): StockItem {
+    return new StockItem(new Uuid(primitives.id), primitives.name);
+  }
+}
+
+export class StockStore {
+  constructor(
+    public id: Uuid,
+    public name: string,
+  ) {}
+
+  toPrimitives(): Primitives<StockStore> {
+    return {
+      id: this.id.value,
+      name: this.name,
+    };
+  }
+
+  static fromPrimitives(primitives: Primitives<StockStore>): StockStore {
+    return new StockStore(new Uuid(primitives.id), primitives.name);
   }
 }
