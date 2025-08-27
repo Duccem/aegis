@@ -2,7 +2,6 @@ import { relations, sql } from "drizzle-orm";
 import {
   boolean,
   integer,
-  numeric,
   pgEnum,
   pgTable,
   real,
@@ -257,15 +256,20 @@ export const stock_movement = pgTable("stock_movement", {
   itemId: uuid("item_id")
     .notNull()
     .references(() => item.id, { onDelete: "cascade" }),
-  storeId: uuid("store_id")
+  originStoreId: uuid("origin_store_id").references(() => store.id, { onDelete: "cascade" }),
+  targetStoreId: uuid("target_store_id")
     .notNull()
     .references(() => store.id, { onDelete: "cascade" }),
   organizationId: uuid("organization_id")
     .notNull()
     .references(() => organization.id, { onDelete: "cascade" }),
   type: stock_movement_type("type").notNull().default("addition"),
-  quantity: numeric("quantity").notNull(),
+  quantity: real("quantity").default(0).notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 });
 
 // RELATIONS

@@ -1,5 +1,5 @@
-import { DomainEvent, DomainEventPrimitives } from "@/lib/types/domain-event";
-import { Uuid } from "@/lib/types/value-objects/uuid";
+import { DomainEvent, DomainEventPrimitives } from "@/contexts/shared/domain/domain-event";
+import { Uuid } from "@/contexts/shared/domain/value-objects/uuid";
 
 export type ProductCreatedData = {
   id: string;
@@ -7,7 +7,7 @@ export type ProductCreatedData = {
 };
 
 export class ProductCreated extends DomainEvent<ProductCreatedData> {
-  static readonly NAME = "product.created";
+  static readonly NAME = "catalogue/item.created";
 
   constructor(productId: string, productName: string, eventId?: string, occurredOn?: Date) {
     super(
